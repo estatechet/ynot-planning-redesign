@@ -68,13 +68,41 @@ function activateHashTab() {
 activateHashTab();
 window.addEventListener('hashchange', activateHashTab);
 
-// Contact form
+// Contact form — mailto 방식으로 실제 이메일 클라이언트 전송
 const cf = document.getElementById('contactForm');
 if(cf) cf.addEventListener('submit', e => {
   e.preventDefault();
+  const get = name => {
+    const el = cf.querySelector(`[name="${name}"]`);
+    return el ? el.value.trim() : '';
+  };
+  const 이름 = get('이름');
+  const 연락처 = get('연락처');
+  const 이메일 = get('이메일');
+  const 소속 = get('소속');
+  const 문의유형 = get('문의유형');
+  const 사업지 = get('사업지');
+  const 문의내용 = get('문의내용');
+
+  const subject = `[와이낫플래닝 홈페이지 문의] ${문의유형 || '문의'}`;
+  const body = [
+    `이름: ${이름}`,
+    `연락처: ${연락처}`,
+    `이메일: ${이메일}`,
+    `소속/회사: ${소속}`,
+    `문의유형: ${문의유형}`,
+    `사업지: ${사업지}`,
+    ``,
+    `문의내용:`,
+    `${문의내용}`
+  ].join('\n');
+
+  window.location.href = `mailto:info@ynotplanning.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
   const b = cf.querySelector('.btn-submit');
-  b.textContent='전송 완료 ✓'; b.style.background='#00A8A8';
-  setTimeout(()=>{ b.textContent='문의 보내기 →'; b.style.background=''; cf.reset(); }, 3000);
+  b.textContent = '이메일 앱이 열렸습니다 ✓';
+  b.style.background = '#00A8A8';
+  setTimeout(() => { b.textContent = '문의 보내기 →'; b.style.background = ''; cf.reset(); }, 4000);
 });
 
 // Scroll top
