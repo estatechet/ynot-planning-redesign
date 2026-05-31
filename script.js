@@ -1,0 +1,224 @@
+// Navbar
+const navbar = document.getElementById('navbar');
+const stbtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+  if(stbtn) stbtn.classList.toggle('show', window.scrollY > 400);
+});
+
+// Hamburger
+const hbg = document.getElementById('hbg');
+const nl = document.getElementById('navLinks');
+if(hbg && nl){
+  hbg.addEventListener('click', () => { hbg.classList.toggle('on'); nl.classList.toggle('open'); });
+  document.querySelectorAll('.has-sub > a').forEach(a => {
+    a.addEventListener('click', e => { if(window.innerWidth<=768){ e.preventDefault(); a.parentElement.classList.toggle('open'); } });
+  });
+  document.querySelectorAll('.sub-nav a').forEach(a => {
+    a.addEventListener('click', () => { nl.classList.remove('open'); hbg.classList.remove('on'); });
+  });
+}
+
+// Reveal
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) return;
+    const d = e.target.dataset.delay || 0;
+    setTimeout(() => e.target.classList.add('on'), +d);
+    ro.unobserve(e.target);
+  });
+}, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el => ro.observe(el));
+
+// Counter
+const co = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) return;
+    const el = e.target, t = +el.dataset.target;
+    let cur = 0; const step = t/(1400/16);
+    const tm = setInterval(() => { cur+=step; if(cur>=t){el.textContent=t;clearInterval(tm);}else el.textContent=Math.floor(cur); }, 16);
+    co.unobserve(el);
+  });
+}, {threshold:0.5});
+document.querySelectorAll('[data-target]').forEach(el => co.observe(el));
+
+// Inner tabs
+function switchTab(grp, tabId) {
+  const tab = grp.querySelector(`[data-tab="${tabId}"]`);
+  const pane = grp.querySelector('#'+tabId);
+  if (!tab || !pane) return;
+  grp.querySelectorAll('.inner-tab').forEach(t => t.classList.remove('active'));
+  grp.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  tab.classList.add('active');
+  pane.classList.add('active');
+  // Elements inside display:none panes are never seen by IntersectionObserver, so force them visible
+  pane.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el => el.classList.add('on'));
+}
+document.querySelectorAll('.inner-tab').forEach(tab => {
+  tab.addEventListener('click', () => switchTab(tab.closest('.tab-group'), tab.dataset.tab));
+});
+// URL 해시로 탭 자동 열기 (예: about.html#history, result.html#consulting)
+function activateHashTab() {
+  const hash = location.hash.replace('#','');
+  if(!hash) return;
+  document.querySelectorAll('.tab-group').forEach(grp => {
+    if(grp.querySelector('#'+hash)) switchTab(grp, hash);
+  });
+}
+activateHashTab();
+window.addEventListener('hashchange', activateHashTab);
+
+// Contact form
+const cf = document.getElementById('contactForm');
+if(cf) cf.addEventListener('submit', e => {
+  e.preventDefault();
+  const b = cf.querySelector('.btn-submit');
+  b.textContent='전송 완료 ✓'; b.style.background='#00A8A8';
+  setTimeout(()=>{ b.textContent='문의 보내기 →'; b.style.background=''; cf.reset(); }, 3000);
+});
+
+// Scroll top
+if(stbtn) stbtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+
+// Hero spotlight follows cursor (index only)
+(function(){
+  const hero = document.getElementById('main-hero');
+  const spotlight = hero ? hero.querySelector('.hero-spotlight') : null;
+  if(!hero || !spotlight) return;
+  hero.addEventListener('mousemove', e => {
+    const r = hero.getBoundingClientRect();
+    const gx = Math.round((e.clientX - r.left) / r.width * 100);
+    const gy = Math.round((e.clientY - r.top) / r.height * 100);
+    spotlight.style.background = `radial-gradient(600px circle at ${gx}% ${gy}%, rgba(255,160,50,0.12) 0%, transparent 65%)`;
+  });
+  hero.addEventListener('mouseleave', () => { spotlight.style.background = ''; });
+})();
+
+// Window flicker
+document.querySelectorAll('.win-warm').forEach(w => {
+  setInterval(() => {
+    w.style.opacity = Math.random()>.2 ? '1' : '0.15';
+    w.style.transition = 'opacity .5s ease';
+  }, 1500+Math.random()*3500);
+});
+
+// Result filter + load-more
+(function(){
+  const grid = document.getElementById('resultGrid');
+  if (!grid) return;
+
+  const BATCH = 12;
+  const cards = Array.from(grid.querySelectorAll('.result-card'));
+  let activeFilter = '전체';
+  let shown = 0;
+
+  function filtered() {
+    return activeFilter === '전체'
+      ? cards
+      : cards.filter(c => c.dataset.type === activeFilter);
+  }
+
+  function render(reset) {
+    if (reset) shown = 0;
+    const pool = filtered();
+    const next = pool.slice(shown, shown + BATCH);
+
+    // Show new batch
+    next.forEach((c, i) => {
+      c.style.display = '';
+      c.style.transform = 'translateY(20px)';
+      c.style.opacity = '0';
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          c.style.transition = 'opacity .4s ease, transform .4s ease';
+          c.style.opacity = '1';
+          c.style.transform = 'translateY(0)';
+        }, i * 25);
+      });
+    });
+
+    shown += next.length;
+
+    // Update count
+    const countEl = document.getElementById('resultCount');
+    if (countEl) countEl.textContent = shown + ' / ' + pool.length + '건 표시 중';
+
+    // Update load-more
+    const wrap = document.getElementById('loadMoreWrap');
+    const btn = document.getElementById('loadMoreBtn');
+    const remain = document.getElementById('loadMoreRemain');
+    const left = pool.length - shown;
+    if (wrap) wrap.style.display = left > 0 ? '' : 'none';
+    if (remain) remain.textContent = '(' + left + '건 남음)';
+  }
+
+  function resetGrid() {
+    cards.forEach(c => {
+      c.style.display = 'none';
+      c.style.opacity = '0';
+      c.style.transition = '';
+    });
+    render(true);
+  }
+
+  // Filter buttons
+  document.querySelectorAll('.result-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.result-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      resetGrid();
+    });
+  });
+
+  // Load more
+  const loadBtn = document.getElementById('loadMoreBtn');
+  if (loadBtn) loadBtn.addEventListener('click', () => render(false));
+
+  // Init
+  resetGrid();
+})();
+
+// Hero particles
+(function(){
+  const canvas = document.getElementById('hero-particles');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W,H,pts=[];
+  const mx={x:-9999,y:-9999};
+  function resize(){ W=canvas.width=canvas.offsetWidth; H=canvas.height=canvas.offsetHeight; }
+  window.addEventListener('resize', resize); resize();
+  const hero = document.getElementById('main-hero');
+  if(hero) hero.addEventListener('mousemove', e=>{
+    const r=canvas.getBoundingClientRect(); mx.x=e.clientX-r.left; mx.y=e.clientY-r.top;
+  });
+  function P(){ this.reset(); }
+  P.prototype.reset=function(){
+    this.x=Math.random()*W; this.y=Math.random()*H;
+    this.vx=(Math.random()-.5)*.3; this.vy=(Math.random()-.5)*.3;
+    this.r=Math.random()*1.4+.3;
+    const cols=['rgba(0,168,168,','rgba(140,190,220,','rgba(60,200,200,'];
+    this.c=cols[Math.floor(Math.random()*cols.length)]+(Math.random()*.4+.1)+')';
+    this.life=Math.random()*350+200; this.age=0;
+  };
+  P.prototype.step=function(){
+    const dx=mx.x-this.x,dy=mx.y-this.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<120){this.vx-=(dx/d)*.03;this.vy-=(dy/d)*.03;}
+    this.x+=this.vx; this.y+=this.vy; this.vx*=.993; this.vy*=.993; this.age++;
+    if(this.x<0||this.x>W||this.y<0||this.y>H||this.age>this.life) this.reset();
+  };
+  P.prototype.draw=function(){ ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.c;ctx.fill(); };
+  const N=Math.min(80,Math.floor(W*H/12000));
+  for(let i=0;i<N;i++) pts.push(new P());
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{p.step();p.draw();});
+    // connections
+    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<90){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(0,168,168,${(1-d/90)*.07})`;ctx.lineWidth=.5;ctx.stroke();}
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YNOT Planning | 와이낫플래닝</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-wrap">
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="와이낫플래닝" onerror="this.style.display='none'">
+
+    </a>
+    <button class="hamburger" id="hbg"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li class="has-sub"><a href="about.html">About YNP</a>
+        <ul class="sub-nav"><li><a href="about.html#ideology">경영이념</a></li><li><a href="about.html#ceo">인사말</a></li><li><a href="about.html#history">회사연혁</a></li><li><a href="about.html#org">회사조직</a></li><li><a href="about.html#location">오시는길</a></li></ul>
+      </li>
+      <li class="has-sub"><a href="business.html">Business</a>
+        <ul class="sub-nav"><li><a href="business.html#biz01">시장조사 및 분석</a></li><li><a href="business.html#biz02">마케팅 전략</a></li><li><a href="business.html#biz03">사업계획수립</a></li><li><a href="business.html#biz04">사업타당성 조사분석</a></li><li><a href="business.html#biz05">상품투자 및 처분</a></li><li><a href="business.html#biz06">금융비즈니스</a></li></ul>
+      </li>
+      <li class="has-sub"><a href="result.html">Result</a>
+        <ul class="sub-nav"><li><a href="result.html">분양대행실적</a></li><li><a href="result.html#consulting">컨설팅실적</a></li></ul>
+      </li>
+      <li class="has-sub"><a href="community.html">Community</a>
+        <ul class="sub-nav"><li><a href="community.html">보도자료</a></li><li><a href="community.html#contactus">Contact us</a></li><li><a href="community.html#qna">Q&amp;A</a></li></ul>
+      </li>
+      <li><a href="recruit.html">Recruit</a></li>
+      <li class="nav-cta"><a href="contact.html">문의하기</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="main-hero">
+  <div class="hero-photo-wrap">
+    <img src="img/hero_main.png" alt="와이낫플래닝" class="hero-photo">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-fog"></div>
+  <canvas id="hero-particles"></canvas>
+
+  <!-- Hero Content -->
+  <div class="hero-content">
+    <p class="hero-tag">분양대행 전문기업 · YNOT Planning</p>
+    <h1 class="hero-h1">부동산 분양의<br>새로운 기준,<br><em>와이낫플래닝</em></h1>
+    <p class="hero-p">정확한 시장 분석과 차별화된 마케팅 전략으로<br>고객의 프로젝트를 반드시 성공으로 이끕니다.</p>
+    <div class="hero-btns">
+      <a href="result.html" class="btn btn-outline-w">분양 실적 보기</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- QUICK CARDS -->
+<section class="section">
+  <div class="wrap">
+    <div class="quick-grid">
+      <a href="about.html" class="quick-card rv">
+        <div class="quick-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3>회사소개</h3>
+        <p>와이낫플래닝의 경영이념과 비전, 회사 연혁을 소개합니다.</p>
+        <div class="quick-link">바로가기 →</div>
+      </a>
+      <a href="business.html" class="quick-card rv" data-delay="100">
+        <div class="quick-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>비즈니스</h3>
+        <p>시장조사, 마케팅 전략, 사업계획 수립 등 전문 서비스를 제공합니다.</p>
+        <div class="quick-link">바로가기 →</div>
+      </a>
+      <a href="result.html" class="quick-card rv" data-delay="200">
+        <div class="quick-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>분양실적</h3>
+        <p>200건 이상의 성공적인 분양대행 및 컨설팅 실적을 확인하세요.</p>
+        <div class="quick-link">바로가기 →</div>
+      </a>
+      <a href="recruit.html" class="quick-card rv" data-delay="300">
+        <div class="quick-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <h3>채용</h3>
+        <p>함께 성장할 우수 인재를 모집합니다. 채용 공고를 확인하세요.</p>
+        <div class="quick-link">바로가기 →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT TEASER -->
+<section class="section section-bg">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
+      <div class="rv-l">
+        <p class="sec-eyebrow">About YNOT Planning</p>
+        <h2 class="sec-title">분양대행의 새로운 기준을<br>만들어 갑니다</h2>
+        <p class="sec-desc">와이낫플래닝은 15년 이상의 풍부한 경험과 전문 인력을 바탕으로 정확한 시장 분석, 차별화된 마케팅 전략, 체계적인 분양 관리를 통해 고객의 성공을 지원합니다.</p>
+        <div style="margin-top:32px;">
+          <a href="about.html" class="btn btn-outline">회사 더 알아보기</a>
+        </div>
+      </div>
+      <div class="rv-r" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div style="padding:28px;background:#fff;border:1px solid var(--c-border);border-radius:var(--radius);">
+          <div style="color:var(--c-teal);margin-bottom:12px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h4 style="font-size:.9rem;font-weight:700;margin-bottom:6px;">신뢰</h4>
+          <p style="font-size:.8rem;color:var(--c-sub);line-height:1.7;">투명한 계약과 정직한 소통으로 고객 신뢰를 최우선으로 합니다.</p>
+        </div>
+        <div style="padding:28px;background:#fff;border:1px solid var(--c-border);border-radius:var(--radius);">
+          <div style="color:var(--c-teal);margin-bottom:12px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h4 style="font-size:.9rem;font-weight:700;margin-bottom:6px;">전문성</h4>
+          <p style="font-size:.8rem;color:var(--c-sub);line-height:1.7;">15년 이상 축적된 분양 노하우와 전문 인력 운용.</p>
+        </div>
+        <div style="padding:28px;background:#fff;border:1px solid var(--c-border);border-radius:var(--radius);">
+          <div style="color:var(--c-teal);margin-bottom:12px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <h4 style="font-size:.9rem;font-weight:700;margin-bottom:6px;">성과</h4>
+          <p style="font-size:.8rem;color:var(--c-sub);line-height:1.7;">결과로 증명하는 실적 중심의 분양 대행 서비스.</p>
+        </div>
+        <div style="padding:28px;background:#fff;border:1px solid var(--c-border);border-radius:var(--radius);">
+          <div style="color:var(--c-teal);margin-bottom:12px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h4 style="font-size:.9rem;font-weight:700;margin-bottom:6px;">파트너십</h4>
+          <p style="font-size:.8rem;color:var(--c-sub);line-height:1.7;">고객과 함께 성장하는 장기적 파트너 관계를 추구합니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- NEWS -->
+<section class="section section-bg">
+  <div class="wrap">
+    <div class="sec-header" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;">
+      <div>
+        <p class="sec-eyebrow">Community</p>
+        <h2 class="sec-title" style="margin-bottom:0;">최신 소식</h2>
+      </div>
+      <a href="community.html" style="font-size:.8rem;font-weight:700;color:var(--c-blue);display:flex;align-items:center;gap:6px;">전체보기 →</a>
+    </div>
+    <div class="news-list">
+      <div class="news-item rv">
+        <span class="news-tag">보도자료</span>
+        <p class="news-date">2024. 11. 20</p>
+        <h3>와이낫플래닝, 수도권 대규모 아파트 분양대행 계약 체결</h3>
+      </div>
+      <div class="news-item rv" data-delay="100">
+        <span class="news-tag">공지사항</span>
+        <p class="news-date">2024. 10. 15</p>
+        <h3>2024년 4분기 부동산 시장 전망 보고서 발간</h3>
+      </div>
+      <div class="news-item rv" data-delay="200">
+        <span class="news-tag">보도자료</span>
+        <p class="news-date">2024. 09. 30</p>
+        <h3>와이낫플래닝, 지방 혁신도시 프로젝트 성공적 마무리</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section style="background:var(--c-blue-dk);padding:72px 0;">
+  <div class="wrap" style="text-align:center;">
+    <p class="rv" style="font-size:.78rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--c-teal);margin-bottom:16px;">Contact Us</p>
+    <h2 class="rv" style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#fff;margin-bottom:16px;letter-spacing:-.02em;" data-delay="100">분양 성공, 지금 시작하세요</h2>
+    <p class="rv" style="font-size:.92rem;color:rgba(255,255,255,.55);margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;" data-delay="200">전문 컨설턴트가 귀하의 프로젝트에 맞는 최적의 분양 전략을 제안해 드립니다.</p>
+    <div class="rv" data-delay="300" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="contact.html" class="btn btn-teal">무료 상담 신청 →</a>
+      <a href="tel:02-6022-8793" class="btn btn-outline-w">02-6022-8793</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="wrap">
+    <div class="ft-top">
+      <div>
+        <img src="logo.png" class="ft-logo-img" onerror="this.style.display='none'" alt="">
+        <div class="ft-logo-name">YNOT Planning</div>
+        <div class="ft-logo-sub">분양대행 전문기업</div>
+      </div>
+      <div class="ft-menus">
+        <div class="ft-col"><strong>About YNP</strong><a href="about.html">경영이념</a><a href="about.html">인사말</a><a href="about.html">회사연혁</a><a href="about.html#location">오시는길</a></div>
+        <div class="ft-col"><strong>Business</strong><a href="business.html">시장조사 및 분석</a><a href="business.html">마케팅 전략</a><a href="business.html">사업계획수립</a><a href="business.html">금융비즈니스</a></div>
+        <div class="ft-col"><strong>Result</strong><a href="result.html">분양대행실적</a><a href="result.html">컨설팅실적</a></div>
+        <div class="ft-col"><strong>Quick</strong><a href="community.html">보도자료</a><a href="recruit.html">채용정보</a><a href="community.html#contactus">Contact us</a></div>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <span>서울특별시 마곡서로 152 두산더랜드타워 B동 1318-1323호 | TEL: 02-6022-8793</span>
+      <span>© 2024 YNOT Planning. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+<button class="scroll-top-btn" id="scrollTopBtn">↑</button>
+<script src="script.js"></script>
+</body>
+</html>
