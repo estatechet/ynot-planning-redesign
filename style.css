@@ -122,7 +122,6 @@ ul{list-style:none}
 .hero-atmos{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .hero-clouds{z-index:2}
 .hero-stars{z-index:4;width:32%;height:28%}     /* 좌상단 영역만 — 건물 영역에서 멀리 */
-.hero-windows{z-index:5}                         /* 어두운 오버레이 위, 또렷하게 표시 */
 .hero-shootingstars{z-index:4;width:70%;height:60%}
 
 /* 구름 — 더 빨라진 드리프트 (35% 가속) */
@@ -145,21 +144,6 @@ ul{list-style:none}
 @keyframes twinkle{
   0%,100%{opacity:.18;transform:scale(.7)}
   50%{opacity:1;transform:scale(1.05)}
-}
-
-/* 창문 불빛 — 더 크고 밝게, 더 또렷한 깜빡임 (사이클당 짧은 OFF 2회) */
-.wlight{position:absolute;width:4px;height:7px;background:rgba(255,215,140,1);border-radius:1px;
-  box-shadow:0 0 6px rgba(255,205,110,1),0 0 14px rgba(255,175,80,.6),0 0 22px rgba(255,150,60,.3);
-  opacity:1;animation:windowFlicker 16s ease-in-out infinite}
-@keyframes windowFlicker{
-  0%, 28%, 36%, 70%, 78%, 100%{opacity:1}
-  32%{opacity:0}
-  74%{opacity:.1}
-}
-.wlight.alt{animation:windowFlickerAlt 14s ease-in-out infinite}
-@keyframes windowFlickerAlt{
-  0%, 50%, 58%, 100%{opacity:1}
-  54%{opacity:0}
 }
 
 /* 별똥별 — 아주 가끔 좌상단에서 대각선으로 떨어짐 */
