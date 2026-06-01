@@ -53,6 +53,9 @@ ul{list-style:none}
 .nav-cta>a{display:inline-block;padding:9px 20px!important;background:var(--c-teal);color:#fff!important;font-weight:700!important;font-size:.78rem!important;border-radius:4px;margin-left:12px;letter-spacing:.05em;transition:var(--trans)!important}
 .nav-cta>a:hover{background:#008a8a!important;transform:translateY(-1px)}
 .nav-cta>a::after{display:none!important}
+.nav-logout>a{display:inline-block!important;padding:7px 12px!important;background:transparent!important;color:rgba(255,255,255,.7)!important;font-size:.72rem!important;font-weight:500!important;border:1px solid rgba(255,255,255,.3)!important;border-radius:4px;margin-left:6px;letter-spacing:.04em;transition:var(--trans)!important}
+.nav-logout>a:hover{color:#fff!important;border-color:#fff!important;background:rgba(255,255,255,.08)!important}
+.nav-logout>a::after{display:none!important}
 .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
 .hamburger span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px;transition:var(--trans)}
 .hamburger.on span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
@@ -384,7 +387,10 @@ ul{list-style:none}
   .sub-nav{position:static;transform:none;opacity:1;visibility:visible;background:rgba(255,255,255,.04);border:none;border-left:2px solid var(--c-teal);border-radius:0;margin-left:24px;display:none}
   .has-sub.open .sub-nav{display:block}
   .hamburger{display:flex}
-  .nav-cta{display:none}
+  .nav-cta{display:list-item}
+  .nav-cta>a{display:block!important;margin:0!important;padding:14px 24px!important;background:transparent!important;color:#fff!important;border:none!important;border-radius:0!important;font-size:.95rem!important;font-weight:500!important}
+  .nav-cta>a:hover{background:rgba(255,255,255,.06)!important;transform:none!important;box-shadow:none!important}
+  .nav-logout>a{display:block!important;margin:0!important;padding:14px 24px!important;background:transparent!important;color:rgba(255,255,255,.65)!important;border:none!important;font-size:.88rem!important}
   .quick-grid{grid-template-columns:1fr}
   .news-list{grid-template-columns:1fr}
   .result-grid{grid-template-columns:1fr}

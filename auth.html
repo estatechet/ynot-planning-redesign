@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로그인 / 회원가입 | 와이낫플래닝</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=7">
+<style>
+.auth-section{padding:60px 20px 100px}
+.auth-card{max-width:460px;margin:0 auto;background:#fff;border:1px solid var(--c-border);border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 32px rgba(15,75,150,.06)}
+.auth-tabs{display:flex;border-bottom:1px solid var(--c-border)}
+.auth-tab{flex:1;padding:18px 0;background:#fafafa;border:none;font-family:inherit;font-size:.92rem;font-weight:700;color:var(--c-sub);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent}
+.auth-tab.active{background:#fff;color:var(--c-blue);border-bottom-color:var(--c-blue)}
+.auth-tab:hover:not(.active){color:var(--c-text)}
+.auth-panel{display:none;padding:38px 36px 40px}
+.auth-panel.active{display:block}
+.auth-panel h2{font-size:1.4rem;font-weight:700;margin:0 0 6px;color:var(--c-text)}
+.auth-panel .panel-sub{font-size:.84rem;color:var(--c-sub);margin-bottom:24px}
+.auth-field{margin-bottom:16px}
+.auth-field label{display:block;font-size:.78rem;font-weight:700;color:var(--c-text);margin-bottom:6px;letter-spacing:.04em}
+.auth-field input{width:100%;padding:12px 14px;border:1px solid var(--c-border);border-radius:6px;font-family:'Noto Sans KR',sans-serif;font-size:.92rem;color:var(--c-text);background:#fff;outline:none;transition:border-color .18s,box-shadow .18s;box-sizing:border-box}
+.auth-field input:focus{border-color:var(--c-blue);box-shadow:0 0 0 3px rgba(15,75,150,.08)}
+.auth-field .hint{font-size:.7rem;color:var(--c-sub);margin-top:4px}
+.auth-submit{width:100%;padding:13px;background:var(--c-blue);color:#fff;border:none;border-radius:6px;font-weight:700;font-size:.95rem;cursor:pointer;transition:background .18s;font-family:inherit;margin-top:8px}
+.auth-submit:hover:not(:disabled){background:var(--c-blue-dk)}
+.auth-submit:disabled{opacity:.5;cursor:not-allowed}
+.auth-msg{padding:10px 14px;border-radius:6px;font-size:.82rem;margin-bottom:16px;display:none}
+.auth-msg.show{display:block}
+.auth-msg.error{background:#fdecec;color:#c0392b;border:1px solid #f5c6c6}
+.auth-msg.success{background:#e7f4ee;color:#1e7f4f;border:1px solid #b5e0c8}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="scrolled">
+  <div class="nav-wrap">
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="와이낫플래닝" onerror="this.style.display='none'">
+    </a>
+    <button class="hamburger" id="hbg"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li class="has-sub"><a href="about.html">About YNP</a>
+        <ul class="sub-nav"><li><a href="about.html#ideology">경영이념</a></li><li><a href="about.html#ceo">인사말</a></li><li><a href="about.html#history">회사연혁</a></li><li><a href="about.html#org">회사조직</a></li><li><a href="about.html#location">오시는길</a></li></ul>
+      </li>
+      <li class="has-sub"><a href="business.html">Business</a>
+        <ul class="sub-nav"><li><a href="business.html#biz01">시장조사 및 분석</a></li><li><a href="business.html#biz02">마케팅 전략</a></li><li><a href="business.html#biz03">사업계획수립</a></li><li><a href="business.html#biz04">사업타당성 조사분석</a></li><li><a href="business.html#biz05">상품투자 및 처분</a></li><li><a href="business.html#biz06">금융비즈니스</a></li></ul>
+      </li>
+      <li class="has-sub"><a href="result.html">Result</a>
+        <ul class="sub-nav"><li><a href="result.html">분양대행실적</a></li><li><a href="result.html#consulting">컨설팅실적</a></li></ul>
+      </li>
+      <li class="has-sub"><a href="community.html">Community</a>
+        <ul class="sub-nav"><li><a href="community.html">보도자료</a></li><li><a href="mypage.html">Q&amp;A</a></li><li><a href="contact.html">Contact us</a></li></ul>
+      </li>
+      <li><a href="recruit.html">Recruit</a></li>
+      <li class="nav-cta" id="navCta"><a href="auth.html" id="navCtaLink">Login</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="wrap">
+    <div>
+      <p class="page-hero-sub">Member</p>
+      <h1 class="page-hero-title" id="heroTitle">로그인</h1>
+    </div>
+    <div class="page-breadcrumb">Home &gt; <span id="crumb">Sign In</span></div>
+  </div>
+</div>
+
+<!-- AUTH -->
+<section class="auth-section">
+  <div class="auth-card">
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" data-tab="login">로그인</button>
+      <button type="button" class="auth-tab" data-tab="signup">회원가입</button>
+    </div>
+
+    <!-- 로그인 패널 -->
+    <div class="auth-panel active" data-panel="login">
+      <h2>로그인</h2>
+      <p class="panel-sub">와이낫플래닝에 오신 것을 환영합니다.</p>
+      <div id="loginMsg" class="auth-msg"></div>
+      <form id="loginForm" autocomplete="on">
+        <div class="auth-field">
+          <label for="loginUsername">아이디</label>
+          <input id="loginUsername" type="text" required autocapitalize="off" autocomplete="username" placeholder="아이디 입력">
+        </div>
+        <div class="auth-field">
+          <label for="loginPassword">비밀번호</label>
+          <input id="loginPassword" type="password" required placeholder="비밀번호" autocomplete="current-password">
+        </div>
+        <button type="submit" class="auth-submit" id="loginBtn">로그인</button>
+      </form>
+    </div>
+
+    <!-- 회원가입 패널 -->
+    <div class="auth-panel" data-panel="signup">
+      <h2>회원가입</h2>
+      <p class="panel-sub">와이낫플래닝 회원이 되시면 1:1 비공개 문의를 남기실 수 있습니다.</p>
+      <div id="signupMsg" class="auth-msg"></div>
+      <form id="signupForm" autocomplete="on">
+        <div class="auth-field">
+          <label for="signupRealName">실명</label>
+          <input id="signupRealName" type="text" required maxlength="40" placeholder="홍길동" autocomplete="name">
+        </div>
+        <div class="auth-field">
+          <label for="signupUsername">아이디</label>
+          <input id="signupUsername" type="text" required minlength="4" maxlength="20" pattern="[A-Za-z0-9_]+" placeholder="영문/숫자 4~20자" autocomplete="username">
+          <p class="hint">영문 소문자/숫자/_ 만 사용, 4~20자</p>
+        </div>
+        <div class="auth-field">
+          <label for="signupPassword">비밀번호</label>
+          <input id="signupPassword" type="password" required minlength="6" placeholder="6자 이상" autocomplete="new-password">
+          <p class="hint">최소 6자 이상</p>
+        </div>
+        <div class="auth-field">
+          <label for="signupPassword2">비밀번호 확인</label>
+          <input id="signupPassword2" type="password" required minlength="6" placeholder="비밀번호 다시 입력" autocomplete="new-password">
+        </div>
+        <button type="submit" class="auth-submit" id="signupBtn">가입하기</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="wrap">
+    <div class="ft-top">
+      <div>
+        <img src="logo.png" class="ft-logo-img" onerror="this.style.display='none'" alt="">
+        <div class="ft-logo-name">YNOT Planning</div>
+        <div class="ft-logo-sub">분양대행 전문기업</div>
+      </div>
+      <div class="ft-menus">
+        <div class="ft-col"><strong>About YNP</strong><a href="about.html">경영이념</a><a href="about.html">인사말</a><a href="about.html">회사연혁</a><a href="about.html#location">오시는길</a></div>
+        <div class="ft-col"><strong>Business</strong><a href="business.html">시장조사 및 분석</a><a href="business.html">마케팅 전략</a><a href="business.html">사업계획수립</a><a href="business.html">금융비즈니스</a></div>
+        <div class="ft-col"><strong>Result</strong><a href="result.html">분양대행실적</a><a href="result.html">컨설팅실적</a></div>
+        <div class="ft-col"><strong>Quick</strong><a href="community.html">보도자료</a><a href="recruit.html">채용정보</a><a href="contact.html">Contact us</a></div>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <span>상호: (주)와이낫플래닝 &nbsp;|&nbsp; 대표이사: 박찬주 &nbsp;|&nbsp; 사업자등록번호: 109-86-25151</span>
+      <span>서울특별시 강서구 마곡서로 152 두산더랜드타워 B동 1318-1323호 &nbsp;|&nbsp; TEL: 02-6022-8793 &nbsp;|&nbsp; FAX: 02-2088-4040</span>
+      <span>© 2009–2026 (주)와이낫플래닝. All rights reserved. &nbsp;|&nbsp; <a href="privacy.html" style="color:inherit;opacity:.7;text-decoration:underline;">개인정보처리방침</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js?v=7"></script>
+<script src="js/supabase-client.js?v=7"></script>
+<script src="js/auth-ui.js?v=7"></script>
+<script>
+(function(){
+  // 이미 로그인이면 redirect
+  const params = new URLSearchParams(location.search);
+  const redirectTo = params.get('redirect') || 'mypage.html';
+  window.ynpAuth.getUser().then(u => { if (u) location.href = redirectTo; });
+
+  // ─ 탭 전환
+  const tabs   = document.querySelectorAll('.auth-tab');
+  const panels = document.querySelectorAll('.auth-panel');
+  const heroTitle = document.getElementById('heroTitle');
+  const crumb = document.getElementById('crumb');
+
+  function setTab(name){
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    panels.forEach(p => p.classList.toggle('active', p.dataset.panel === name));
+    heroTitle.textContent = name === 'login' ? '로그인' : '회원가입';
+    crumb.textContent = name === 'login' ? 'Sign In' : 'Sign Up';
+    if (location.hash !== '#' + name) history.replaceState(null, '', '#' + name);
+  }
+  tabs.forEach(t => t.addEventListener('click', () => setTab(t.dataset.tab)));
+  if (location.hash === '#signup') setTab('signup');
+
+  // ─ 로그인 폼
+  const loginMsg = document.getElementById('loginMsg');
+  const loginBtn = document.getElementById('loginBtn');
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginMsg.className = 'auth-msg';
+    const username = document.getElementById('loginUsername').value.trim().toLowerCase();
+    const pw = document.getElementById('loginPassword').value;
+    loginBtn.disabled = true; loginBtn.textContent = '로그인 중…';
+    const { error } = await window.ynpAuth.signIn({ username, password: pw });
+    loginBtn.disabled = false; loginBtn.textContent = '로그인';
+    if (error) {
+      const m = String(error.message || '');
+      loginMsg.className = 'auth-msg show error';
+      if (m.includes('Invalid login') || m.includes('credentials')) loginMsg.textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
+      else loginMsg.textContent = '로그인 실패: ' + m;
+      return;
+    }
+    location.href = redirectTo;
+  });
+
+  // ─ 회원가입 폼
+  const signupMsg = document.getElementById('signupMsg');
+  const signupBtn = document.getElementById('signupBtn');
+  document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    signupMsg.className = 'auth-msg';
+    const realName = document.getElementById('signupRealName').value.trim();
+    const username = document.getElementById('signupUsername').value.trim().toLowerCase();
+    const pw  = document.getElementById('signupPassword').value;
+    const pw2 = document.getElementById('signupPassword2').value;
+
+    function err(m){ signupMsg.className='auth-msg show error'; signupMsg.textContent=m; }
+
+    if (!/^[a-z0-9_]{4,20}$/.test(username)) { err('아이디는 영문 소문자/숫자/_, 4~20자만 가능합니다.'); return; }
+    if (pw !== pw2) { err('비밀번호가 일치하지 않습니다.'); return; }
+    if (pw.length < 6) { err('비밀번호는 6자 이상이어야 합니다.'); return; }
+
+    signupBtn.disabled = true; signupBtn.textContent = '가입 중…';
+    const { data, error } = await window.ynpAuth.signUp({ username, password: pw, realName });
+    signupBtn.disabled = false; signupBtn.textContent = '가입하기';
+    if (error) {
+      const m = String(error.message || '');
+      if (m.includes('already registered') || m.includes('User already') || m.includes('duplicate')) err('이미 사용 중인 아이디입니다.');
+      else err('가입 실패: ' + m);
+      return;
+    }
+    signupMsg.className = 'auth-msg show success';
+    signupMsg.textContent = data.session ? '가입 완료! 마이페이지로 이동합니다.' : '가입되었습니다. 로그인 탭에서 로그인해 주세요.';
+    if (data.session) setTimeout(() => location.href = redirectTo, 800);
+    else setTimeout(() => setTab('login'), 1200);
+  });
+})();
+</script>
+</body>
+</html>
