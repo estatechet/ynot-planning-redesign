@@ -31,15 +31,8 @@
   const USERNAME_DOMAIN = '@ynp.kr';
   const toEmail = u => String(u || '').trim().toLowerCase() + USERNAME_DOMAIN;
 
+  // ── 인증 헬퍼: 관리자 콘솔(/manage)에서만 사용. 공개 회원가입 UI는 없음.
   window.ynpAuth = {
-    async signUp({ username, password, realName }) {
-      const u = String(username || '').trim().toLowerCase();
-      return client.auth.signUp({
-        email: toEmail(u),
-        password,
-        options: { data: { real_name: realName, username: u } }
-      });
-    },
     async signIn({ username, password }) {
       return client.auth.signInWithPassword({ email: toEmail(username), password });
     },
@@ -60,13 +53,6 @@
         .single();
       if (error) { console.warn('[YNP] profile fetch', error); return null; }
       return data;
-    },
-    async isAdmin() {
-      const p = await this.getProfile();
-      return p?.role === 'admin';
-    },
-    onAuthStateChange(cb) {
-      return client.auth.onAuthStateChange(cb);
     }
   };
 
@@ -138,31 +124,6 @@
     },
     async deleteConsulting(id) {
       return client.from('consulting_results').delete().eq('id', id);
-    },
-
-    // Q&A
-    async myQna() {
-      return client.from('qna').select('*').order('created_at', { ascending: false });
-    },
-    async getQna(id) {
-      return client.from('qna').select('*').eq('id', id).single();
-    },
-    async createQna({ title, content }) {
-      const user = await window.ynpAuth.getUser();
-      if (!user) throw new Error('로그인이 필요합니다.');
-      return client.from('qna').insert({ user_id: user.id, title, content }).select().single();
-    },
-    async listAllQna({ status } = {}) {
-      let q = client.from('qna').select('*, profiles!qna_user_id_fkey(real_name,email)')
-        .order('created_at', { ascending: false });
-      if (status) q = q.eq('status', status);
-      return q;
-    },
-    async replyQna(id, reply) {
-      const user = await window.ynpAuth.getUser();
-      return client.from('qna').update({
-        reply, status: 'answered', replied_at: new Date().toISOString(), replied_by: user?.id
-      }).eq('id', id).select().single();
     }
   };
 

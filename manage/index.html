@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>YNP 관리자</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c-blue:#0F4B96; --c-blue-dk:#0a356b; --c-teal:#00A8A8;
+  --c-text:#1a1a1a; --c-sub:#666; --c-border:#e0e0e0; --c-bg:#f7f8fa;
+  --radius:8px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans KR',sans-serif;color:var(--c-text);background:var(--c-bg);font-size:14px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+
+/* ── header ── */
+.mg-header{background:#fff;border-bottom:1px solid var(--c-border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.mg-header h1{margin:0;font-size:1.05rem;font-weight:800;letter-spacing:.02em}
+.mg-header h1 span{color:var(--c-blue)}
+.mg-userbar{display:flex;align-items:center;gap:14px;font-size:.82rem;color:var(--c-sub)}
+.mg-userbar a{color:var(--c-sub);border:1px solid var(--c-border);padding:5px 12px;border-radius:5px;transition:all .15s}
+.mg-userbar a:hover{color:var(--c-blue);border-color:var(--c-blue)}
+
+/* ── login gate ── */
+.mg-login{max-width:380px;margin:80px auto;background:#fff;border:1px solid var(--c-border);border-radius:var(--radius);padding:36px 30px;box-shadow:0 8px 32px rgba(0,0,0,.04)}
+.mg-login h2{margin:0 0 6px;font-size:1.15rem}
+.mg-login .sub{color:var(--c-sub);font-size:.82rem;margin-bottom:22px}
+.mg-field{margin-bottom:14px}
+.mg-field label{display:block;font-size:.74rem;font-weight:700;margin-bottom:5px;letter-spacing:.04em}
+.mg-field input,.mg-field select,.mg-field textarea{width:100%;padding:10px 12px;border:1px solid var(--c-border);border-radius:6px;font-family:inherit;font-size:.88rem;background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
+.mg-field input:focus,.mg-field select:focus,.mg-field textarea:focus{border-color:var(--c-blue);box-shadow:0 0 0 3px rgba(15,75,150,.08)}
+.mg-field textarea{resize:vertical;min-height:80px;font-family:inherit}
+.mg-field .hint{font-size:.7rem;color:var(--c-sub);margin-top:4px}
+.btn{display:inline-block;padding:9px 16px;border:none;border-radius:6px;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .15s}
+.btn-pri{background:var(--c-blue);color:#fff}
+.btn-pri:hover:not(:disabled){background:var(--c-blue-dk)}
+.btn-sec{background:#fff;color:var(--c-text);border:1px solid var(--c-border)}
+.btn-sec:hover:not(:disabled){border-color:var(--c-blue);color:var(--c-blue)}
+.btn-danger{background:#fff;color:#c0392b;border:1px solid #f5c6c6}
+.btn-danger:hover:not(:disabled){background:#fdecec}
+.btn-block{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.msg{padding:9px 12px;border-radius:6px;font-size:.8rem;margin-bottom:12px;display:none}
+.msg.show{display:block}
+.msg.error{background:#fdecec;color:#c0392b;border:1px solid #f5c6c6}
+.msg.success{background:#e7f4ee;color:#1e7f4f;border:1px solid #b5e0c8}
+.msg.info{background:#eff5fb;color:#0a356b;border:1px solid #c8def0}
+
+/* ── dashboard ── */
+.mg-tabs{background:#fff;border-bottom:1px solid var(--c-border);padding:0 24px;display:flex;gap:0}
+.mg-tab{background:none;border:none;border-bottom:3px solid transparent;padding:14px 20px;font-family:inherit;font-size:.88rem;font-weight:700;color:var(--c-sub);cursor:pointer;transition:all .15s}
+.mg-tab.active{color:var(--c-blue);border-bottom-color:var(--c-blue)}
+.mg-tab:hover:not(.active){color:var(--c-text)}
+.mg-main{padding:24px;max-width:1280px;margin:0 auto}
+.mg-pane{display:none}
+.mg-pane.active{display:block}
+
+.mg-section{background:#fff;border:1px solid var(--c-border);border-radius:var(--radius);padding:22px;margin-bottom:18px}
+.mg-section h3{margin:0 0 14px;font-size:.95rem;font-weight:700}
+.mg-section .desc{font-size:.78rem;color:var(--c-sub);margin:-8px 0 14px}
+
+.mg-form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:680px){.mg-form-row{grid-template-columns:1fr}}
+
+.mg-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.mg-table th,.mg-table td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--c-border);vertical-align:middle}
+.mg-table th{background:#fafafa;font-weight:700;font-size:.74rem;color:var(--c-sub);letter-spacing:.04em;text-transform:uppercase}
+.mg-table tr:hover td{background:#fafbfc}
+.mg-table .act{white-space:nowrap;text-align:right}
+.mg-table .act button{margin-left:6px;padding:5px 10px;font-size:.74rem}
+.mg-table .thumb{width:48px;height:32px;background-size:cover;background-position:center;border-radius:4px;background-color:#eee}
+.mg-table .link{color:var(--c-blue);text-decoration:underline}
+.mg-empty{text-align:center;color:var(--c-sub);padding:50px 0;font-size:.85rem}
+.mg-loading{text-align:center;color:var(--c-sub);padding:30px 0;font-size:.85rem}
+
+.mg-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.mg-toolbar input,.mg-toolbar select{padding:7px 10px;border:1px solid var(--c-border);border-radius:5px;font-family:inherit;font-size:.82rem;background:#fff}
+.mg-toolbar .spacer{flex:1}
+.mg-pages{display:flex;gap:4px;justify-content:center;align-items:center;margin-top:14px}
+.mg-pages button{min-width:30px;height:30px;padding:0 8px;border:1px solid var(--c-border);background:#fff;border-radius:5px;cursor:pointer;font-size:.78rem;color:var(--c-sub)}
+.mg-pages button.active{background:var(--c-blue);color:#fff;border-color:var(--c-blue);font-weight:700}
+.mg-pages button:disabled{opacity:.4;cursor:not-allowed}
+
+/* modal */
+.mg-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:20px}
+.mg-modal-bg.show{display:flex}
+.mg-modal{background:#fff;border-radius:var(--radius);max-width:560px;width:100%;max-height:90vh;overflow:auto}
+.mg-modal-hdr{padding:16px 22px;border-bottom:1px solid var(--c-border);display:flex;justify-content:space-between;align-items:center}
+.mg-modal-hdr h3{margin:0;font-size:1rem}
+.mg-modal-hdr .x{cursor:pointer;font-size:1.4rem;color:var(--c-sub);background:none;border:none}
+.mg-modal-bd{padding:22px}
+.mg-modal-ft{padding:14px 22px;border-top:1px solid var(--c-border);display:flex;justify-content:flex-end;gap:8px}
+
+/* progress slider */
+.range-row{display:flex;gap:10px;align-items:center}
+.range-row input[type=range]{flex:1}
+.range-row .pct{font-weight:700;font-size:.85rem;color:var(--c-blue);min-width:42px;text-align:right}
+</style>
+</head>
+<body>
+
+<!-- ── 로그인 게이트 ── -->
+<div id="loginGate" class="mg-login" style="display:none">
+  <h2>관리자 로그인</h2>
+  <p class="sub">와이낫플래닝 관리자 전용 페이지입니다.</p>
+  <div id="loginMsg" class="msg"></div>
+  <form id="loginForm">
+    <div class="mg-field">
+      <label for="loginUser">아이디</label>
+      <input id="loginUser" type="text" required autocapitalize="off" autocomplete="username" placeholder="관리자 아이디">
+    </div>
+    <div class="mg-field">
+      <label for="loginPw">비밀번호</label>
+      <input id="loginPw" type="password" required autocomplete="current-password">
+    </div>
+    <button id="loginBtn" class="btn btn-pri btn-block" type="submit">로그인</button>
+  </form>
+</div>
+
+<!-- ── 대시보드 ── -->
+<div id="dashboard" style="display:none">
+  <header class="mg-header">
+    <h1><span>YNOT</span> 관리자 콘솔</h1>
+    <div class="mg-userbar">
+      <span id="userLabel"></span>
+      <a href="../index.html">사이트 보기</a>
+      <a href="#" id="logoutBtn">로그아웃</a>
+    </div>
+  </header>
+
+  <nav class="mg-tabs">
+    <button class="mg-tab active" data-pane="press">보도자료</button>
+    <button class="mg-tab" data-pane="sales">분양실적</button>
+    <button class="mg-tab" data-pane="consulting">컨설팅실적</button>
+  </nav>
+
+  <main class="mg-main">
+
+    <!-- ───────── 보도자료 ───────── -->
+    <div id="paneP" class="mg-pane active" data-pane="press">
+      <div class="mg-section">
+        <h3>새 보도자료 등록</h3>
+        <p class="desc">제목·게재일·첨부파일(PDF/DOC/PPTX 등)을 입력하세요. 파일은 Supabase Storage(<code>press</code> 버킷)로 자동 업로드됩니다.</p>
+        <div id="pressFormMsg" class="msg"></div>
+        <form id="pressForm">
+          <div class="mg-form-row">
+            <div class="mg-field" style="grid-column:1/-1">
+              <label>제목 <span style="color:#c0392b">*</span></label>
+              <input id="pTitle" type="text" required maxlength="300" placeholder="예: 와이낫플래닝, OO 분양대행 수주">
+            </div>
+            <div class="mg-field">
+              <label>게재일 <span style="color:#c0392b">*</span></label>
+              <input id="pDate" type="date" required>
+            </div>
+            <div class="mg-field">
+              <label>첨부파일</label>
+              <input id="pFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx">
+              <p class="hint">선택 안 하면 본문만 등록됩니다.</p>
+            </div>
+            <div class="mg-field" style="grid-column:1/-1">
+              <label>본문 (옵션)</label>
+              <textarea id="pContent" placeholder="첨부파일 외 추가 내용이 있다면 입력하세요."></textarea>
+            </div>
+          </div>
+          <button id="pSubmitBtn" type="submit" class="btn btn-pri">등록</button>
+        </form>
+      </div>
+
+      <div class="mg-section">
+        <h3>보도자료 목록</h3>
+        <div class="mg-toolbar">
+          <input id="pSearch" type="text" placeholder="제목 검색…" style="min-width:220px">
+          <button class="btn btn-sec" id="pSearchBtn">검색</button>
+          <button class="btn btn-sec" id="pReloadBtn">새로고침</button>
+          <div class="spacer"></div>
+          <span id="pCount" style="font-size:.78rem;color:var(--c-sub)">—</span>
+        </div>
+        <table class="mg-table">
+          <thead><tr><th style="width:60px">No</th><th>제목</th><th style="width:110px">게재일</th><th style="width:70px">파일</th><th style="width:140px"></th></tr></thead>
+          <tbody id="pBody"><tr><td colspan="5" class="mg-loading">불러오는 중…</td></tr></tbody>
+        </table>
+        <div id="pPages" class="mg-pages"></div>
+      </div>
+    </div>
+
+    <!-- ───────── 분양실적 ───────── -->
+    <div id="paneS" class="mg-pane" data-pane="sales">
+      <div class="mg-section">
+        <h3>새 분양실적 등록</h3>
+        <p class="desc">단지명·유형·설명·이미지를 입력하세요. 이미지는 Supabase Storage(<code>results</code> 버킷)로 업로드됩니다.</p>
+        <div id="salesFormMsg" class="msg"></div>
+        <form id="salesForm">
+          <div class="mg-form-row">
+            <div class="mg-field" style="grid-column:1/-1">
+              <label>단지명 <span style="color:#c0392b">*</span></label>
+              <input id="sName" type="text" required maxlength="200" placeholder="예: ○○자이 아파트">
+            </div>
+            <div class="mg-field">
+              <label>유형 <span style="color:#c0392b">*</span></label>
+              <select id="sType" required>
+                <option value="아파트">아파트</option>
+                <option value="오피스텔">오피스텔</option>
+                <option value="상가">상가</option>
+                <option value="기타">기타</option>
+              </select>
+            </div>
+            <div class="mg-field">
+              <label>이미지</label>
+              <input id="sImage" type="file" accept="image/*">
+              <p class="hint">선택 안 하면 그라데이션 배경으로 표시됩니다.</p>
+            </div>
+            <div class="mg-field" style="grid-column:1/-1">
+              <label>설명 (세대수/위치/비고)</label>
+              <textarea id="sDesc" placeholder="예: 1,200세대 / 서울 강동구"></textarea>
+            </div>
+            <div class="mg-field">
+              <label>진행률 (분양 진척도)</label>
+              <div class="range-row">
+                <input id="sProg" type="range" min="0" max="100" value="100">
+                <span class="pct" id="sProgPct">100%</span>
+              </div>
+            </div>
+            <div class="mg-field">
+              <label>표시 순서 (큰 값이 먼저)</label>
+              <input id="sOrder" type="number" value="0" step="1">
+              <p class="hint">최근/대표 실적은 큰 값으로 지정하세요.</p>
+            </div>
+            <div class="mg-field" style="grid-column:1/-1">
+              <label><input id="sPublished" type="checkbox" checked style="width:auto;margin-right:6px"> 사이트에 즉시 공개</label>
+            </div>
+          </div>
+          <button id="sSubmitBtn" type="submit" class="btn btn-pri">등록</button>
+        </form>
+      </div>
+
+      <div class="mg-section">
+        <h3>분양실적 목록</h3>
+        <div class="mg-toolbar">
+          <select id="sFilter">
+            <option value="">전체</option>
+            <option value="아파트">아파트</option>
+            <option value="오피스텔">오피스텔</option>
+            <option value="상가">상가</option>
+            <option value="기타">기타</option>
+          </select>
+          <button class="btn btn-sec" id="sReloadBtn">새로고침</button>
+          <div class="spacer"></div>
+          <span id="sCount" style="font-size:.78rem;color:var(--c-sub)">—</span>
+        </div>
+        <table class="mg-table">
+          <thead><tr><th style="width:60px">썸네일</th><th>단지명</th><th style="width:90px">유형</th><th style="width:80px">진행률</th><th style="width:70px">순서</th><th style="width:70px">공개</th><th style="width:140px"></th></tr></thead>
+          <tbody id="sBody"><tr><td colspan="7" class="mg-loading">불러오는 중…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ───────── 컨설팅실적 ───────── -->
+    <div id="paneC" class="mg-pane" data-pane="consulting">
+      <div class="mg-section">
+        <h3>새 컨설팅실적 등록</h3>
+        <div id="consFormMsg" class="msg"></div>
+        <form id="consForm">
+          <div class="mg-form-row">
+            <div class="mg-field" style="grid-column:1/-1">
+              <label>프로젝트명 <span style="color:#c0392b">*</span></label>
+              <input id="cName" type="text" required maxlength="200" placeholder="예: OO 도시개발 사업타당성 분석">
+            </div>
+            <div class="mg-field">
+              <label>발주처</label>
+              <input id="cClient" type="text" maxlength="100" placeholder="예: ○○공사">
+            </div>
+            <div class="mg-field">
+              <label>수행기간</label>
+              <input id="cPeriod" type="text" maxlength="100" placeholder="예: 2025.03 ~ 2025.09">
+            </div>
+            <div class="mg-field" style="grid-column:1/-1">
+              <label>설명</label>
+              <textarea id="cDesc" placeholder="(옵션) 추가 설명"></textarea>
+            </div>
+            <div class="mg-field">
+              <label>표시 순서</label>
+              <input id="cOrder" type="number" value="0" step="1">
+            </div>
+            <div class="mg-field">
+              <label><input id="cPublished" type="checkbox" checked style="width:auto;margin-right:6px"> 사이트에 즉시 공개</label>
+            </div>
+          </div>
+          <button id="cSubmitBtn" type="submit" class="btn btn-pri">등록</button>
+        </form>
+      </div>
+
+      <div class="mg-section">
+        <h3>컨설팅실적 목록</h3>
+        <div class="mg-toolbar">
+          <button class="btn btn-sec" id="cReloadBtn">새로고침</button>
+          <div class="spacer"></div>
+          <span id="cCount" style="font-size:.78rem;color:var(--c-sub)">—</span>
+        </div>
+        <table class="mg-table">
+          <thead><tr><th>프로젝트명</th><th style="width:140px">발주처</th><th style="width:160px">수행기간</th><th style="width:70px">순서</th><th style="width:70px">공개</th><th style="width:140px"></th></tr></thead>
+          <tbody id="cBody"><tr><td colspan="6" class="mg-loading">불러오는 중…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── 편집 모달 ── -->
+<div id="editModal" class="mg-modal-bg">
+  <div class="mg-modal">
+    <div class="mg-modal-hdr">
+      <h3 id="modalTitle">편집</h3>
+      <button class="x" id="modalClose">×</button>
+    </div>
+    <div class="mg-modal-bd" id="modalBody"></div>
+    <div class="mg-modal-ft">
+      <button class="btn btn-sec" id="modalCancel">취소</button>
+      <button class="btn btn-pri" id="modalSave">저장</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-config.js?v=8"></script>
+<script src="../js/supabase-client.js?v=8"></script>
+<script>
+// ============================================================
+// 관리자 콘솔
+// ============================================================
+(function(){
+  const $ = (id) => document.getElementById(id);
+  function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function showMsg(el, kind, text){ el.className = 'msg show ' + kind; el.textContent = text; }
+  function clearMsg(el){ el.className = 'msg'; el.textContent = ''; }
+
+  const loginGate = $('loginGate');
+  const dashboard = $('dashboard');
+
+  // ─── 부팅: 세션 유무 판별 ───
+  (async function boot(){
+    const profile = await window.ynpAuth.getProfile();
+    if (profile && profile.role === 'admin') showDashboard(profile);
+    else showLogin();
+  })();
+
+  function showLogin(){ loginGate.style.display=''; dashboard.style.display='none'; }
+  function showDashboard(profile){
+    loginGate.style.display='none'; dashboard.style.display='';
+    $('userLabel').textContent = (profile?.real_name || profile?.username || '관리자') + ' 님';
+    loadPress();
+    loadSales();
+    loadConsulting();
+  }
+
+  // ─── 로그인 ───
+  $('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const loginMsg = $('loginMsg');
+    clearMsg(loginMsg);
+    const username = $('loginUser').value.trim().toLowerCase();
+    const password = $('loginPw').value;
+    const btn = $('loginBtn');
+    btn.disabled = true; btn.textContent = '로그인 중…';
+    const { error } = await window.ynpAuth.signIn({ username, password });
+    btn.disabled = false; btn.textContent = '로그인';
+    if (error) {
+      showMsg(loginMsg, 'error', '아이디 또는 비밀번호가 올바르지 않습니다.');
+      return;
+    }
+    const profile = await window.ynpAuth.getProfile();
+    if (!profile || profile.role !== 'admin') {
+      await window.ynpAuth.signOut();
+      showMsg(loginMsg, 'error', '관리자 권한이 없습니다.');
+      return;
+    }
+    showDashboard(profile);
+  });
+
+  // ─── 로그아웃 ───
+  $('logoutBtn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    await window.ynpAuth.signOut();
+    location.reload();
+  });
+
+  // ─── 탭 ───
+  document.querySelectorAll('.mg-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.mg-tab').forEach(x => x.classList.toggle('active', x === t));
+      document.querySelectorAll('.mg-pane').forEach(p => p.classList.toggle('active', p.dataset.pane === t.dataset.pane));
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────
+  // 보도자료
+  // ─────────────────────────────────────────────────────────
+  let pPage = 1, pSearch = '', pTotal = 0;
+  const P_PER = 20;
+
+  $('pDate').valueAsDate = new Date();
+
+  async function loadPress(){
+    const body = $('pBody');
+    body.innerHTML = '<tr><td colspan="5" class="mg-loading">불러오는 중…</td></tr>';
+    const { data, count, error } = await window.ynpDB.listPress({ search: pSearch, page: pPage, perPage: P_PER });
+    if (error) { body.innerHTML = `<tr><td colspan="5" class="mg-empty">불러오기 실패: ${esc(error.message)}</td></tr>`; return; }
+    pTotal = count || 0;
+    $('pCount').textContent = `총 ${pTotal}건`;
+    if (!data || !data.length) {
+      body.innerHTML = `<tr><td colspan="5" class="mg-empty">${pSearch ? '검색 결과 없음' : '등록된 보도자료가 없습니다.'}</td></tr>`;
+      $('pPages').innerHTML = '';
+      return;
+    }
+    body.innerHTML = data.map((r, i) => {
+      const num = pTotal - ((pPage-1)*P_PER + i);
+      const fileCell = r.file_url
+        ? `<a class="link" href="${esc(r.file_url)}" target="_blank">${esc(r.file_type || '파일')}</a>`
+        : '<span style="color:#bbb">—</span>';
+      return `<tr>
+        <td>${num}</td>
+        <td>${esc(r.title)}</td>
+        <td>${esc(r.published_at || '')}</td>
+        <td>${fileCell}</td>
+        <td class="act">
+          <button class="btn btn-sec" data-pe="${r.id}">편집</button>
+          <button class="btn btn-danger" data-pd="${r.id}">삭제</button>
+        </td>
+      </tr>`;
+    }).join('');
+    renderPressPages();
+  }
+
+  function renderPressPages(){
+    const tp = Math.ceil(pTotal / P_PER);
+    const el = $('pPages');
+    if (tp <= 1) { el.innerHTML = ''; return; }
+    let html = `<button ${pPage===1?'disabled':''} data-pg="${pPage-1}">‹</button>`;
+    for (let i = Math.max(1, pPage-3); i <= Math.min(tp, pPage+3); i++) {
+      html += `<button class="${i===pPage?'active':''}" data-pg="${i}">${i}</button>`;
+    }
+    html += `<button ${pPage===tp?'disabled':''} data-pg="${pPage+1}">›</button>`;
+    el.innerHTML = html;
+  }
+
+  $('pPages').addEventListener('click', (e) => {
+    const t = e.target; if (t.tagName !== 'BUTTON' || t.disabled) return;
+    pPage = parseInt(t.dataset.pg, 10); loadPress();
+  });
+  $('pReloadBtn').addEventListener('click', () => { pPage = 1; pSearch=''; $('pSearch').value=''; loadPress(); });
+  $('pSearchBtn').addEventListener('click', () => { pSearch = $('pSearch').value.trim(); pPage = 1; loadPress(); });
+  $('pSearch').addEventListener('keydown', (e) => { if (e.key === 'Enter') { pSearch = e.target.value.trim(); pPage = 1; loadPress(); } });
+
+  // 보도자료 등록
+  $('pressForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('pressFormMsg'); clearMsg(msg);
+    const title = $('pTitle').value.trim();
+    const published_at = $('pDate').value;
+    const content = $('pContent').value.trim() || null;
+    const file = $('pFile').files[0];
+    const btn = $('pSubmitBtn');
+
+    if (!title || !published_at) { showMsg(msg, 'error', '제목과 게재일은 필수입니다.'); return; }
+
+    btn.disabled = true; btn.textContent = '등록 중…';
+    try {
+      let file_url = null, file_type = null;
+      if (file) {
+        const ext = (file.name.split('.').pop() || '').toLowerCase();
+        file_type = ext === 'pdf' ? 'PDF' : (ext === 'pptx' || ext === 'ppt' ? 'PPT' : (ext === 'docx' ? 'DOCX' : ext.toUpperCase()));
+        // 파일명 충돌 방지: 타임스탬프 prefix
+        const safeName = file.name.replace(/[^\w.\-가-힣]/g, '_');
+        const objectPath = Date.now() + '_' + safeName;
+        const { error: upErr } = await window.ynpStorage.upload('press', objectPath, file);
+        if (upErr) throw new Error('파일 업로드 실패: ' + upErr.message);
+        file_url = window.ynpStorage.getPublicUrl('press', objectPath);
+      }
+      const { error } = await window.ynpDB.createPress({ title, published_at, content, file_url, file_type });
+      if (error) throw new Error(error.message);
+      showMsg(msg, 'success', '등록되었습니다.');
+      $('pressForm').reset();
+      $('pDate').valueAsDate = new Date();
+      pPage = 1; loadPress();
+    } catch (err) {
+      showMsg(msg, 'error', err.message);
+    } finally {
+      btn.disabled = false; btn.textContent = '등록';
+    }
+  });
+
+  // 보도자료 편집/삭제
+  $('pBody').addEventListener('click', async (e) => {
+    const t = e.target.closest('button'); if (!t) return;
+    const editId = t.dataset.pe, delId = t.dataset.pd;
+    if (delId) {
+      if (!confirm('이 보도자료를 삭제할까요? (Storage 파일은 자동 삭제되지 않습니다)')) return;
+      const { error } = await window.ynpDB.deletePress(delId);
+      if (error) alert('삭제 실패: ' + error.message);
+      else loadPress();
+    } else if (editId) {
+      const { data, error } = await window.ynpDB.getPress(editId);
+      if (error) return alert('불러오기 실패: ' + error.message);
+      openPressEdit(data);
+    }
+  });
+
+  function openPressEdit(row){
+    openModal('보도자료 편집', `
+      <div class="mg-field"><label>제목</label><input id="ePTitle" type="text" value="${esc(row.title)}"></div>
+      <div class="mg-field"><label>게재일</label><input id="ePDate" type="date" value="${esc(row.published_at)}"></div>
+      <div class="mg-field"><label>현재 파일</label>
+        ${row.file_url ? `<div style="font-size:.78rem"><a class="link" href="${esc(row.file_url)}" target="_blank">${esc(row.file_type || '파일')} 보기</a></div>` : '<div style="font-size:.78rem;color:var(--c-sub)">파일 없음</div>'}
+      </div>
+      <div class="mg-field"><label>새 파일로 교체 (옵션)</label><input id="ePFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx"></div>
+      <div class="mg-field"><label>본문</label><textarea id="ePContent">${esc(row.content || '')}</textarea></div>
+    `, async () => {
+      const title = $('ePTitle').value.trim();
+      const published_at = $('ePDate').value;
+      const content = $('ePContent').value.trim() || null;
+      const file = $('ePFile').files[0];
+      const patch = { title, published_at, content };
+      if (file) {
+        const ext = (file.name.split('.').pop() || '').toLowerCase();
+        patch.file_type = ext === 'pdf' ? 'PDF' : (ext.includes('ppt') ? 'PPT' : (ext === 'docx' ? 'DOCX' : ext.toUpperCase()));
+        const safeName = file.name.replace(/[^\w.\-가-힣]/g, '_');
+        const objectPath = Date.now() + '_' + safeName;
+        const { error: upErr } = await window.ynpStorage.upload('press', objectPath, file);
+        if (upErr) throw new Error('파일 업로드 실패: ' + upErr.message);
+        patch.file_url = window.ynpStorage.getPublicUrl('press', objectPath);
+      }
+      const { error } = await window.ynpDB.updatePress(row.id, patch);
+      if (error) throw new Error(error.message);
+      loadPress();
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // 분양실적
+  // ─────────────────────────────────────────────────────────
+  $('sProg').addEventListener('input', (e) => { $('sProgPct').textContent = e.target.value + '%'; });
+
+  async function loadSales(){
+    const body = $('sBody');
+    body.innerHTML = '<tr><td colspan="7" class="mg-loading">불러오는 중…</td></tr>';
+    const filter = $('sFilter').value;
+    const { data, error } = await window.ynpDB.listSalesAdmin();
+    if (error) { body.innerHTML = `<tr><td colspan="7" class="mg-empty">불러오기 실패: ${esc(error.message)}</td></tr>`; return; }
+    let rows = data || [];
+    if (filter) rows = rows.filter(r => r.type === filter);
+    $('sCount').textContent = `총 ${rows.length}건`;
+    if (!rows.length) { body.innerHTML = '<tr><td colspan="7" class="mg-empty">등록된 실적이 없습니다.</td></tr>'; return; }
+    body.innerHTML = rows.map(r => `
+      <tr>
+        <td><div class="thumb" style="${r.thumb_url ? `background-image:url('${esc(r.thumb_url)}')` : 'background:linear-gradient(135deg,#0F4B96,#00A8A8)'}"></div></td>
+        <td><div style="font-weight:600">${esc(r.project_name)}</div><div style="font-size:.74rem;color:var(--c-sub)">${esc(r.description || '')}</div></td>
+        <td>${esc(r.type)}</td>
+        <td>${r.progress}%</td>
+        <td>${r.display_order}</td>
+        <td>${r.is_published ? '<span style="color:#1e7f4f">공개</span>' : '<span style="color:#c0392b">비공개</span>'}</td>
+        <td class="act">
+          <button class="btn btn-sec" data-se="${r.id}">편집</button>
+          <button class="btn btn-danger" data-sd="${r.id}">삭제</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  $('sReloadBtn').addEventListener('click', loadSales);
+  $('sFilter').addEventListener('change', loadSales);
+
+  $('salesForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('salesFormMsg'); clearMsg(msg);
+    const project_name = $('sName').value.trim();
+    const type = $('sType').value;
+    const description = $('sDesc').value.trim() || null;
+    const progress = parseInt($('sProg').value, 10);
+    const display_order = parseInt($('sOrder').value, 10) || 0;
+    const is_published = $('sPublished').checked;
+    const img = $('sImage').files[0];
+    const btn = $('sSubmitBtn');
+
+    if (!project_name) { showMsg(msg, 'error', '단지명은 필수입니다.'); return; }
+
+    btn.disabled = true; btn.textContent = '등록 중…';
+    try {
+      let thumb_url = null;
+      if (img) {
+        const ext = (img.name.split('.').pop() || 'jpg').toLowerCase();
+        const objectPath = 'sales_' + Date.now() + '.' + ext;
+        const { error: upErr } = await window.ynpStorage.upload('results', objectPath, img);
+        if (upErr) throw new Error('이미지 업로드 실패: ' + upErr.message);
+        thumb_url = window.ynpStorage.getPublicUrl('results', objectPath);
+      }
+      const { error } = await window.ynpDB.createSales({ project_name, type, description, progress, display_order, is_published, thumb_url });
+      if (error) throw new Error(error.message);
+      showMsg(msg, 'success', '등록되었습니다.');
+      $('salesForm').reset();
+      $('sProg').value = 100; $('sProgPct').textContent = '100%';
+      $('sPublished').checked = true;
+      loadSales();
+    } catch (err) {
+      showMsg(msg, 'error', err.message);
+    } finally {
+      btn.disabled = false; btn.textContent = '등록';
+    }
+  });
+
+  $('sBody').addEventListener('click', async (e) => {
+    const t = e.target.closest('button'); if (!t) return;
+    const editId = t.dataset.se, delId = t.dataset.sd;
+    if (delId) {
+      if (!confirm('이 분양실적을 삭제할까요?')) return;
+      const { error } = await window.ynpDB.deleteSales(delId);
+      if (error) alert('삭제 실패: ' + error.message);
+      else loadSales();
+    } else if (editId) {
+      const { data: rows } = await window.ynpDB.listSalesAdmin();
+      const row = (rows || []).find(r => String(r.id) === String(editId));
+      if (!row) return alert('항목을 찾을 수 없습니다.');
+      openSalesEdit(row);
+    }
+  });
+
+  function openSalesEdit(row){
+    openModal('분양실적 편집', `
+      <div class="mg-field"><label>단지명</label><input id="eSName" type="text" value="${esc(row.project_name)}"></div>
+      <div class="mg-field"><label>유형</label>
+        <select id="eSType">
+          ${['아파트','오피스텔','상가','기타'].map(t => `<option value="${t}" ${t===row.type?'selected':''}>${t}</option>`).join('')}
+        </select>
+      </div>
+      <div class="mg-field"><label>설명</label><textarea id="eSDesc">${esc(row.description || '')}</textarea></div>
+      <div class="mg-field"><label>현재 이미지</label>
+        ${row.thumb_url ? `<div><img src="${esc(row.thumb_url)}" style="max-width:160px;border-radius:6px"></div>` : '<div style="font-size:.78rem;color:var(--c-sub)">이미지 없음</div>'}
+      </div>
+      <div class="mg-field"><label>새 이미지로 교체 (옵션)</label><input id="eSImage" type="file" accept="image/*"></div>
+      <div class="mg-field"><label>진행률</label>
+        <div class="range-row">
+          <input id="eSProg" type="range" min="0" max="100" value="${row.progress}" oninput="document.getElementById('eSProgPct').textContent=this.value+'%'">
+          <span class="pct" id="eSProgPct">${row.progress}%</span>
+        </div>
+      </div>
+      <div class="mg-field"><label>표시 순서</label><input id="eSOrder" type="number" value="${row.display_order}"></div>
+      <div class="mg-field"><label><input id="eSPub" type="checkbox" ${row.is_published?'checked':''} style="width:auto;margin-right:6px">공개</label></div>
+    `, async () => {
+      const patch = {
+        project_name: $('eSName').value.trim(),
+        type: $('eSType').value,
+        description: $('eSDesc').value.trim() || null,
+        progress: parseInt($('eSProg').value, 10),
+        display_order: parseInt($('eSOrder').value, 10) || 0,
+        is_published: $('eSPub').checked
+      };
+      const img = $('eSImage').files[0];
+      if (img) {
+        const ext = (img.name.split('.').pop() || 'jpg').toLowerCase();
+        const objectPath = 'sales_' + Date.now() + '.' + ext;
+        const { error: upErr } = await window.ynpStorage.upload('results', objectPath, img);
+        if (upErr) throw new Error('이미지 업로드 실패: ' + upErr.message);
+        patch.thumb_url = window.ynpStorage.getPublicUrl('results', objectPath);
+      }
+      const { error } = await window.ynpDB.updateSales(row.id, patch);
+      if (error) throw new Error(error.message);
+      loadSales();
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // 컨설팅실적
+  // ─────────────────────────────────────────────────────────
+  async function loadConsulting(){
+    const body = $('cBody');
+    body.innerHTML = '<tr><td colspan="6" class="mg-loading">불러오는 중…</td></tr>';
+    const { data, error } = await window.ynpDB.listConsultingAdmin();
+    if (error) { body.innerHTML = `<tr><td colspan="6" class="mg-empty">불러오기 실패: ${esc(error.message)}</td></tr>`; return; }
+    const rows = data || [];
+    $('cCount').textContent = `총 ${rows.length}건`;
+    if (!rows.length) { body.innerHTML = '<tr><td colspan="6" class="mg-empty">등록된 컨설팅 실적이 없습니다.</td></tr>'; return; }
+    body.innerHTML = rows.map(r => `
+      <tr>
+        <td><div style="font-weight:600">${esc(r.project_name)}</div><div style="font-size:.74rem;color:var(--c-sub)">${esc(r.description || '')}</div></td>
+        <td>${esc(r.client || '')}</td>
+        <td>${esc(r.period || '')}</td>
+        <td>${r.display_order}</td>
+        <td>${r.is_published ? '<span style="color:#1e7f4f">공개</span>' : '<span style="color:#c0392b">비공개</span>'}</td>
+        <td class="act">
+          <button class="btn btn-sec" data-ce="${r.id}">편집</button>
+          <button class="btn btn-danger" data-cd="${r.id}">삭제</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  $('cReloadBtn').addEventListener('click', loadConsulting);
+
+  $('consForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('consFormMsg'); clearMsg(msg);
+    const project_name = $('cName').value.trim();
+    if (!project_name) { showMsg(msg, 'error', '프로젝트명은 필수입니다.'); return; }
+    const payload = {
+      project_name,
+      client: $('cClient').value.trim() || null,
+      period: $('cPeriod').value.trim() || null,
+      description: $('cDesc').value.trim() || null,
+      display_order: parseInt($('cOrder').value, 10) || 0,
+      is_published: $('cPublished').checked
+    };
+    const btn = $('cSubmitBtn');
+    btn.disabled = true; btn.textContent = '등록 중…';
+    const { error } = await window.ynpDB.createConsulting(payload);
+    btn.disabled = false; btn.textContent = '등록';
+    if (error) { showMsg(msg, 'error', error.message); return; }
+    showMsg(msg, 'success', '등록되었습니다.');
+    $('consForm').reset();
+    $('cPublished').checked = true;
+    loadConsulting();
+  });
+
+  $('cBody').addEventListener('click', async (e) => {
+    const t = e.target.closest('button'); if (!t) return;
+    const editId = t.dataset.ce, delId = t.dataset.cd;
+    if (delId) {
+      if (!confirm('이 컨설팅실적을 삭제할까요?')) return;
+      const { error } = await window.ynpDB.deleteConsulting(delId);
+      if (error) alert('삭제 실패: ' + error.message);
+      else loadConsulting();
+    } else if (editId) {
+      const { data: rows } = await window.ynpDB.listConsultingAdmin();
+      const row = (rows || []).find(r => String(r.id) === String(editId));
+      if (!row) return alert('항목을 찾을 수 없습니다.');
+      openConsEdit(row);
+    }
+  });
+
+  function openConsEdit(row){
+    openModal('컨설팅실적 편집', `
+      <div class="mg-field"><label>프로젝트명</label><input id="eCName" type="text" value="${esc(row.project_name)}"></div>
+      <div class="mg-field"><label>발주처</label><input id="eCClient" type="text" value="${esc(row.client || '')}"></div>
+      <div class="mg-field"><label>수행기간</label><input id="eCPeriod" type="text" value="${esc(row.period || '')}"></div>
+      <div class="mg-field"><label>설명</label><textarea id="eCDesc">${esc(row.description || '')}</textarea></div>
+      <div class="mg-field"><label>표시 순서</label><input id="eCOrder" type="number" value="${row.display_order}"></div>
+      <div class="mg-field"><label><input id="eCPub" type="checkbox" ${row.is_published?'checked':''} style="width:auto;margin-right:6px">공개</label></div>
+    `, async () => {
+      const patch = {
+        project_name: $('eCName').value.trim(),
+        client: $('eCClient').value.trim() || null,
+        period: $('eCPeriod').value.trim() || null,
+        description: $('eCDesc').value.trim() || null,
+        display_order: parseInt($('eCOrder').value, 10) || 0,
+        is_published: $('eCPub').checked
+      };
+      const { error } = await window.ynpDB.updateConsulting(row.id, patch);
+      if (error) throw new Error(error.message);
+      loadConsulting();
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // 공용 모달
+  // ─────────────────────────────────────────────────────────
+  let currentSaveHandler = null;
+  function openModal(title, bodyHtml, onSave){
+    $('modalTitle').textContent = title;
+    $('modalBody').innerHTML = bodyHtml;
+    currentSaveHandler = onSave;
+    $('editModal').classList.add('show');
+  }
+  function closeModal(){
+    $('editModal').classList.remove('show');
+    $('modalBody').innerHTML = '';
+    currentSaveHandler = null;
+  }
+  $('modalClose').addEventListener('click', closeModal);
+  $('modalCancel').addEventListener('click', closeModal);
+  $('editModal').addEventListener('click', (e) => { if (e.target === $('editModal')) closeModal(); });
+  $('modalSave').addEventListener('click', async () => {
+    if (!currentSaveHandler) return;
+    const btn = $('modalSave');
+    btn.disabled = true; btn.textContent = '저장 중…';
+    try {
+      await currentSaveHandler();
+      closeModal();
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      btn.disabled = false; btn.textContent = '저장';
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
