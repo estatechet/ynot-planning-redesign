@@ -19,7 +19,7 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'Noto Sans KR',sans-serif;color:var(--c-text);background:var(--c-white);overflow-x:hidden;line-height:1.7}
+body{font-family:'Noto Sans KR',sans-serif;color:var(--c-text);background:var(--c-white);overflow-x:hidden;line-height:1.7;word-break:keep-all;overflow-wrap:break-word}
 img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
 ul{list-style:none}
