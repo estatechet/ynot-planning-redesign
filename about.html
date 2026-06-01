@@ -9,9 +9,7 @@
 <title>About YNP | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=7">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLs=" crossorigin=""></script>
+<link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 
@@ -429,7 +427,7 @@
           </div>
           <div>
             <div class="map-wrap">
-              <div id="ynp-map"></div>
+              <img src="img/location-map.svg" alt="와이낫플래닝 위치 안내 — 두산더랜드타워 B동" class="map-illust">
               <a class="map-naver-link"
                  href="https://map.naver.com/v5/search/서울+강서구+마곡서로+152+두산더랜드타워"
                  target="_blank" rel="noopener">
@@ -469,43 +467,6 @@
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
 <script src="script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=8"></script>
-<script src="js/supabase-client.js?v=8"></script>
-
-<script>
-(function(){
-  var LAT = 37.55820, LNG = 126.83094;
-  var map = L.map('ynp-map', {
-    center: [LAT, LNG],
-    zoom: 16,
-    zoomControl: true,
-    scrollWheelZoom: false
-  });
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 19
-  }).addTo(map);
-  var icon = L.divIcon({
-    className: '',
-    html: '<div class="map-marker-pin"><div class="map-marker-dot"></div></div>',
-    iconSize: [40, 52],
-    iconAnchor: [20, 52],
-    popupAnchor: [0, -54]
-  });
-  L.marker([LAT, LNG], {icon: icon})
-    .addTo(map)
-    .bindPopup(
-      '<div class="map-popup">' +
-      '<strong>와이낫플래닝</strong>' +
-      '<p>서울특별시 강서구 마곡서로 152<br>두산더랜드타워 B동 1318-1323호</p>' +
-      '<p>02-6022-8793</p>' +
-      '</div>',
-      {maxWidth: 220}
-    )
-    .openPopup();
-})();
-</script>
 <script src="js/admin-trigger.js?v=1"></script>
 </body>
 </html>
