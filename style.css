@@ -121,23 +121,23 @@ ul{list-style:none}
 /* ── 메인 hero: 분위기 레이어 (구름 / 별 / 창문 불빛 / 별똥별) ── */
 .hero-atmos{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .hero-clouds{z-index:2}
-.hero-stars{z-index:4;width:55%;height:50%}
-.hero-windows{z-index:3;mix-blend-mode:screen}
+.hero-stars{z-index:4;width:32%;height:28%}     /* 좌상단 영역만 — 건물 영역에서 멀리 */
+.hero-windows{z-index:5}                         /* 어두운 오버레이 위, 또렷하게 표시 */
 .hero-shootingstars{z-index:4;width:70%;height:60%}
 
-/* 구름 — 부드러운 흰색 블롭이 천천히 드리프트 */
+/* 구름 — 더 빨라진 드리프트 (35% 가속) */
 .cloud{position:absolute;border-radius:50%;filter:blur(6px);opacity:.55;
   background:radial-gradient(ellipse at center,rgba(255,255,255,.55) 0%,rgba(255,255,255,.22) 38%,transparent 72%)}
-.cloud-1{top:9%;left:-22%;width:280px;height:78px;animation:cloudDrift 120s linear infinite}
-.cloud-2{top:20%;left:-35%;width:360px;height:96px;animation:cloudDrift 150s linear infinite;animation-delay:-40s;opacity:.42}
-.cloud-3{top:6%;left:-50%;width:220px;height:64px;animation:cloudDrift 100s linear infinite;animation-delay:-65s;opacity:.5}
-.cloud-4{top:24%;left:-15%;width:320px;height:88px;animation:cloudDrift 135s linear infinite;animation-delay:-85s;opacity:.35}
+.cloud-1{top:9%;left:-22%;width:280px;height:78px;animation:cloudDrift 78s linear infinite}
+.cloud-2{top:20%;left:-35%;width:360px;height:96px;animation:cloudDrift 98s linear infinite;animation-delay:-25s;opacity:.42}
+.cloud-3{top:6%;left:-50%;width:220px;height:64px;animation:cloudDrift 65s linear infinite;animation-delay:-40s;opacity:.5}
+.cloud-4{top:24%;left:-15%;width:320px;height:88px;animation:cloudDrift 88s linear infinite;animation-delay:-55s;opacity:.35}
 @keyframes cloudDrift{
   from{transform:translateX(0)}
   to{transform:translateX(160vw)}
 }
 
-/* 별 — 좌상단 영역에서 부드럽게 깜빡 */
+/* 별 — 좌상단에 적게, 부드럽게 깜빡 */
 .star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;
   box-shadow:0 0 4px rgba(255,255,255,.9),0 0 8px rgba(180,210,255,.45);
   animation:twinkle 3.4s ease-in-out infinite}
@@ -147,14 +147,19 @@ ul{list-style:none}
   50%{opacity:1;transform:scale(1.05)}
 }
 
-/* 창문 불빛 — 길게 켜져 있다가 가끔 짧게 깜빡 (오프 구간 짧고 드문드문) */
-.wlight{position:absolute;width:2.4px;height:4.6px;background:rgba(255,205,120,.95);border-radius:1px;
-  box-shadow:0 0 3px rgba(255,200,100,.85),0 0 7px rgba(255,160,70,.45);
-  opacity:.9;animation:windowFlicker 28s ease-in-out infinite}
+/* 창문 불빛 — 더 크고 밝게, 더 또렷한 깜빡임 (사이클당 짧은 OFF 2회) */
+.wlight{position:absolute;width:4px;height:7px;background:rgba(255,215,140,1);border-radius:1px;
+  box-shadow:0 0 6px rgba(255,205,110,1),0 0 14px rgba(255,175,80,.6),0 0 22px rgba(255,150,60,.3);
+  opacity:1;animation:windowFlicker 16s ease-in-out infinite}
 @keyframes windowFlicker{
-  0%,46%,54%,100%{opacity:.92}
-  49%,51%{opacity:.15}
-  50%{opacity:.05}
+  0%, 28%, 36%, 70%, 78%, 100%{opacity:1}
+  32%{opacity:0}
+  74%{opacity:.1}
+}
+.wlight.alt{animation:windowFlickerAlt 14s ease-in-out infinite}
+@keyframes windowFlickerAlt{
+  0%, 50%, 58%, 100%{opacity:1}
+  54%{opacity:0}
 }
 
 /* 별똥별 — 아주 가끔 좌상단에서 대각선으로 떨어짐 */
