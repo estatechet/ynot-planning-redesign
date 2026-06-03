@@ -111,6 +111,12 @@ ul{list-style:none}
 .hero-photo-wrap{position:absolute;inset:0;overflow:hidden;z-index:1}
 .hero-photo{width:100%;height:100%;object-fit:cover;object-position:center 50%}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(4,17,42,.92) 0%,rgba(4,17,42,.78) 30%,rgba(4,17,42,.42) 55%,rgba(4,17,42,.12) 78%,rgba(4,17,42,.04) 100%);z-index:3}
+/* 16:9 이상 와이드 화면(Windows 모니터 등)에서만 우측 하단 어둡게 — RIVER CITY 영역 가리기 */
+@media (min-aspect-ratio: 17/10){
+  .hero-overlay{background:
+    radial-gradient(ellipse 42% 48% at 95% 92%,rgba(4,17,42,.94) 0%,rgba(4,17,42,.65) 35%,rgba(4,17,42,.2) 60%,transparent 78%),
+    linear-gradient(100deg,rgba(4,17,42,.92) 0%,rgba(4,17,42,.78) 30%,rgba(4,17,42,.42) 55%,rgba(4,17,42,.12) 78%,rgba(4,17,42,.04) 100%)}
+}
 .hero-fog{position:absolute;bottom:0;left:0;right:0;height:200px;z-index:4;pointer-events:none;background:linear-gradient(to top,rgba(4,17,42,.6) 0%,transparent 100%)}
 .cityscape{position:absolute;inset:0;z-index:1;pointer-events:none}
 .city-layer{position:absolute;bottom:0;left:0;right:0;will-change:transform}
