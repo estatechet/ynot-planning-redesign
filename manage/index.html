@@ -163,6 +163,10 @@ a{color:inherit;text-decoration:none}
               <p class="hint">선택 안 하면 본문만 등록됩니다.</p>
             </div>
             <div class="mg-field" style="grid-column:1/-1">
+              <label><input id="pPinned" type="checkbox" style="width:auto;margin-right:6px"> 보도자료 상단에 <strong>고정</strong> (공지처럼 표시)</label>
+              <p class="hint">예: 회사 지명원 등 누구나 항상 다운받을 수 있게 강조해야 하는 자료. 새로 고정하면 기존 고정 항목과 함께 표시됩니다 (한 개만 두려면 기존 고정 해제).</p>
+            </div>
+            <div class="mg-field" style="grid-column:1/-1">
               <label>본문 (옵션)</label>
               <textarea id="pContent" placeholder="첨부파일 외 추가 내용이 있다면 입력하세요."></textarea>
             </div>
@@ -181,8 +185,8 @@ a{color:inherit;text-decoration:none}
           <span id="pCount" style="font-size:.78rem;color:var(--c-sub)">—</span>
         </div>
         <table class="mg-table">
-          <thead><tr><th style="width:60px">No</th><th>제목</th><th style="width:110px">게재일</th><th style="width:70px">파일</th><th style="width:140px"></th></tr></thead>
-          <tbody id="pBody"><tr><td colspan="5" class="mg-loading">불러오는 중…</td></tr></tbody>
+          <thead><tr><th style="width:60px">No</th><th>제목</th><th style="width:110px">게재일</th><th style="width:70px">파일</th><th style="width:60px">고정</th><th style="width:200px"></th></tr></thead>
+          <tbody id="pBody"><tr><td colspan="6" class="mg-loading">불러오는 중…</td></tr></tbody>
         </table>
         <div id="pPages" class="mg-pages"></div>
       </div>
@@ -327,8 +331,8 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../js/supabase-config.js?v=8"></script>
-<script src="../js/supabase-client.js?v=8"></script>
+<script src="../js/supabase-config.js?v=14"></script>
+<script src="../js/supabase-client.js?v=14"></script>
 <script>
 // ============================================================
 // 관리자 콘솔
@@ -407,13 +411,13 @@ a{color:inherit;text-decoration:none}
 
   async function loadPress(){
     const body = $('pBody');
-    body.innerHTML = '<tr><td colspan="5" class="mg-loading">불러오는 중…</td></tr>';
-    const { data, count, error } = await window.ynpDB.listPress({ search: pSearch, page: pPage, perPage: P_PER });
-    if (error) { body.innerHTML = `<tr><td colspan="5" class="mg-empty">불러오기 실패: ${esc(error.message)}</td></tr>`; return; }
+    body.innerHTML = '<tr><td colspan="6" class="mg-loading">불러오는 중…</td></tr>';
+    const { data, count, error } = await window.ynpDB.listPressAdmin({ search: pSearch, page: pPage, perPage: P_PER });
+    if (error) { body.innerHTML = `<tr><td colspan="6" class="mg-empty">불러오기 실패: ${esc(error.message)}</td></tr>`; return; }
     pTotal = count || 0;
     $('pCount').textContent = `총 ${pTotal}건`;
     if (!data || !data.length) {
-      body.innerHTML = `<tr><td colspan="5" class="mg-empty">${pSearch ? '검색 결과 없음' : '등록된 보도자료가 없습니다.'}</td></tr>`;
+      body.innerHTML = `<tr><td colspan="6" class="mg-empty">${pSearch ? '검색 결과 없음' : '등록된 보도자료가 없습니다.'}</td></tr>`;
       $('pPages').innerHTML = '';
       return;
     }
@@ -422,12 +426,18 @@ a{color:inherit;text-decoration:none}
       const fileCell = r.file_url
         ? `<a class="link" href="${esc(r.file_url)}" target="_blank">${esc(r.file_type || '파일')}</a>`
         : '<span style="color:#bbb">—</span>';
-      return `<tr>
+      const pinCell = r.is_pinned
+        ? '<span style="display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.06em;color:#fff;background:#00A8A8;border-radius:3px;padding:2px 7px">고정</span>'
+        : '<span style="color:#bbb">—</span>';
+      const togglePinLabel = r.is_pinned ? '고정해제' : '고정';
+      return `<tr${r.is_pinned ? ' style="background:rgba(0,168,168,.04)"' : ''}>
         <td>${num}</td>
         <td>${esc(r.title)}</td>
         <td>${esc(r.published_at || '')}</td>
         <td>${fileCell}</td>
+        <td>${pinCell}</td>
         <td class="act">
+          <button class="btn btn-sec" data-pp="${r.id}" data-cur="${r.is_pinned ? 1 : 0}">${togglePinLabel}</button>
           <button class="btn btn-sec" data-pe="${r.id}">편집</button>
           <button class="btn btn-danger" data-pd="${r.id}">삭제</button>
         </td>
@@ -464,6 +474,7 @@ a{color:inherit;text-decoration:none}
     const published_at = $('pDate').value;
     const content = $('pContent').value.trim() || null;
     const file = $('pFile').files[0];
+    const is_pinned = $('pPinned').checked;
     const btn = $('pSubmitBtn');
 
     if (!title || !published_at) { showMsg(msg, 'error', '제목과 게재일은 필수입니다.'); return; }
@@ -481,7 +492,7 @@ a{color:inherit;text-decoration:none}
         if (upErr) throw new Error('파일 업로드 실패: ' + upErr.message);
         file_url = window.ynpStorage.getPublicUrl('press', objectPath);
       }
-      const { error } = await window.ynpDB.createPress({ title, published_at, content, file_url, file_type });
+      const { error } = await window.ynpDB.createPress({ title, published_at, content, file_url, file_type, is_pinned });
       if (error) throw new Error(error.message);
       showMsg(msg, 'success', '등록되었습니다.');
       $('pressForm').reset();
@@ -494,14 +505,19 @@ a{color:inherit;text-decoration:none}
     }
   });
 
-  // 보도자료 편집/삭제
+  // 보도자료 편집/삭제/고정토글
   $('pBody').addEventListener('click', async (e) => {
     const t = e.target.closest('button'); if (!t) return;
-    const editId = t.dataset.pe, delId = t.dataset.pd;
+    const editId = t.dataset.pe, delId = t.dataset.pd, pinId = t.dataset.pp;
     if (delId) {
       if (!confirm('이 보도자료를 삭제할까요? (Storage 파일은 자동 삭제되지 않습니다)')) return;
       const { error } = await window.ynpDB.deletePress(delId);
       if (error) alert('삭제 실패: ' + error.message);
+      else loadPress();
+    } else if (pinId) {
+      const cur = t.dataset.cur === '1';
+      const { error } = await window.ynpDB.updatePress(pinId, { is_pinned: !cur });
+      if (error) alert('고정 상태 변경 실패: ' + error.message);
       else loadPress();
     } else if (editId) {
       const { data, error } = await window.ynpDB.getPress(editId);
@@ -514,6 +530,7 @@ a{color:inherit;text-decoration:none}
     openModal('보도자료 편집', `
       <div class="mg-field"><label>제목</label><input id="ePTitle" type="text" value="${esc(row.title)}"></div>
       <div class="mg-field"><label>게재일</label><input id="ePDate" type="date" value="${esc(row.published_at)}"></div>
+      <div class="mg-field"><label><input id="ePPinned" type="checkbox" ${row.is_pinned ? 'checked' : ''} style="width:auto;margin-right:6px"> 보도자료 상단에 <strong>고정</strong> (공지처럼 표시)</label></div>
       <div class="mg-field"><label>현재 파일</label>
         ${row.file_url ? `<div style="font-size:.78rem"><a class="link" href="${esc(row.file_url)}" target="_blank">${esc(row.file_type || '파일')} 보기</a></div>` : '<div style="font-size:.78rem;color:var(--c-sub)">파일 없음</div>'}
       </div>
@@ -523,8 +540,9 @@ a{color:inherit;text-decoration:none}
       const title = $('ePTitle').value.trim();
       const published_at = $('ePDate').value;
       const content = $('ePContent').value.trim() || null;
+      const is_pinned = $('ePPinned').checked;
       const file = $('ePFile').files[0];
-      const patch = { title, published_at, content };
+      const patch = { title, published_at, content, is_pinned };
       if (file) {
         const ext = (file.name.split('.').pop() || '').toLowerCase();
         patch.file_type = ext === 'pdf' ? 'PDF' : (ext.includes('ppt') ? 'PPT' : (ext === 'docx' ? 'DOCX' : ext.toUpperCase()));

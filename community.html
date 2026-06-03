@@ -9,7 +9,7 @@
 <title>Community | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=13">
+<link rel="stylesheet" href="style.css?v=14">
 <style>
 .press-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px}
 .press-total{font-size:.8rem;color:var(--c-sub)}
@@ -39,15 +39,36 @@
 .press-info{text-align:center;font-size:.76rem;color:var(--c-sub);margin-top:4px}
 .press-empty{text-align:center;padding:80px 20px;color:var(--c-sub);font-size:.88rem}
 
+/* ── 고정(지명원 등) 상단 카드 ── */
+.pinned-wrap{margin-bottom:40px}
+.pinned-card{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 26px;background:linear-gradient(135deg,rgba(0,168,168,.06),rgba(15,75,150,.05));border:1px solid var(--c-teal);border-radius:var(--radius);transition:var(--trans)}
+.pinned-card+.pinned-card{margin-top:12px}
+.pinned-card:hover{box-shadow:0 6px 24px rgba(15,75,150,.08);transform:translateY(-1px)}
+.pinned-left{display:flex;align-items:center;gap:18px;min-width:0;flex:1}
+.pinned-icon{flex-shrink:0;width:44px;height:44px;border-radius:10px;background:var(--c-teal);color:#fff;display:flex;align-items:center;justify-content:center}
+.pinned-badge{display:inline-block;font-size:.64rem;font-weight:800;letter-spacing:.14em;color:#fff;background:var(--c-teal);border-radius:3px;padding:3px 8px;text-transform:uppercase;margin-bottom:6px}
+.pinned-title{font-size:1rem;font-weight:700;color:var(--c-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pinned-meta{font-size:.74rem;color:var(--c-sub);margin-top:3px}
+.pinned-actions{display:flex;gap:8px;flex-shrink:0}
+.pinned-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:6px;border:1px solid var(--c-teal);color:var(--c-teal);background:#fff;font-size:.78rem;font-weight:700;transition:var(--trans);cursor:pointer}
+.pinned-btn:hover{background:var(--c-teal);color:#fff}
+.pinned-btn-primary{background:var(--c-teal);color:#fff}
+.pinned-btn-primary:hover{background:var(--c-blue);border-color:var(--c-blue)}
+
 @media(max-width:768px){
   .board-item{grid-template-columns:44px 1fr 84px}
   .board-item-dl{display:none}
   .press-search input{width:160px}
+  .pinned-card{flex-direction:column;align-items:stretch;gap:14px;padding:18px}
+  .pinned-actions{justify-content:flex-end}
 }
 @media(max-width:480px){
   .board-item{grid-template-columns:36px 1fr}
   .board-item-date{display:none}
   .board-item-title a{font-size:.82rem}
+  .pinned-left{gap:12px}
+  .pinned-icon{width:38px;height:38px}
+  .pinned-title{font-size:.92rem;white-space:normal}
 }
 </style>
 </head>
@@ -89,6 +110,7 @@
 
 <section class="section">
   <div class="wrap">
+    <div class="pinned-wrap" id="pinnedWrap"></div>
     <div class="press-toolbar">
       <div class="press-total" id="pressTotal">총 0건</div>
       <div class="press-search">
@@ -129,8 +151,8 @@
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
 <script src="script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=8"></script>
-<script src="js/supabase-client.js?v=8"></script>
+<script src="js/supabase-config.js?v=14"></script>
+<script src="js/supabase-client.js?v=14"></script>
 
 <script>
 // ─────────── 보도자료 (DB fetch + 페이지네이션 + 검색) ───────────
@@ -140,12 +162,41 @@
   let searchQuery = '';
   let total = 0;
 
-  const list    = document.getElementById('boardList');
-  const totalEl = document.getElementById('pressTotal');
-  const pagesEl = document.getElementById('pressPages');
-  const infoEl  = document.getElementById('pressInfo');
+  const list      = document.getElementById('boardList');
+  const totalEl   = document.getElementById('pressTotal');
+  const pagesEl   = document.getElementById('pressPages');
+  const infoEl    = document.getElementById('pressInfo');
+  const pinnedWrap = document.getElementById('pinnedWrap');
 
   function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  async function renderPinned(){
+    const { data, error } = await window.ynpDB.listPinnedPress();
+    if (error || !data || !data.length) { pinnedWrap.innerHTML = ''; return; }
+    pinnedWrap.innerHTML = data.map(r => {
+      const title = esc(r.title);
+      const fileUrl = esc(r.file_url || '');
+      const ext = esc(r.file_type || '파일');
+      const date = r.published_at || '';
+      const viewBtn = r.file_url
+        ? '<a class="pinned-btn" href="' + fileUrl + '" target="_blank" rel="noopener">바로보기</a>'
+        : '';
+      const dlBtn = r.file_url
+        ? '<a class="pinned-btn pinned-btn-primary" href="' + fileUrl + '" download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>다운로드</a>'
+        : '';
+      return '<div class="pinned-card">' +
+        '<div class="pinned-left">' +
+          '<div class="pinned-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>' +
+          '<div style="min-width:0;flex:1">' +
+            '<span class="pinned-badge">' + ext + ' · 공지</span>' +
+            '<div class="pinned-title">' + title + '</div>' +
+            '<div class="pinned-meta">' + esc(date) + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="pinned-actions">' + viewBtn + dlBtn + '</div>' +
+      '</div>';
+    }).join('');
+  }
 
   async function render(){
     list.innerHTML = '<div class="press-empty">불러오는 중…</div>';
@@ -221,10 +272,11 @@
     if (e.key === 'Enter') window.doSearch();
   });
 
+  renderPinned();
   render();
 })();
 
 </script>
-<script src="js/admin-trigger.js?v=1"></script>
+<script src="js/admin-trigger.js?v=14"></script>
 </body>
 </html>

@@ -64,6 +64,24 @@
       const to = from + perPage - 1;
       let q = client.from('press_releases')
         .select('*', { count: 'exact' })
+        .eq('is_pinned', false)
+        .order('published_at', { ascending: false })
+        .range(from, to);
+      if (search) q = q.ilike('title', `%${search}%`);
+      return q;
+    },
+    async listPinnedPress() {
+      return client.from('press_releases')
+        .select('*')
+        .eq('is_pinned', true)
+        .order('published_at', { ascending: false });
+    },
+    async listPressAdmin({ search = '', page = 1, perPage = 20 } = {}) {
+      const from = (page - 1) * perPage;
+      const to = from + perPage - 1;
+      let q = client.from('press_releases')
+        .select('*', { count: 'exact' })
+        .order('is_pinned', { ascending: false })
         .order('published_at', { ascending: false })
         .range(from, to);
       if (search) q = q.ilike('title', `%${search}%`);
