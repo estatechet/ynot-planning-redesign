@@ -111,9 +111,9 @@ ul{list-style:none}
 .hero-photo-wrap{position:absolute;inset:0;overflow:hidden;z-index:1}
 .hero-photo{width:100%;height:100%;object-fit:cover;object-position:center 50%}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(4,17,42,.92) 0%,rgba(4,17,42,.78) 30%,rgba(4,17,42,.42) 55%,rgba(4,17,42,.12) 78%,rgba(4,17,42,.04) 100%);z-index:3}
-/* 16:9 이상 와이드 화면(Windows 모니터 등)에서만 hero 이미지 확대 — 우측 RIVER CITY 영역이 화면 밖으로 잘림 */
-@media (min-aspect-ratio: 17/10){
-  .hero-photo{transform:scale(1.15);transform-origin:left center}
+/* 16:9 정확한 와이드 화면(Windows 모니터 등)에서만 hero 이미지 확대 — 우측 RIVER CITY 영역이 화면 밖으로 잘림 */
+@media (min-aspect-ratio: 16/9){
+  .hero-photo{transform:scale(1.12);transform-origin:left center}
 }
 .hero-fog{position:absolute;bottom:0;left:0;right:0;height:200px;z-index:4;pointer-events:none;background:linear-gradient(to top,rgba(4,17,42,.6) 0%,transparent 100%)}
 .cityscape{position:absolute;inset:0;z-index:1;pointer-events:none}
