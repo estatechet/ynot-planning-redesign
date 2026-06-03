@@ -84,6 +84,9 @@ if(cf) cf.addEventListener('submit', e => {
   const 사업지 = get('사업지');
   const 문의내용 = get('문의내용');
 
+  const agreeMarketing = document.getElementById('agreeMarketing');
+  const 마케팅수신동의 = agreeMarketing && agreeMarketing.checked ? '동의' : '미동의';
+
   const subject = `[와이낫플래닝 홈페이지 문의] ${문의유형 || '문의'}`;
   const body = [
     `이름: ${이름}`,
@@ -94,10 +97,14 @@ if(cf) cf.addEventListener('submit', e => {
     `사업지: ${사업지}`,
     ``,
     `문의내용:`,
-    `${문의내용}`
+    `${문의내용}`,
+    ``,
+    `─ 동의 사항 ─`,
+    `개인정보 수집·이용: 동의`,
+    `마케팅·홍보 정보 수신: ${마케팅수신동의}`
   ].join('\n');
 
-  window.location.href = `mailto:info@ynotplanning.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = `mailto:ynp073@ynp.uplusworks.co.kr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
   const b = cf.querySelector('.btn-submit');
   b.textContent = '이메일 앱이 열렸습니다 ✓';

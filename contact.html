@@ -32,7 +32,7 @@
         <ul class="sub-nav"><li><a href="result.html">분양대행실적</a></li><li><a href="result.html#consulting">컨설팅실적</a></li></ul>
       </li>
       <li class="has-sub"><a href="community.html">Community</a>
-        <ul class="sub-nav"><li><a href="community.html">보도자료</a></li><li><a href="community.html#contactus">Contact us</a></li></ul>
+        <ul class="sub-nav"><li><a href="community.html">보도자료</a></li><li><a href="contact.html">Contact us</a></li></ul>
       </li>
       <li><a href="recruit.html">Recruit</a></li>
           </ul>
@@ -68,7 +68,7 @@
           </div>
           <div>
             <strong>ADDRESS</strong>
-            <p>서울특별시 마곡서로 152<br>두산더랜드타워 B동 1318-1323호</p>
+            <p>서울특별시 강서구 마곡서로 152<br>두산더랜드타워 B동 1318-1323호</p>
           </div>
         </div>
         <div class="contact-item">
@@ -183,9 +183,22 @@
               <label>문의 내용 *</label>
               <textarea rows="6" name="문의내용" placeholder="프로젝트 개요, 세대수, 원하시는 서비스 등을 자세히 입력해 주세요." required></textarea>
             </div>
+            <div class="consent-box" style="background:var(--c-bg);border:1px solid var(--c-border);border-radius:8px;padding:16px 18px;margin:18px 0 14px;">
+              <p style="font-size:.78rem;font-weight:700;color:var(--c-text);margin-bottom:10px;">개인정보 수집·이용 동의 안내 <span style="color:#c0392b;font-weight:600;">(필수)</span></p>
+              <table style="width:100%;border-collapse:collapse;font-size:.74rem;color:var(--c-sub);line-height:1.7;">
+                <tr><td style="padding:3px 0;width:100px;color:var(--c-text);font-weight:600;">수집 목적</td><td>서비스 문의·상담 처리 및 회신</td></tr>
+                <tr><td style="padding:3px 0;color:var(--c-text);font-weight:600;">수집 항목</td><td>이름, 연락처, 이메일, 소속/회사명, 문의 내용 (필수: 이름·연락처·문의내용)</td></tr>
+                <tr><td style="padding:3px 0;color:var(--c-text);font-weight:600;">보유 기간</td><td>문의 처리 완료 후 1년</td></tr>
+                <tr><td style="padding:3px 0;color:var(--c-text);font-weight:600;vertical-align:top;">동의 거부</td><td>동의를 거부하실 수 있으며, 거부 시 문의 접수가 제한될 수 있습니다.</td></tr>
+              </table>
+            </div>
             <div class="form-check">
               <input type="checkbox" id="agree" required>
-              <label for="agree">개인정보 수집 및 이용에 동의합니다. <a href="privacy.html" target="_blank" style="color:var(--c-blue);text-decoration:underline;">개인정보처리방침</a></label>
+              <label for="agree">위 개인정보 수집 및 이용에 동의합니다. <a href="privacy.html" target="_blank" style="color:var(--c-blue);text-decoration:underline;">개인정보처리방침 전문 보기</a></label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" id="agreeMarketing">
+              <label for="agreeMarketing">마케팅·홍보 정보 수신에 동의합니다. <span style="color:var(--c-sub);">(선택)</span></label>
             </div>
             <button type="submit" class="btn-submit">문의 보내기 →</button>
           </form>
@@ -266,7 +279,7 @@
         <div class="ft-col"><strong>About YNP</strong><a href="about.html">경영이념</a><a href="about.html">인사말</a><a href="about.html">회사연혁</a><a href="about.html#location">오시는길</a></div>
         <div class="ft-col"><strong>Business</strong><a href="business.html">시장조사 및 분석</a><a href="business.html">마케팅 전략</a><a href="business.html">사업계획수립</a><a href="business.html">금융비즈니스</a></div>
         <div class="ft-col"><strong>Result</strong><a href="result.html">분양대행실적</a><a href="result.html">컨설팅실적</a></div>
-        <div class="ft-col"><strong>Quick</strong><a href="community.html">보도자료</a><a href="recruit.html">채용정보</a><a href="community.html#contactus">Contact us</a></div>
+        <div class="ft-col"><strong>Quick</strong><a href="community.html">보도자료</a><a href="recruit.html">채용정보</a><a href="contact.html">Contact us</a></div>
       </div>
     </div>
     <div class="ft-bottom">
@@ -277,7 +290,7 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js"></script>
+<script src="script.js?v=14"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-config.js?v=14"></script>
 <script src="js/supabase-client.js?v=14"></script>

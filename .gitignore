@@ -1,3 +1,11 @@
 .vercel
 
 pdf/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# 백업 파일
+img/*_backup*
+img/*_old*
