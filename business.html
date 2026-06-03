@@ -9,7 +9,7 @@
 <title>Business | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=14">
+<link rel="stylesheet" href="style.css?v=15">
 <style>
 /* ──────────────────────────────────────────
    TAB BAR
@@ -45,10 +45,10 @@
 }
 .biz-tab-num {
   display: block;
-  font-size: .58rem;
+  font-size: .68rem;
   font-weight: 700;
   letter-spacing: .15em;
-  color: rgba(0,168,168,.5);
+  color: rgba(0,168,168,.7);
   margin-bottom: 3px;
   transition: color .22s;
 }
@@ -265,9 +265,18 @@
   .proc6-row { grid-template-columns: repeat(3, 1fr); gap: 28px; }
   .proc6-connector { display: none; }
 }
+@media(max-width: 768px) {
+  .biz-tab-bar { flex-wrap: wrap; overflow-x: visible; gap: 4px; padding: 8px 4px; }
+  .biz-tab { flex: 1 1 calc(33.333% - 6px); padding: 14px 10px; text-align: center; min-height: 56px; min-width: 0; }
+  .biz-tab-num { font-size: .58rem; }
+  .biz-tab-name { font-size: .72rem; white-space: normal; line-height: 1.3; }
+}
 @media(max-width: 600px) {
   .proc6-row { grid-template-columns: repeat(2, 1fr); }
   .biz-deco-num { font-size: 6rem; top: -30px; }
+}
+@media(max-width: 480px) {
+  .biz-tab { flex: 1 1 calc(50% - 6px); }
 }
 </style>
 </head>
@@ -837,10 +846,10 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=14"></script>
+<script src="script.js?v=15"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=14"></script>
-<script src="js/supabase-client.js?v=14"></script>
+<script src="js/supabase-config.js?v=15"></script>
+<script src="js/supabase-client.js?v=15"></script>
 
 <script>
 // Tab switching
@@ -881,6 +890,6 @@ window.addEventListener('hashchange', openByHash);
   if (row) io.observe(row);
 })();
 </script>
-<script src="js/admin-trigger.js?v=14"></script>
+<script src="js/admin-trigger.js?v=15"></script>
 </body>
 </html>
