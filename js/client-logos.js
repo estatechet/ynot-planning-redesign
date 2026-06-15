@@ -24,6 +24,17 @@
     'lotte-grp':     'img/logos/lotte-grp.svg',
     'hyundai-motor': 'img/logos/hyundai-motor.svg',
     'kia':           'img/logos/kia.svg',
+    'doosan':        'img/logos/doosan.svg',
+    'ssangyong':     'img/logos/ssangyong.svg',
+    'lg-grp':        'img/logos/lg-grp.svg',
+    'kumho':         'img/logos/kumho.svg',
+    'kb':            'img/logos/kb.svg',
+    'cj':            'img/logos/cj.svg',
+    'woori':         'img/logos/woori.svg',
+    'shinhan':       'img/logos/shinhan.svg',
+    'nh-inv':        'img/logos/nh-inv.svg',
+    'hd-hyundai':    'img/logos/hd-hyundai.svg',
+    'samsung':       'img/logos/samsung.svg',
   };
 
   // 별칭 → canonical 키
@@ -129,7 +140,10 @@
     // 현대 그룹 (현대 단독 표기)
     '현대': 'hyundai-grp',
     '현대그룹': 'hyundai-grp',
-    '현대엔지니어링': 'hyundai-grp',
+    // 현대엔지니어링·㈜는 현대건설 로고로 통일 (계열사 통일 브랜드 표기)
+    '현대엔지니어링': 'hyundai-ec',
+    '현대엔지니어링㈜': 'hyundai-ec',
+    '현대엔지니어링(주)': 'hyundai-ec',
 
     // 현대자동차 (별도)
     '현대자동차': 'hyundai-motor',
@@ -138,6 +152,77 @@
     // 기아
     '기아': 'kia',
     '기아자동차': 'kia',
+
+    // 두산
+    '두산': 'doosan',
+    '두산그룹': 'doosan',
+    '두산건설': 'doosan',
+    '두산건설(주)': 'doosan',
+
+    // 쌍용
+    '쌍용': 'ssangyong',
+    '쌍용그룹': 'ssangyong',
+    '쌍용건설': 'ssangyong',
+
+    // LG 그룹
+    'LG': 'lg-grp',
+    'LG그룹': 'lg-grp',
+    'LG전자': 'lg-grp',
+    'LG유플러스': 'lg-grp',
+    'LG화학': 'lg-grp',
+
+    // 금호
+    '금호': 'kumho',
+    '금호그룹': 'kumho',
+    '금호아시아나': 'kumho',
+    '금호건설': 'kumho',
+    '금호산업': 'kumho',
+
+    // KB 금융
+    'KB': 'kb',
+    'KB금융': 'kb',
+    'KB금융지주': 'kb',
+    'KB증권': 'kb',
+    '국민은행': 'kb',
+    'KB국민은행': 'kb',
+    '케이비부동산자산신탁 주식회사': 'kb',
+    '케이비부동산자산신탁': 'kb',
+
+    // CJ
+    'CJ': 'cj',
+    'CJ그룹': 'cj',
+    'CJ제일제당': 'cj',
+
+    // 우리 금융
+    '우리금융': 'woori',
+    '우리금융지주': 'woori',
+    '우리은행': 'woori',
+    '우리자산신탁': 'woori',
+
+    // 신한 금융
+    '신한': 'shinhan',
+    '(주)신한': 'shinhan',
+    '신한은행': 'shinhan',
+    '신한금융': 'shinhan',
+    '신한금융지주': 'shinhan',
+
+    // NH 투자증권
+    'NH투자증권': 'nh-inv',
+    'NH증권': 'nh-inv',
+    'NH': 'nh-inv',
+    'NH농협': 'nh-inv',
+
+    // HD현대 (현대중공업그룹)
+    'HD현대': 'hd-hyundai',
+    '현대중공업': 'hd-hyundai',
+    'HD현대중공업': 'hd-hyundai',
+
+    // 삼성
+    '삼성': 'samsung',
+    '삼성그룹': 'samsung',
+    '삼성물산': 'samsung',
+    '삼성전자': 'samsung',
+    '삼성생명': 'samsung',
   };
 
   function normalize(name){
