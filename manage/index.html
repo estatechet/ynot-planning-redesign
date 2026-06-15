@@ -283,6 +283,10 @@ a{color:inherit;text-decoration:none}
               <input id="cPeriod" type="text" maxlength="100" placeholder="예: 2025.03 ~ 2025.09">
             </div>
             <div class="mg-field" style="grid-column:1/-1">
+              <label>발주처 로고 (옵션) — PNG/SVG 권장, 투명 배경 · 고해상도</label>
+              <input id="cLogo" type="file" accept="image/png,image/svg+xml,image/jpeg,image/webp">
+            </div>
+            <div class="mg-field" style="grid-column:1/-1">
               <label>설명</label>
               <textarea id="cDesc" placeholder="(옵션) 추가 설명"></textarea>
             </div>
@@ -306,8 +310,8 @@ a{color:inherit;text-decoration:none}
           <span id="cCount" style="font-size:.78rem;color:var(--c-sub)">—</span>
         </div>
         <table class="mg-table">
-          <thead><tr><th>프로젝트명</th><th style="width:140px">발주처</th><th style="width:160px">수행기간</th><th style="width:70px">순서</th><th style="width:70px">공개</th><th style="width:140px"></th></tr></thead>
-          <tbody id="cBody"><tr><td colspan="6" class="mg-loading">불러오는 중…</td></tr></tbody>
+          <thead><tr><th style="width:64px">로고</th><th>프로젝트명</th><th style="width:140px">발주처</th><th style="width:160px">수행기간</th><th style="width:70px">순서</th><th style="width:70px">공개</th><th style="width:140px"></th></tr></thead>
+          <tbody id="cBody"><tr><td colspan="7" class="mg-loading">불러오는 중…</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -331,8 +335,8 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../js/supabase-config.js?v=21"></script>
-<script src="../js/supabase-client.js?v=21"></script>
+<script src="../js/supabase-config.js?v=22"></script>
+<script src="../js/supabase-client.js?v=22"></script>
 <script>
 // ============================================================
 // 관리자 콘솔
@@ -695,14 +699,17 @@ a{color:inherit;text-decoration:none}
   // ─────────────────────────────────────────────────────────
   async function loadConsulting(){
     const body = $('cBody');
-    body.innerHTML = '<tr><td colspan="6" class="mg-loading">불러오는 중…</td></tr>';
+    body.innerHTML = '<tr><td colspan="7" class="mg-loading">불러오는 중…</td></tr>';
     const { data, error } = await window.ynpDB.listConsultingAdmin();
-    if (error) { body.innerHTML = `<tr><td colspan="6" class="mg-empty">불러오기 실패: ${esc(error.message)}</td></tr>`; return; }
+    if (error) { body.innerHTML = `<tr><td colspan="7" class="mg-empty">불러오기 실패: ${esc(error.message)}</td></tr>`; return; }
     const rows = data || [];
     $('cCount').textContent = `총 ${rows.length}건`;
-    if (!rows.length) { body.innerHTML = '<tr><td colspan="6" class="mg-empty">등록된 컨설팅 실적이 없습니다.</td></tr>'; return; }
+    if (!rows.length) { body.innerHTML = '<tr><td colspan="7" class="mg-empty">등록된 컨설팅 실적이 없습니다.</td></tr>'; return; }
     body.innerHTML = rows.map(r => `
       <tr>
+        <td>${r.logo_url
+          ? `<div class="thumb" style="background:#fff;border:1px solid var(--c-border);background-image:url('${esc(r.logo_url)}');background-size:contain;background-repeat:no-repeat;background-position:center"></div>`
+          : `<div class="thumb" style="background:linear-gradient(135deg,#0F4B96,#00A8A8)"></div>`}</td>
         <td><div style="font-weight:600">${esc(r.project_name)}</div><div style="font-size:.74rem;color:var(--c-sub)">${esc(r.description || '')}</div></td>
         <td>${esc(r.client || '')}</td>
         <td>${esc(r.period || '')}</td>
@@ -723,23 +730,38 @@ a{color:inherit;text-decoration:none}
     const msg = $('consFormMsg'); clearMsg(msg);
     const project_name = $('cName').value.trim();
     if (!project_name) { showMsg(msg, 'error', '프로젝트명은 필수입니다.'); return; }
-    const payload = {
-      project_name,
-      client: $('cClient').value.trim() || null,
-      period: $('cPeriod').value.trim() || null,
-      description: $('cDesc').value.trim() || null,
-      display_order: parseInt($('cOrder').value, 10) || 0,
-      is_published: $('cPublished').checked
-    };
     const btn = $('cSubmitBtn');
     btn.disabled = true; btn.textContent = '등록 중…';
-    const { error } = await window.ynpDB.createConsulting(payload);
-    btn.disabled = false; btn.textContent = '등록';
-    if (error) { showMsg(msg, 'error', error.message); return; }
-    showMsg(msg, 'success', '등록되었습니다.');
-    $('consForm').reset();
-    $('cPublished').checked = true;
-    loadConsulting();
+    try {
+      let logo_url = null;
+      const logoFile = $('cLogo').files[0];
+      if (logoFile) {
+        const ext = (logoFile.name.split('.').pop() || 'png').toLowerCase();
+        const objectPath = 'consulting_logo_' + Date.now() + '.' + ext;
+        const { error: upErr } = await window.ynpStorage.upload('results', objectPath, logoFile);
+        if (upErr) throw new Error('로고 업로드 실패: ' + upErr.message);
+        logo_url = window.ynpStorage.getPublicUrl('results', objectPath);
+      }
+      const payload = {
+        project_name,
+        client: $('cClient').value.trim() || null,
+        period: $('cPeriod').value.trim() || null,
+        description: $('cDesc').value.trim() || null,
+        display_order: parseInt($('cOrder').value, 10) || 0,
+        is_published: $('cPublished').checked
+      };
+      if (logo_url) payload.logo_url = logo_url;
+      const { error } = await window.ynpDB.createConsulting(payload);
+      if (error) throw new Error(error.message);
+      showMsg(msg, 'success', '등록되었습니다.');
+      $('consForm').reset();
+      $('cPublished').checked = true;
+      loadConsulting();
+    } catch (err) {
+      showMsg(msg, 'error', err.message);
+    } finally {
+      btn.disabled = false; btn.textContent = '등록';
+    }
   });
 
   $('cBody').addEventListener('click', async (e) => {
@@ -764,6 +786,10 @@ a{color:inherit;text-decoration:none}
       <div class="mg-field"><label>발주처</label><input id="eCClient" type="text" value="${esc(row.client || '')}"></div>
       <div class="mg-field"><label>수행기간</label><input id="eCPeriod" type="text" value="${esc(row.period || '')}"></div>
       <div class="mg-field"><label>설명</label><textarea id="eCDesc">${esc(row.description || '')}</textarea></div>
+      <div class="mg-field"><label>현재 로고</label>
+        ${row.logo_url ? `<div><img src="${esc(row.logo_url)}" style="max-width:160px;max-height:90px;border:1px solid var(--c-border);border-radius:6px;background:#fff;padding:8px"></div>` : '<div style="font-size:.78rem;color:var(--c-sub)">로고 없음 (client 이름 자동 매핑 또는 그라디언트로 표시)</div>'}
+      </div>
+      <div class="mg-field"><label>새 로고로 교체 (옵션)</label><input id="eCLogo" type="file" accept="image/png,image/svg+xml,image/jpeg,image/webp"></div>
       <div class="mg-field"><label>표시 순서</label><input id="eCOrder" type="number" value="${row.display_order}"></div>
       <div class="mg-field"><label><input id="eCPub" type="checkbox" ${row.is_published?'checked':''} style="width:auto;margin-right:6px">공개</label></div>
     `, async () => {
@@ -775,6 +801,14 @@ a{color:inherit;text-decoration:none}
         display_order: parseInt($('eCOrder').value, 10) || 0,
         is_published: $('eCPub').checked
       };
+      const logoFile = $('eCLogo').files[0];
+      if (logoFile) {
+        const ext = (logoFile.name.split('.').pop() || 'png').toLowerCase();
+        const objectPath = 'consulting_logo_' + Date.now() + '.' + ext;
+        const { error: upErr } = await window.ynpStorage.upload('results', objectPath, logoFile);
+        if (upErr) throw new Error('로고 업로드 실패: ' + upErr.message);
+        patch.logo_url = window.ynpStorage.getPublicUrl('results', objectPath);
+      }
       const { error } = await window.ynpDB.updateConsulting(row.id, patch);
       if (error) throw new Error(error.message);
       loadConsulting();
