@@ -9,7 +9,7 @@
 <title>Result | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=19">
+<link rel="stylesheet" href="style.css?v=20">
 </head>
 <body>
 
@@ -111,7 +111,7 @@
       <div>
         <img src="logo.png" class="ft-logo-img" onerror="this.style.display='none'" alt="">
         <div class="ft-logo-name">YNOT Planning</div>
-        <div class="ft-logo-sub">분양대행 전문기업</div>
+        <div class="ft-logo-sub">부동산 개발 · 분양 마케팅 전문기업</div>
       </div>
       <div class="ft-menus">
         <div class="ft-col"><strong>About YNP</strong><a href="about.html">경영이념</a><a href="about.html">인사말</a><a href="about.html">회사연혁</a><a href="about.html#location">오시는길</a></div>
@@ -128,10 +128,10 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=19"></script>
+<script src="script.js?v=20"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=19"></script>
-<script src="js/supabase-client.js?v=19"></script>
+<script src="js/supabase-config.js?v=20"></script>
+<script src="js/supabase-client.js?v=20"></script>
 
 <script>
 // ─── 분양실적 (동적 fetch + 유형 필터 + 더보기) ───
@@ -247,21 +247,25 @@
       grid.innerHTML = '<div class="result-empty" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--c-sub);">등록된 컨설팅 실적이 없습니다.</div>';
       return;
     }
-    const positions = ['30% 40%','60% 25%','80% 60%','40% 70%','55% 35%','25% 50%'];
-    grid.innerHTML = data.map((r, i) => `
+    grid.innerHTML = data.map((r) => {
+      const initial = esc((r.client || r.project_name || '?').trim().charAt(0));
+      const thumb = r.logo_url
+        ? `<div class="result-thumb result-thumb-logo"><img src="${esc(r.logo_url)}" alt="${esc(r.client || '')}" loading="lazy"></div>`
+        : `<div class="result-thumb result-thumb-fallback"><span class="result-thumb-initial">${initial}</span></div>`;
+      return `
       <div class="result-card">
-        <div class="result-thumb" style="background-image:url('img/hero_main.png');background-size:cover;background-position:${positions[i % positions.length]};"></div>
+        ${thumb}
         <div class="result-body">
           <span class="result-badge">${esc(r.client || '컨설팅')}</span>
           <h4>${esc(r.project_name)}</h4>
           <p>${esc(r.period || '')}</p>
           <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
         </div>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   })();
 })();
 </script>
-<script src="js/admin-trigger.js?v=19"></script>
+<script src="js/admin-trigger.js?v=20"></script>
 </body>
 </html>
