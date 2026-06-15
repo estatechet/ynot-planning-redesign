@@ -7,12 +7,23 @@
 (function(){
   // canonical 키 → 로고 파일 경로
   const LOGOS = {
-    'hyundai-ec':  'img/logos/hyundai-ec.svg',
-    'dl-enc':      'img/logos/dl-enc.svg',
-    'ktng':        'img/logos/ktng.svg',
-    'posco':       'img/logos/posco.svg',
-    'shinsegae':   'img/logos/shinsegae.svg',
-    'kt':          'img/logos/kt.svg',
+    'hyundai-ec':    'img/logos/hyundai-ec.svg',
+    'dl-enc':        'img/logos/dl-enc.svg',
+    'ktng':          'img/logos/ktng.svg',
+    'posco':         'img/logos/posco.svg',
+    'shinsegae':     'img/logos/shinsegae.svg',
+    'kt':            'img/logos/kt.svg',
+    'lotte-ec':      'img/logos/lotte-ec.svg',
+    'hdc':           'img/logos/hdc.svg',
+    'gs-ec':         'img/logos/gs-ec.svg',
+    'meritz':        'img/logos/meritz.svg',
+    'hyosung':       'img/logos/hyosung.svg',
+    'hyundai-grp':   'img/logos/hyundai-grp.svg',
+    'hanwha-grp':    'img/logos/hanwha-grp.svg',
+    'sk-grp':        'img/logos/sk-grp.svg',
+    'lotte-grp':     'img/logos/lotte-grp.svg',
+    'hyundai-motor': 'img/logos/hyundai-motor.svg',
+    'kia':           'img/logos/kia.svg',
   };
 
   // 별칭 → canonical 키
@@ -39,23 +50,94 @@
     'KT&G': 'ktng',
     'KT&G 시행': 'ktng',
 
-    // POSCO 그룹 (포스코이앤씨·포스코건설 동일 브랜드)
+    // POSCO (포스코이앤씨·포스코건설)
     'POSCO': 'posco',
     '포스코': 'posco',
     '포스코이앤씨': 'posco',
     '포스코건설': 'posco',
     '포스코 E&C': 'posco',
 
-    // 신세계 (신세계건설 동일 브랜드)
+    // 신세계 (신세계건설)
     '신세계': 'shinsegae',
     '신세계건설': 'shinsegae',
     '(주)신세계 건설': 'shinsegae',
     '신세계 건설': 'shinsegae',
 
-    // KT 그룹 (KT에스테이트는 KT 자회사)
+    // KT 그룹
     'KT': 'kt',
     'KT에스테이트': 'kt',
     'KT 에스테이트': 'kt',
+
+    // 롯데건설 (서브 로고)
+    '롯데건설': 'lotte-ec',
+
+    // 롯데 그룹 generic
+    '롯데': 'lotte-grp',
+    '롯데그룹': 'lotte-grp',
+    '롯데정보통신': 'lotte-grp',
+
+    // HDC (현대산업개발·아이앤콘스 통합)
+    'HDC': 'hdc',
+    'HDC그룹': 'hdc',
+    'HDC현대산업개발': 'hdc',
+    'HDC 현대산업개발': 'hdc',
+    '현대산업개발': 'hdc',
+    'HDC 아이앤콘스': 'hdc',
+    'HDC아이앤콘스': 'hdc',
+    'HDC 아이콘스': 'hdc',
+    'HDC아이콘스': 'hdc',
+    '아이앤콘스': 'hdc',
+    '현대아이앤콘스': 'hdc',
+
+    // GS건설
+    'GS': 'gs-ec',
+    'GS건설': 'gs-ec',
+    '지에스건설': 'gs-ec',
+    'GS Engineering & Construction': 'gs-ec',
+
+    // 메리츠 (증권·종금)
+    '메리츠': 'meritz',
+    '메리츠종금': 'meritz',
+    '메리츠증권': 'meritz',
+    '메리츠금융지주': 'meritz',
+
+    // 효성
+    '효성': 'hyosung',
+    '효성중공업': 'hyosung',
+    '(주)효성': 'hyosung',
+    '㈜효성': 'hyosung',
+
+    // 한화 그룹
+    '한화': 'hanwha-grp',
+    '한화그룹': 'hanwha-grp',
+    '한화건설': 'hanwha-grp',
+    '한화 건설부문': 'hanwha-grp',
+    '한화증권': 'hanwha-grp',
+    '한화H&R': 'hanwha-grp',
+
+    // SK 그룹 (자회사들도 모기업 로고로 통일)
+    'SK': 'sk-grp',
+    'SK그룹': 'sk-grp',
+    'SK C&C': 'sk-grp',
+    'SK C&D': 'sk-grp',
+    'SK D&D': 'sk-grp',
+    'SK E&C': 'sk-grp',
+    'SK건설': 'sk-grp',
+    'sk건설': 'sk-grp',
+    'SK에코플랜트': 'sk-grp',
+
+    // 현대 그룹 (현대 단독 표기)
+    '현대': 'hyundai-grp',
+    '현대그룹': 'hyundai-grp',
+    '현대엔지니어링': 'hyundai-grp',
+
+    // 현대자동차 (별도)
+    '현대자동차': 'hyundai-motor',
+    '대주단 현대자동차증권': 'hyundai-motor',
+
+    // 기아
+    '기아': 'kia',
+    '기아자동차': 'kia',
   };
 
   function normalize(name){
