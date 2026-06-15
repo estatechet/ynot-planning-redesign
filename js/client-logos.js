@@ -35,6 +35,7 @@
     'nh-inv':        'img/logos/nh-inv.svg',
     'hd-hyundai':    'img/logos/hd-hyundai.svg',
     'samsung':       'img/logos/samsung.svg',
+    'dongbu':        'img/logos/dongbu.svg',
   };
 
   // 별칭 → canonical 키
@@ -223,6 +224,11 @@
     '삼성물산': 'samsung',
     '삼성전자': 'samsung',
     '삼성생명': 'samsung',
+
+    // 동부건설 (현 DB Hitek 그룹)
+    '동부': 'dongbu',
+    '동부건설': 'dongbu',
+    '동부그룹': 'dongbu',
   };
 
   function normalize(name){
