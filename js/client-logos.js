@@ -36,6 +36,24 @@
     'hd-hyundai':    'img/logos/hd-hyundai.svg',
     'samsung':       'img/logos/samsung.svg',
     'dongbu':        'img/logos/dongbu.svg',
+    // Round 5 — 공식 CI 페이지에서 직접 수집
+    'seohee':        'img/logos/seohee.png',
+    'daebang':       'img/logos/daebang.png',
+    'kcc':           'img/logos/kcc.png',
+    'xi-snd':        'img/logos/xi-snd.png',
+    'hanshin':       'img/logos/hanshin.jpg',
+    'woomi':         'img/logos/woomi.png',
+    'hoban':         'img/logos/hoban.png',
+    'hwasung':       'img/logos/hwasung.svg',
+    'kolon-global':  'img/logos/kolon-global.svg',
+    'sgc':           'img/logos/sgc.png',
+    'daewoo-ec':     'img/logos/daewoo-ec.jpg',
+    'prugio':        'img/logos/prugio.png',
+    'woori-trust':   'img/logos/woori-trust.jpg',
+    'shinyoung':     'img/logos/shinyoung.svg',
+    'the-sharp':     'img/logos/the-sharp.svg',
+    'raemian':       'img/logos/raemian.png',
+    'samsung-cnt':   'img/logos/samsung-cnt.svg',
   };
 
   // 별칭 → canonical 키
@@ -229,6 +247,79 @@
     '동부': 'dongbu',
     '동부건설': 'dongbu',
     '동부그룹': 'dongbu',
+
+    // Round 5 — 공식 CI 페이지 직접 수집 신규 매핑 (기존 매핑 영향 없음)
+    // 서희건설
+    '서희건설': 'seohee',
+    '(주)서희건설': 'seohee',
+    '서희': 'seohee',
+    '서희스타힐스': 'seohee',
+
+    // 대방 패밀리
+    '대방건설': 'daebang',
+    '대방건설(주)': 'daebang',
+    '대방산업개발': 'daebang',
+    '대방산업개발(주)': 'daebang',
+    '대방이엔씨(주)': 'daebang',
+    '대방주택(주)': 'daebang',
+    '대방': 'daebang',
+
+    // KCC건설
+    'KCC건설': 'kcc',
+    'KCC': 'kcc',
+
+    // 자이에스앤디
+    '자이에스앤디': 'xi-snd',
+    '자이S&D': 'xi-snd',
+
+    // 한신공영
+    '한신공영': 'hanshin',
+
+    // 우미건설
+    '우미건설': 'woomi',
+    '우미건설(주)': 'woomi',
+    '(주)우미건설': 'woomi',
+    '우미': 'woomi',
+
+    // 호반건설
+    '호반건설': 'hoban',
+    '호반': 'hoban',
+    '호반그룹': 'hoban',
+
+    // 화성산업 (HS화성)
+    '화성산업': 'hwasung',
+    'HS화성': 'hwasung',
+
+    // 코오롱글로벌
+    '코오롱글로벌': 'kolon-global',
+    '코오롱글로벌(주)': 'kolon-global',
+    '(주)코오롱글로벌': 'kolon-global',
+    '코오롱건설': 'kolon-global',
+    '코오롱': 'kolon-global',
+
+    // SGC E&C (구 SGC이테크건설/이테크건설)
+    'SGC이테크건설': 'sgc',
+    'SGC E&C': 'sgc',
+    'SGC이앤씨': 'sgc',
+    '이테크건설': 'sgc',
+
+    // 대우건설
+    '대우건설': 'daewoo-ec',
+    '(주)대우건설': 'daewoo-ec',
+
+    // 신영 패밀리
+    '신영건설': 'shinyoung',
+    '신영건설(주)': 'shinyoung',
+    '신영D&C': 'shinyoung',
+    '신영씨앤디': 'shinyoung',
+    '신영그룹': 'shinyoung',
+    '신영': 'shinyoung',
+
+    // 우리자산신탁 (구체 자회사 로고가 더 정확 — 우리은행 generic 대체)
+    '우리자산신탁': 'woori-trust',
+
+    // 삼성물산 (구체 자회사 로고 — Samsung Electronics 워드마크 대체)
+    '삼성물산': 'samsung-cnt',
   };
 
   function normalize(name){
