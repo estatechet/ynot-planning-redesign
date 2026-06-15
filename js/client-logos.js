@@ -54,6 +54,10 @@
     'the-sharp':     'img/logos/the-sharp.svg',
     'raemian':       'img/logos/raemian.png',
     'samsung-cnt':   'img/logos/samsung-cnt.svg',
+    // Round 6 추가
+    'mugunghwa':     'img/logos/mugunghwa.png',
+    'im-sec':        'img/logos/im-sec.png',
+    'koramco':       'img/logos/koramco.svg',
   };
 
   // 별칭 → canonical 키
@@ -320,6 +324,24 @@
 
     // 삼성물산 (구체 자회사 로고 — Samsung Electronics 워드마크 대체)
     '삼성물산': 'samsung-cnt',
+
+    // Round 6 추가
+    // 무궁화신탁
+    '무궁화신탁': 'mugunghwa',
+    '무궁화': 'mugunghwa',
+    '무궁화홀딩스': 'mugunghwa',
+    // iM증권 (구 하이투자증권)
+    '하이투자증권': 'im-sec',
+    'iM증권': 'im-sec',
+    'iM 증권': 'im-sec',
+    // 코람코자산신탁
+    '코람코자산신탁': 'koramco',
+    '코람코': 'koramco',
+    '코람코자산운용': 'koramco',
+    '(주)코람코자산신탁': 'koramco',
+    // 아시아신탁 → 2022년 신한자산신탁으로 변경 (shinhan 매핑 재사용)
+    '아시아신탁': 'shinhan',
+    '신한자산신탁': 'shinhan',
   };
 
   function normalize(name){
