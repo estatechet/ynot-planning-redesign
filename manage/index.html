@@ -748,9 +748,9 @@ a{color:inherit;text-decoration:none}
         period: $('cPeriod').value.trim() || null,
         description: $('cDesc').value.trim() || null,
         display_order: parseInt($('cOrder').value, 10) || 0,
-        is_published: $('cPublished').checked,
-        logo_url
+        is_published: $('cPublished').checked
       };
+      if (logo_url) payload.logo_url = logo_url;
       const { error } = await window.ynpDB.createConsulting(payload);
       if (error) throw new Error(error.message);
       showMsg(msg, 'success', '등록되었습니다.');
