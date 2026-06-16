@@ -79,6 +79,9 @@
     'daewon':        'img/logos/daewon.gif',
     'daezer':        'img/logos/daezer.png',
     'dongah':        'img/logos/dongah.svg',
+    'utop':          'img/logos/utop.png',
+    'jeil':          'img/logos/jeil.jpg',
+    'iaan':          'img/logos/iaan.svg',
   };
 
   // 별칭 → canonical 키
@@ -441,6 +444,22 @@
     'SM동아건설': 'dongah',
     'SM동아건설산업': 'dongah',
     'SM동아': 'dongah',
+
+    // 유탑건설 (유탑그룹)
+    '유탑건설': 'utop',
+    '유탑그룹': 'utop',
+    '유탑': 'utop',
+    '유탑디앤씨': 'utop',
+    // 제일건설 (제일풍경채)
+    '제일건설': 'jeil',
+    '제일건설(주)': 'jeil',
+    '(주)제일건설': 'jeil',
+    '제일풍경채': 'jeil',
+    // 이안 (대우산업개발 브랜드)
+    '대우산업개발': 'iaan',
+    '대우산업개발(주)': 'iaan',
+    '이안': 'iaan',
+    '이안아파트': 'iaan',
   };
 
   function normalize(name){
