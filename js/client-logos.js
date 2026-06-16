@@ -42,7 +42,7 @@
     'kcc':           'img/logos/kcc.png',
     'xi-snd':        'img/logos/xi-snd.png',
     'hanshin':       'img/logos/hanshin.jpg',
-    'woomi':         'img/logos/woomi.png',
+    'woomi':         'img/logos/woomi.jpg',
     'hoban':         'img/logos/hoban.png',
     'hwasung':       'img/logos/hwasung.svg',
     'kolon-global':  'img/logos/kolon-global.svg',
@@ -65,6 +65,11 @@
     'jeepyoung':     'img/logos/jeepyoung.png',
     'dongdo':        'img/logos/dongdo.jpg',
     'upyung':        'img/logos/upyung.png',
+    // Round 8 — 1·2순위 미커버 추가
+    'samho':         'img/logos/samho.png',
+    'hanyang-ec':    'img/logos/hanyang-ec.png',
+    'chinhung':      'img/logos/chinhung.png',
+    'bando':         'img/logos/bando.png',
   };
 
   // 별칭 → canonical 키
@@ -373,6 +378,25 @@
     '우평건설': 'upyung',
     '우평건설(주)': 'upyung',
     '우평': 'upyung',
+
+    // Round 8 — 1·2순위 매핑 추가
+    // 삼호 (대우건설 자회사)
+    '삼호': 'samho',
+    '(주)삼호': 'samho',
+    '㈜삼호': 'samho',
+    // 한양건설 (BS한양)
+    '한양건설': 'hanyang-ec',
+    '(주)한양': 'hanyang-ec',
+    '㈜한양': 'hanyang-ec',
+    '한양': 'hanyang-ec',
+    'BS한양': 'hanyang-ec',
+    // 진흥기업
+    '진흥기업': 'chinhung',
+    '진흥건설': 'chinhung',
+    // 반도건설
+    '반도건설': 'bando',
+    '반도건설 시공': 'bando',
+    '반도유보라': 'bando',
   };
 
   function normalize(name){
