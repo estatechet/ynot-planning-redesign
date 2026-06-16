@@ -73,6 +73,12 @@
     'namkwang':      'img/logos/namkwang.jpg',
     'posung':        'img/logos/posung.png',
     'kumkang':       'img/logos/kumkang.svg',
+    // Round 9 - 3순위
+    'woobang':       'img/logos/woobang.png',
+    'kyobo-realco':  'img/logos/kyobo-realco.png',
+    'daewon':        'img/logos/daewon.gif',
+    'daezer':        'img/logos/daezer.png',
+    'dongah':        'img/logos/dongah.svg',
   };
 
   // 별칭 → canonical 키
@@ -413,6 +419,28 @@
     '금강': 'kumkang',
     '금강건설': 'kumkang',
     '금강종합건설': 'kumkang',
+
+    // 우방 (SM그룹)
+    '우방': 'woobang',
+    '(주)우방': 'woobang',
+    'SM우방': 'woobang',
+    'SM우방건설': 'woobang',
+    '우방건설': 'woobang',
+    // 교보리얼코
+    '교보리얼코': 'kyobo-realco',
+    // 대원건설
+    '대원건설': 'daewon',
+    '대원': 'daewon',
+    '대원르씨트': 'daewon',
+    // 대저건설
+    '대저건설': 'daezer',
+    '(주)대저건설': 'daezer',
+    // 동아건설산업
+    '동아건설': 'dongah',
+    '동아건설산업': 'dongah',
+    'SM동아건설': 'dongah',
+    'SM동아건설산업': 'dongah',
+    'SM동아': 'dongah',
   };
 
   function normalize(name){
