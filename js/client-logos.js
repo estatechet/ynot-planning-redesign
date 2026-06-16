@@ -60,6 +60,11 @@
     'koramco':       'img/logos/koramco.svg',
     'isu':           'img/logos/isu.jpg',
     'kukdong':       'img/logos/kukdong.jpg',
+    // Round 7 — 사용자 제공 소스
+    'hansung':       'img/logos/hansung.png',
+    'jeepyoung':     'img/logos/jeepyoung.png',
+    'dongdo':        'img/logos/dongdo.jpg',
+    'upyung':        'img/logos/upyung.png',
   };
 
   // 별칭 → canonical 키
@@ -353,6 +358,21 @@
     '극동건설': 'kukdong',
     '극동': 'kukdong',
     '극동건설(주)': 'kukdong',
+
+    // 한성건설
+    '한성건설': 'hansung',
+    '한성건설(주)': 'hansung',
+    '한성건설㈜': 'hansung',
+    // 지평건설 (브랜드: The Well)
+    '지평건설': 'jeepyoung',
+    '지평': 'jeepyoung',
+    // 동도건설
+    '동도건설': 'dongdo',
+    '동도': 'dongdo',
+    // 우평건설
+    '우평건설': 'upyung',
+    '우평건설(주)': 'upyung',
+    '우평': 'upyung',
   };
 
   function normalize(name){
