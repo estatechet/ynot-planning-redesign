@@ -37,7 +37,7 @@
     'samsung':       'img/logos/samsung.svg',
     'dongbu':        'img/logos/dongbu.svg',
     // Round 5 — 공식 CI 페이지에서 직접 수집
-    'seohee':        'img/logos/seohee.png',
+    'seohee':        'img/logos/seohee.jpg',
     'daebang':       'img/logos/daebang.png',
     'kcc':           'img/logos/kcc.png',
     'xi-snd':        'img/logos/xi-snd.png',
@@ -58,6 +58,8 @@
     'mugunghwa':     'img/logos/mugunghwa.png',
     'im-sec':        'img/logos/im-sec.png',
     'koramco':       'img/logos/koramco.svg',
+    'isu':           'img/logos/isu.jpg',
+    'kukdong':       'img/logos/kukdong.jpg',
   };
 
   // 별칭 → canonical 키
@@ -342,6 +344,15 @@
     // 아시아신탁 → 2022년 신한자산신탁으로 변경 (shinhan 매핑 재사용)
     '아시아신탁': 'shinhan',
     '신한자산신탁': 'shinhan',
+
+    // Round 7 — 이수·극동 추가
+    '이수건설': 'isu',
+    '이수건설(주)': 'isu',
+    '이수건설㈜': 'isu',
+    '이수그룹': 'isu',
+    '극동건설': 'kukdong',
+    '극동': 'kukdong',
+    '극동건설(주)': 'kukdong',
   };
 
   function normalize(name){
