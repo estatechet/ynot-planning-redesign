@@ -70,6 +70,9 @@
     'hanyang-ec':    'img/logos/hanyang-ec.png',
     'chinhung':      'img/logos/chinhung.png',
     'bando':         'img/logos/bando.png',
+    'namkwang':      'img/logos/namkwang.jpg',
+    'posung':        'img/logos/posung.png',
+    'kumkang':       'img/logos/kumkang.svg',
   };
 
   // 별칭 → canonical 키
@@ -397,6 +400,19 @@
     '반도건설': 'bando',
     '반도건설 시공': 'bando',
     '반도유보라': 'bando',
+
+    // 남광토건
+    '남광토건': 'namkwang',
+    '남광토건(주)': 'namkwang',
+    // 보성건설
+    '보성건설': 'posung',
+    '보성산업': 'posung',
+    '보성그룹': 'posung',
+    // 금강주택
+    '금강주택': 'kumkang',
+    '금강': 'kumkang',
+    '금강건설': 'kumkang',
+    '금강종합건설': 'kumkang',
   };
 
   function normalize(name){
