@@ -82,6 +82,16 @@
     'utop':          'img/logos/utop.png',
     'jeil':          'img/logos/jeil.jpg',
     'iaan':          'img/logos/iaan.svg',
+    // Round 10 — 사용자 직접 송부 로고 (2026-06-16)
+    'kait':          'img/logos/kait.jpg',
+    'line-ec':       'img/logos/line-ec.jpg',
+    'daishin-trust': 'img/logos/daishin-trust.jpg',
+    'shindongah':    'img/logos/shindongah.jpg',
+    'hangang-grp':   'img/logos/hangang-grp.jpg',
+    'ilsung':        'img/logos/ilsung.jpg',
+    'ktrust':        'img/logos/ktrust.jpg',
+    'hanho':         'img/logos/hanho.jpg',
+    'hl-dni':        'img/logos/hl-dni.jpg',
   };
 
   // 별칭 → canonical 키
@@ -460,6 +470,62 @@
     '대우산업개발(주)': 'iaan',
     '이안': 'iaan',
     '이안아파트': 'iaan',
+
+    // Round 10 — 사용자 직접 송부 로고 (2026-06-16)
+    // 한국자산신탁 (KAIT)
+    '한국자산신탁': 'kait',
+    '한국자산신탁(주)': 'kait',
+    '한국자산신탁㈜': 'kait',
+    'KAIT': 'kait',
+
+    // 라인건설
+    '라인건설': 'line-ec',
+    '라인건설(주)': 'line-ec',
+    '(주)라인건설': 'line-ec',
+
+    // 대신자산신탁 (Daishin)
+    '대신자산신탁': 'daishin-trust',
+    '대신자산신탁(주)': 'daishin-trust',
+    'Daishin 자산신탁': 'daishin-trust',
+
+    // 신동아건설
+    '신동아건설': 'shindongah',
+    '신동아건설(주)': 'shindongah',
+    '(주)신동아건설': 'shindongah',
+    '신동아': 'shindongah',
+
+    // 한강그룹 (Hangang Development & Asset Management)
+    '한강그룹': 'hangang-grp',
+    '한강건설': 'hangang-grp',
+    '한강스퀘어': 'hangang-grp',
+    '한강': 'hangang-grp',
+
+    // 일성건설
+    '일성건설': 'ilsung',
+    '일성건설(주)': 'ilsung',
+    '(주)일성건설': 'ilsung',
+    '일성': 'ilsung',
+
+    // 한국토지신탁 (KTRUST)
+    '한국토지신탁': 'ktrust',
+    '한국토지신탁(주)': 'ktrust',
+    '(주)한국토지신탁': 'ktrust',
+    '한토신': 'ktrust',
+    'KTRUST': 'ktrust',
+
+    // 한호건설그룹
+    '한호건설': 'hanho',
+    '한호건설그룹': 'hanho',
+    '한호건설(주)': 'hanho',
+    '한호': 'hanho',
+
+    // HL 디앤아이한라 (구 한라건설)
+    'HL D&I 한라': 'hl-dni',
+    'HL디앤아이한라': 'hl-dni',
+    'HL 디앤아이한라': 'hl-dni',
+    '디앤아이한라': 'hl-dni',
+    '한라': 'hl-dni',
+    '한라건설': 'hl-dni',
   };
 
   function normalize(name){
