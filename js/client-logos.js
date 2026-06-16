@@ -85,13 +85,16 @@
     // Round 10 — 사용자 직접 송부 로고 (2026-06-16)
     'kait':          'img/logos/kait.jpg',
     'line-ec':       'img/logos/line-ec.jpg',
-    'daishin-trust': 'img/logos/daishin-trust.jpg',
+    'daishin-trust': 'img/logos/daishin-trust.png',
     'shindongah':    'img/logos/shindongah.jpg',
     'hangang-grp':   'img/logos/hangang-grp.jpg',
     'ilsung':        'img/logos/ilsung.jpg',
     'ktrust':        'img/logos/ktrust.jpg',
     'hanho':         'img/logos/hanho.jpg',
     'hl-dni':        'img/logos/hl-dni.jpg',
+    // Round 11 — 사용자 직접 송부 로고 (2026-06-17)
+    'eunsung':       'img/logos/eunsung.png',
+    'hub-asset':     'img/logos/hub-asset.png',
   };
 
   // 별칭 → canonical 키
@@ -526,6 +529,22 @@
     '디앤아이한라': 'hl-dni',
     '한라': 'hl-dni',
     '한라건설': 'hl-dni',
+
+    // 은성산업 (EunSung) — Round 11
+    '은성산업': 'eunsung',
+    '은성산업(주)': 'eunsung',
+    '(주)은성산업': 'eunsung',
+    '은성': 'eunsung',
+    'EunSung': 'eunsung',
+
+    // 허브자산운용 (HUB Asset Management) — Round 11
+    '허브자산운용': 'hub-asset',
+    '허브자산운용(주)': 'hub-asset',
+    '(주)허브자산운용': 'hub-asset',
+    '허브자산': 'hub-asset',
+    'HUB Asset Management': 'hub-asset',
+    'HUB ASSET MANAGEMENT': 'hub-asset',
+    'HUB자산운용': 'hub-asset',
   };
 
   function normalize(name){
