@@ -113,6 +113,13 @@
     'lh':            'img/logos/lh.svg',
     'daebang-grp':   'img/logos/daebang-grp.png',
     'joongang':      'img/logos/joongang.svg',
+    // Round 11 4차
+    'smgroup':       'img/logos/smgroup.png',
+    'leading':       'img/logos/leading.png',
+    'paragon':       'img/logos/paragon.png',
+    'moa':           'img/logos/moa.png',
+    // 정비사업조합/재건축조합/지역주택조합 통일 아이콘
+    'redev-org':     'img/logos/redev-org.svg',
   };
 
   // 별칭 → canonical 키
@@ -679,6 +686,61 @@
     '중앙홀딩스(유)': 'joongang',
     '(주)중앙홀딩스': 'joongang',
     '중앙그룹': 'joongang',
+
+    // ── Round 11 4차 ──
+    // SM그룹 (우방/SM은 별개. SM그룹 통합 로고)
+    'SM그룹': 'smgroup',
+    'SM Group': 'smgroup',
+    '에스엠그룹': 'smgroup',
+    'SM하이플러스': 'smgroup',
+    '에스엠상선': 'smgroup',
+
+    // 리딩투자증권
+    '리딩투자증권': 'leading',
+    '리딩투자증권(주)': 'leading',
+    '(주)리딩투자증권': 'leading',
+    '리딩투자': 'leading',
+
+    // 동양건설산업 (파라곤 브랜드) — DB의 "동양 / 건설부문" split 모두 매핑
+    '동양건설': 'paragon',
+    '동양건설산업': 'paragon',
+    '동양건설산업(주)': 'paragon',
+    '(주)동양건설산업': 'paragon',
+    '동양': 'paragon',
+    '건설부문': 'paragon',
+    '파라곤': 'paragon',
+
+    // 모아건설 (광주, 모아엘가/모아미래도 브랜드)
+    '모아건설': 'moa',
+    '모아건설(주)': 'moa',
+    '(주)모아건설': 'moa',
+    '모아종합건설': 'moa',
+    '모아주택산업': 'moa',
+    '모아미래도': 'moa',
+    '모아엘가': 'moa',
+    '모아': 'moa',
+
+    // ── 정비사업조합/재건축조합/지역주택조합 통일 아이콘 ──
+    '인창동지역주택조합': 'redev-org',
+    '인창동 지역주택조합': 'redev-org',
+    '변동 A구역 재건축조합': 'redev-org',
+    '덕현지구주택재개발정비사업조합': 'redev-org',
+    '복산동 지역주택조합': 'redev-org',
+    '호계온천주변지구재개발정비사업조합': 'redev-org',
+    '융창아파트주변지구 주택재개발정비사업조합': 'redev-org',
+    '안양덕현지역주택조합': 'redev-org',
+    '송파동현대호수빌라가로주택정비사업조합': 'redev-org',
+    '인천학익4구역주택재개발': 'redev-org',
+    '덕소5A 도시환경정비사업 조합': 'redev-org',
+    '주공7단지주택조합': 'redev-org',
+    '서초우성1차아파트주택재건축조합': 'redev-org',
+    '원일빌라재건축조합': 'redev-org',
+    '광명아파트재건축조합': 'redev-org',
+    '대신2-3주택재건축조합': 'redev-org',
+    '임동2구역주택재개발정비사업조합': 'redev-org',
+    '주택재개발조합사업': 'redev-org',
+    '청학동재건축조합': 'redev-org',
+    '현대호수빌라정비사업조합': 'redev-org',
   };
 
   function normalize(name){
