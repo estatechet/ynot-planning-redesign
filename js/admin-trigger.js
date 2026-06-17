@@ -1,40 +1,14 @@
 // ============================================================
 // 관리자 콘솔 숨김 트리거
-// 로고를 1.5초 이내 5회 연속 클릭하면 인증 모달이 뜨고,
-// 관리자 계정 입력에 성공하면 /manage 로 이동한다.
+// 홈(index.html) footer 의 열쇠 버튼(.admin-key-btn)을 누르면
+// 인증 모달이 뜨고, 관리자 계정 입력에 성공하면 /manage 로 이동한다.
 // ============================================================
 (function(){
-  const KEY = 'ynp_lc';
-  const WINDOW_MS = 1500;
-  const NEED = 5;
-
-  function getRecent(){
-    try {
-      const stamps = JSON.parse(sessionStorage.getItem(KEY) || '[]');
-      return stamps.filter(t => Date.now() - t < WINDOW_MS);
-    } catch { return []; }
-  }
-  function setRecent(arr){ sessionStorage.setItem(KEY, JSON.stringify(arr)); }
-  function clearStamps(){ sessionStorage.removeItem(KEY); }
-
   function init(){
-    // 페이지 로드 시 누적된 클릭이 임계 도달 상태면 즉시 모달
-    const recent = getRecent();
-    if (recent.length >= NEED) { clearStamps(); openAdminGate(); return; }
-    setRecent(recent); // 만료된 항목 정리
-
-    document.querySelectorAll('.nav-logo').forEach(el => {
+    document.querySelectorAll('.admin-key-btn').forEach(el => {
       el.addEventListener('click', (e) => {
-        const list = getRecent();
-        list.push(Date.now());
-        if (list.length >= NEED) {
-          e.preventDefault();
-          clearStamps();
-          openAdminGate();
-        } else {
-          setRecent(list);
-          // 일반 클릭은 그대로 이동
-        }
+        e.preventDefault();
+        openAdminGate();
       });
     });
   }

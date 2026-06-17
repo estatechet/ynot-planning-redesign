@@ -212,6 +212,9 @@ ul{list-style:none}
 .ft-col a{display:block;font-size:.78rem;color:rgba(255,255,255,.38);margin-bottom:8px;transition:color .18s}
 .ft-col a:hover{color:var(--c-teal)}
 .ft-bottom{padding:18px 0;font-size:.72rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.admin-key-btn{background:transparent;border:none;padding:2px 4px;margin:0;color:inherit;opacity:.55;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:0;border-radius:3px;transition:opacity .15s,background .15s}
+.admin-key-btn:hover{opacity:1;background:rgba(255,255,255,.08)}
+.admin-key-btn:focus-visible{outline:1px solid rgba(255,255,255,.4);outline-offset:1px}
 .scroll-top-btn{position:fixed;bottom:28px;right:28px;width:44px;height:44px;background:var(--c-blue);color:#fff;font-size:1rem;border-radius:4px;display:flex;align-items:center;justify-content:center;z-index:900;opacity:0;pointer-events:none;transition:var(--trans);border:none;cursor:pointer}
 .scroll-top-btn.show{opacity:1;pointer-events:auto}
 .scroll-top-btn:hover{background:var(--c-teal)}
