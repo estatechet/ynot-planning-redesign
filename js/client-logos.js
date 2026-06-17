@@ -95,6 +95,12 @@
     // Round 11 — 사용자 직접 송부 로고 (2026-06-17)
     'eunsung':       'img/logos/eunsung.png',
     'hub-asset':     'img/logos/hub-asset.png',
+    // Round 11 1차 자동 수집 (2026-06-17, 공식 사이트)
+    'poongsan':      'img/logos/poongsan.png',
+    'daol-sec':      'img/logos/daol-sec.png',
+    'yeskorea':      'img/logos/yeskorea.png',
+    'yojin':         'img/logos/yojin.png',
+    'ksbj':          'img/logos/ksbj.png',
   };
 
   // 별칭 → canonical 키
@@ -545,6 +551,46 @@
     'HUB Asset Management': 'hub-asset',
     'HUB ASSET MANAGEMENT': 'hub-asset',
     'HUB자산운용': 'hub-asset',
+
+    // 풍산건설 — Round 11
+    '풍산건설': 'poongsan',
+    '풍산건설(주)': 'poongsan',
+    '(주)풍산건설': 'poongsan',
+    '풍산종합건설': 'poongsan',
+
+    // 다올투자증권 (구 KTB증권) — Round 11
+    'KTB증권': 'daol-sec',
+    'KTB투자증권': 'daol-sec',
+    '다올투자증권': 'daol-sec',
+    '다올': 'daol-sec',
+
+    // 예스코리아 (YESKOREA Real Estate) — Round 11
+    '예스코리아': 'yeskorea',
+    '예스코리아(주)': 'yeskorea',
+    '(주)예스코리아': 'yeskorea',
+    'YESKOREA': 'yeskorea',
+    'YES KOREA': 'yeskorea',
+
+    // 요진건설산업 — Round 11
+    '요진건설산업': 'yojin',
+    '요진건설': 'yojin',
+    '요진건설산업(주)': 'yojin',
+    '(주)요진건설산업': 'yojin',
+    '요진': 'yojin',
+
+    // 금성백조주택 (GBS, 예미지 브랜드) — Round 11
+    '금성백조': 'ksbj',
+    '금성백조주택': 'ksbj',
+    '(주)금성백조주택': 'ksbj',
+    '금성백조주택(주)': 'ksbj',
+    '금성백조건설': 'ksbj',
+    '예미지': 'ksbj',
+
+    // 고려개발 (2020년 대림건설로 합병 → DL건설/DL이앤씨) — Round 11
+    '고려개발': 'dl-enc',
+    '고려개발(주)': 'dl-enc',
+    '(주)고려개발': 'dl-enc',
+    'KDC': 'dl-enc',
   };
 
   function normalize(name){
