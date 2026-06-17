@@ -105,6 +105,14 @@
     'korinvest':     'img/logos/korinvest.png',
     'hanafn':        'img/logos/hanafn.png',
     'kaesung':       'img/logos/kaesung.png',
+    // Round 11 3차 — 2건/1건 대규모 batch
+    'angang':        'img/logos/angang.png',
+    'daekwang':      'img/logos/daekwang.png',
+    'chungkwang':    'img/logos/chungkwang.png',
+    'fides':         'img/logos/fides.png',
+    'lh':            'img/logos/lh.svg',
+    'daebang-grp':   'img/logos/daebang-grp.png',
+    'joongang':      'img/logos/joongang.svg',
   };
 
   // 별칭 → canonical 키
@@ -618,6 +626,59 @@
     '개성건설': 'kaesung',
     '개성건설(주)': 'kaesung',
     '(주)개성건설': 'kaesung',
+
+    // ── Round 11 3차 자동 수집 ──
+    // 안강건설/안강개발/안강그룹
+    '안강건설': 'angang',
+    '안강건설(주)': 'angang',
+    '(주)안강건설': 'angang',
+    '안강': 'angang',
+    '안강개발': 'angang',
+    '안강그룹': 'angang',
+
+    // 대광건영 (구 대광건설, 로제비앙 브랜드)
+    '대광건설': 'daekwang',
+    '대광건영': 'daekwang',
+    '대광건영(주)': 'daekwang',
+    '(주)대광건영': 'daekwang',
+    '로제비앙': 'daekwang',
+
+    // 청광건설/청광종합건설
+    '청광건설': 'chungkwang',
+    '청광건설(주)': 'chungkwang',
+    '(주)청광건설': 'chungkwang',
+    '청광종합건설': 'chungkwang',
+    '청광': 'chungkwang',
+
+    // 피데스에셋
+    '피데스에셋': 'fides',
+    '피데스에셋(주)': 'fides',
+    '(주)피데스에셋': 'fides',
+    '피데스': 'fides',
+
+    // LH 한국토지주택공사
+    'LH': 'lh',
+    'LH공사': 'lh',
+    '한국토지주택공사': 'lh',
+    '한국토지주택공사(LH)': 'lh',
+    '한국주택공사': 'lh',
+
+    // 대방건설그룹 (대방건설/대방주택/대방이엔씨/대방산업개발)
+    '대방건설': 'daebang-grp',
+    '대방건설(주)': 'daebang-grp',
+    '(주)대방건설': 'daebang-grp',
+    '대방주택': 'daebang-grp',
+    '대방이엔씨': 'daebang-grp',
+    '대방산업개발': 'daebang-grp',
+    '대방': 'daebang-grp',
+    '디에트르': 'daebang-grp',
+
+    // 중앙홀딩스 (중앙그룹 = 중앙일보·JTBC·메가박스 등)
+    '중앙홀딩스': 'joongang',
+    '중앙홀딩스(주)': 'joongang',
+    '중앙홀딩스(유)': 'joongang',
+    '(주)중앙홀딩스': 'joongang',
+    '중앙그룹': 'joongang',
   };
 
   function normalize(name){
