@@ -101,6 +101,10 @@
     'yeskorea':      'img/logos/yeskorea.png',
     'yojin':         'img/logos/yojin.png',
     'ksbj':          'img/logos/ksbj.png',
+    // Round 11 2차 — 위키미디어 + 추가 자동 수집
+    'korinvest':     'img/logos/korinvest.png',
+    'hanafn':        'img/logos/hanafn.png',
+    'kaesung':       'img/logos/kaesung.png',
   };
 
   // 별칭 → canonical 키
@@ -591,6 +595,26 @@
     '고려개발(주)': 'dl-enc',
     '(주)고려개발': 'dl-enc',
     'KDC': 'dl-enc',
+
+    // 한국투자증권 (true friend) — Round 11 2차
+    '한국투자증권': 'korinvest',
+    '한국투자증권(주)': 'korinvest',
+    '(주)한국투자증권': 'korinvest',
+    '한투증권': 'korinvest',
+    '한국투자': 'korinvest',
+
+    // 하나금융그룹 (하나증권/하나금융투자 통합) — Round 11 2차
+    '하나금융그룹': 'hanafn',
+    '하나금융투자': 'hanafn',
+    '하나금융투자(주)': 'hanafn',
+    '하나증권': 'hanafn',
+    '하나증권(주)': 'hanafn',
+    '하나금융': 'hanafn',
+
+    // 개성건설 — Round 11 2차
+    '개성건설': 'kaesung',
+    '개성건설(주)': 'kaesung',
+    '(주)개성건설': 'kaesung',
   };
 
   function normalize(name){
