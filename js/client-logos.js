@@ -546,6 +546,9 @@
     '(주)은성산업': 'eunsung',
     '은성': 'eunsung',
     'EunSung': 'eunsung',
+    '은성산업개발': 'eunsung',
+    '은성산업개발(주)': 'eunsung',
+    '(주)은성산업개발': 'eunsung',
 
     // 허브자산운용 (HUB Asset Management) — Round 11
     '허브자산운용': 'hub-asset',
