@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /manage/
+Disallow: /backup/
+
+Sitemap: https://xn--t20br5b1zg0os9mbvw5b.kr/sitemap.xml

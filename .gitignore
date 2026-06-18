@@ -9,3 +9,4 @@ pdf/
 # 백업 파일
 img/*_backup*
 img/*_old*
+backup/
