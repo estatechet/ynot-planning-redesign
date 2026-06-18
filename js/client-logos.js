@@ -118,6 +118,10 @@
     'leading':       'img/logos/leading.png',
     'paragon':       'img/logos/paragon.png',
     'moa':           'img/logos/moa.png',
+    // Round 11 5차 — 직접 사이트 깊이 탐색
+    'swc':           'img/logos/swc.png',
+    'hanil':         'img/logos/hanil.png',
+    'egcon':         'img/logos/egcon.png',
     // 정비사업조합/재건축조합/지역주택조합 통일 아이콘
     'redev-org':     'img/logos/redev-org.svg',
   };
@@ -719,6 +723,28 @@
     '모아미래도': 'moa',
     '모아엘가': 'moa',
     '모아': 'moa',
+
+    // ── Round 11 5차 자동 수집 ──
+    // 신원종합개발 (코스닥 017000, 신원아침도시 브랜드)
+    '신원종합개발': 'swc',
+    '신원종합개발(주)': 'swc',
+    '(주)신원종합개발': 'swc',
+    '신원아침도시': 'swc',
+    '신원종합건설': 'swc',  // 별개 가능성 있지만 같은 그룹 추정
+
+    // 한일건설 (Hanil Construction LTD)
+    '한일건설': 'hanil',
+    '한일건설(주)': 'hanil',
+    '(주)한일건설': 'hanil',
+
+    // EG건설 / 이지건설 / 이지종합건설 (egconst.co.kr)
+    '이지건설': 'egcon',
+    '이지건설(주)': 'egcon',
+    '(주)이지건설': 'egcon',
+    'EG건설': 'egcon',
+    '이지종합건설': 'egcon',
+    '이지더원': 'egcon',
+    'EG the1': 'egcon',
 
     // ── 정비사업조합/재건축조합/지역주택조합 통일 아이콘 ──
     '인창동지역주택조합': 'redev-org',
