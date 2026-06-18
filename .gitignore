@@ -10,3 +10,5 @@ pdf/
 img/*_backup*
 img/*_old*
 backup/
+.env*
+img/video/
