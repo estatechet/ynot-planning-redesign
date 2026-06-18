@@ -20,7 +20,7 @@
 <title>Result | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=47">
+<link rel="stylesheet" href="style.css?v=48">
 </head>
 <body>
 
@@ -162,11 +162,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=47"></script>
+<script src="script.js?v=48"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=47"></script>
-<script src="js/supabase-client.js?v=47"></script>
-<script src="js/client-logos.js?v=47"></script>
+<script src="js/supabase-config.js?v=48"></script>
+<script src="js/supabase-client.js?v=48"></script>
+<script src="js/client-logos.js?v=48"></script>
 
 <script>
 // ─── 분양실적 (동적 fetch + 유형 필터 + 더보기) ───
@@ -280,6 +280,13 @@
 
   function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
+  // 로고 보유 여부 (정렬·우선순위용)
+  function hasLogo(r){
+    if (r.logo_url) return true;
+    const logos = (window.CLIENT_LOGOS && window.CLIENT_LOGOS.getLogos(r.client)) || [];
+    return logos.length > 0;
+  }
+
   function renderThumb(r){
     if (r.logo_url) return `<div class="result-thumb result-thumb-logo"><img src="${esc(r.logo_url)}" alt="${esc(r.client || '')}" loading="lazy"></div>`;
     const logos = (window.CLIENT_LOGOS && window.CLIENT_LOGOS.getLogos(r.client)) || [];
@@ -291,7 +298,9 @@
         <div class="logo-half"><img src="${esc(b.path)}" alt="${esc(b.alias)}" loading="lazy"></div>
       </div>`;
     }
-    return `<div class="result-thumb result-thumb-gradient"></div>`;
+    // 폴백: 그라데이션 배경 + 회사명을 의미 있게 표시
+    const name = String(r.client || '발주처').trim();
+    return `<div class="result-thumb result-thumb-gradient"><span class="thumb-text">${esc(name)}</span></div>`;
   }
   function renderCard(r){
     return `<div class="result-card">
@@ -318,6 +327,15 @@
     });
     if (sort === 'name') filtered.sort((a,b) => (a.client||'').localeCompare(b.client||'', 'ko'));
     else if (sort === 'project') filtered.sort((a,b) => (a.project_name||'').localeCompare(b.project_name||'', 'ko'));
+    else {
+      // recent (기본): 로고 있는 항목 먼저, 같은 그룹 내에선 원래 순서(최신순) 유지
+      filtered.sort((a, b) => {
+        const ha = hasLogo(a), hb = hasLogo(b);
+        if (ha && !hb) return -1;
+        if (!ha && hb) return 1;
+        return 0;
+      });
+    }
     page = 1;
     // 검색·정렬 적용 중일 때만 결과 건수 표시
     const wrap = document.getElementById('consultCountWrap');
@@ -396,6 +414,6 @@
   });
 })();
 </script>
-<script src="js/admin-trigger.js?v=47"></script>
+<script src="js/admin-trigger.js?v=48"></script>
 </body>
 </html>
