@@ -20,7 +20,7 @@
 <title>Result | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=51">
+<link rel="stylesheet" href="style.css?v=52">
 </head>
 <body>
 
@@ -74,6 +74,15 @@
 
       <!-- 분양대행실적 -->
       <div id="sales" class="tab-pane active">
+
+        <!-- 검색 -->
+        <div class="consult-filter-bar" style="margin-bottom:18px;">
+          <div class="consult-search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="text" id="salesSearch" placeholder="프로젝트명 검색..." autocomplete="off">
+            <button class="consult-search-clear" id="salesSearchClear" aria-label="검색 지우기">&times;</button>
+          </div>
+        </div>
 
         <!-- Filter/Type header -->
         <div class="result-filter-bar">
@@ -162,11 +171,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=51"></script>
+<script src="script.js?v=52"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=51"></script>
-<script src="js/supabase-client.js?v=51"></script>
-<script src="js/client-logos.js?v=51"></script>
+<script src="js/supabase-config.js?v=52"></script>
+<script src="js/supabase-client.js?v=52"></script>
+<script src="js/client-logos.js?v=52"></script>
 
 <script>
 // ─── 분양실적 (동적 fetch + 유형 필터 + 더보기) ───
@@ -175,6 +184,7 @@
   let currentFilter = '전체';
   let currentPage = 0;
   let allItems = [];
+  let searchTerm = '';
 
   const grid = document.getElementById('resultGrid');
   const loadMoreWrap = document.getElementById('loadMoreWrap');
@@ -217,12 +227,18 @@
   }
 
   function renderVisible(){
-    const total = allItems.length;
+    // 검색어 적용
+    const q = searchTerm.trim().toLowerCase();
+    const filteredItems = !q ? allItems : allItems.filter(r => {
+      const hay = [r.project_name, r.description, r.type].filter(Boolean).join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+    const total = filteredItems.length;
     const shown = Math.min(currentPage * PER_PAGE, total);
-    const visible = allItems.slice(0, shown);
+    const visible = filteredItems.slice(0, shown);
 
     if (!visible.length) {
-      grid.innerHTML = '<div class="result-empty" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--c-sub);">해당 유형의 실적이 없습니다.</div>';
+      grid.innerHTML = `<div class="result-empty" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--c-sub);">${q ? '검색 결과가 없습니다.' : '해당 유형의 실적이 없습니다.'}</div>`;
       loadMoreWrap.style.display = 'none';
       if (resultCount) resultCount.textContent = '0 / 0건 표시 중';
       return;
@@ -237,6 +253,29 @@
       loadMoreWrap.style.display = 'none';
     }
   }
+
+  // 검색 input 이벤트
+  const salesSearch = document.getElementById('salesSearch');
+  const salesSearchClear = document.getElementById('salesSearchClear');
+  if (salesSearch) {
+    let salesTimer;
+    salesSearch.addEventListener('input', () => {
+      if (salesSearchClear) salesSearchClear.style.display = salesSearch.value ? '' : 'none';
+      clearTimeout(salesTimer);
+      salesTimer = setTimeout(() => {
+        searchTerm = salesSearch.value;
+        currentPage = 1;
+        renderVisible();
+      }, 180);
+    });
+  }
+  if (salesSearchClear) salesSearchClear.addEventListener('click', () => {
+    if (salesSearch) { salesSearch.value = ''; salesSearch.focus(); }
+    salesSearchClear.style.display = 'none';
+    searchTerm = '';
+    currentPage = 1;
+    renderVisible();
+  });
 
   if (loadMoreBtn) loadMoreBtn.addEventListener('click', () => { currentPage++; renderVisible(); });
 
@@ -414,6 +453,6 @@
   });
 })();
 </script>
-<script src="js/admin-trigger.js?v=51"></script>
+<script src="js/admin-trigger.js?v=52"></script>
 </body>
 </html>
