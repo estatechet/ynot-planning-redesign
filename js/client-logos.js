@@ -122,6 +122,13 @@
     'swc':           'img/logos/swc.png',
     'hanil':         'img/logos/hanil.png',
     'egcon':         'img/logos/egcon.png',
+    // Round 11 6차 — 사용자 제공 확정 URL
+    'sambu':         'img/logos/sambu.jpg',
+    'ga-cons':       'img/logos/ga-cons.svg',
+    'diec':          'img/logos/diec.png',
+    'pradium':       'img/logos/pradium.png',
+    'shinil':        'img/logos/shinil.png',
+    'daesang':       'img/logos/daesang.png',
     // 정비사업조합/재건축조합/지역주택조합 통일 아이콘
     'redev-org':     'img/logos/redev-org.svg',
   };
@@ -745,6 +752,49 @@
     '이지종합건설': 'egcon',
     '이지더원': 'egcon',
     'EG the1': 'egcon',
+
+    // ── Round 11 6차 사용자 확정 URL ──
+    // 삼부토건 (코스피 상장)
+    '삼부토건': 'sambu',
+    '삼부토건(주)': 'sambu',
+    '(주)삼부토건': 'sambu',
+    'SAMBU': 'sambu',
+
+    // 지에이건설 (GA Construction)
+    '지에이건설': 'ga-cons',
+    '지에이건설(주)': 'ga-cons',
+    '(주)지에이건설': 'ga-cons',
+    'GA건설': 'ga-cons',
+
+    // 디아이건설 (DI Engineering & Construction)
+    '디아이건설': 'diec',
+    '디아이건설(주)': 'diec',
+    '(주)디아이건설': 'diec',
+    'DI건설': 'diec',
+
+    // 시티건설 (시티프라디움 브랜드)
+    '시티건설': 'pradium',
+    '시티건설(주)': 'pradium',
+    '(주)시티건설': 'pradium',
+    '시티프라디움': 'pradium',
+    'PRADIUM': 'pradium',
+
+    // 신일건설 (해피트리·비아프 브랜드)
+    '신일건설': 'shinil',
+    '신일건설(주)': 'shinil',
+    '(주)신일건설': 'shinil',
+    'SHINIL': 'shinil',
+    '신일': 'shinil',
+    '해피트리': 'shinil',
+
+    // 대상건설 (구 동서건설, 웰라움 브랜드)
+    '대상건설': 'daesang',
+    '대상건설(주)': 'daesang',
+    '(주)대상건설': 'daesang',
+    '동서건설': 'daesang',
+    '동서건설(주)': 'daesang',
+    '(주)동서건설': 'daesang',
+    '웰라움': 'daesang',
 
     // ── 정비사업조합/재건축조합/지역주택조합 통일 아이콘 ──
     '인창동지역주택조합': 'redev-org',
