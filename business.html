@@ -20,7 +20,7 @@
 <title>Business | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=46">
+<link rel="stylesheet" href="style.css?v=47">
 <style>
 /* ──────────────────────────────────────────
    TAB BAR
@@ -28,10 +28,11 @@
 .biz-tab-wrap {
   position: sticky;
   top: 72px;
-  z-index: 200;
-  background: #fff;
+  z-index: 990;
+  background: var(--c-white);
   border-bottom: 1px solid var(--c-border);
-  box-shadow: 0 2px 12px rgba(0,0,0,.05);
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  isolation: isolate;
 }
 .biz-tab-bar {
   display: flex;
@@ -97,7 +98,7 @@
 }
 
 /* text side */
-.biz-panel-text { position: relative; padding-top: 16px; }
+.biz-panel-text { position: relative; padding-top: 16px; z-index: 1; }
 .biz-deco-num {
   position: absolute;
   top: -48px;
@@ -109,6 +110,7 @@
   pointer-events: none;
   letter-spacing: -.04em;
   user-select: none;
+  z-index: -1;
 }
 .biz-eyebrow {
   display: flex;
@@ -251,7 +253,7 @@
   width: 66px; height: 66px;
   border-radius: 50%;
   border: 2px solid var(--c-border);
-  background: #fff;
+  background: var(--c-white);
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 14px;
   color: var(--c-blue);
@@ -330,7 +332,7 @@
 </div>
 
 <!-- intro -->
-<div style="padding: 64px 0 0; background: #fff;">
+<div style="padding: 64px 0 0; background: var(--c-white);">
   <div class="wrap">
     <div class="sec-header center rv">
       <p class="sec-eyebrow">Our Services</p>
@@ -859,10 +861,10 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=46"></script>
+<script src="script.js?v=47"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=46"></script>
-<script src="js/supabase-client.js?v=46"></script>
+<script src="js/supabase-config.js?v=47"></script>
+<script src="js/supabase-client.js?v=47"></script>
 
 <script>
 // Tab switching
@@ -903,6 +905,6 @@ window.addEventListener('hashchange', openByHash);
   if (row) io.observe(row);
 })();
 </script>
-<script src="js/admin-trigger.js?v=46"></script>
+<script src="js/admin-trigger.js?v=47"></script>
 </body>
 </html>

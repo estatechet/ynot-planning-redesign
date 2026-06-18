@@ -20,7 +20,7 @@
 <title>Result | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=46">
+<link rel="stylesheet" href="style.css?v=47">
 </head>
 <body>
 
@@ -104,10 +104,33 @@
 
       <!-- 컨설팅실적 -->
       <div id="consulting" class="tab-pane">
+        <!-- 디벨롭: 필터·검색 바 -->
+        <div class="consult-filter-bar">
+          <div class="consult-search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="text" id="consultSearch" placeholder="발주처·프로젝트명 검색..." autocomplete="off">
+            <button class="consult-search-clear" id="consultSearchClear" aria-label="검색 지우기">&times;</button>
+          </div>
+          <div class="consult-controls">
+            <select id="consultSort" aria-label="정렬">
+              <option value="recent">최신순</option>
+              <option value="name">발주처 가나다순</option>
+              <option value="project">프로젝트명 가나다순</option>
+            </select>
+            <div class="consult-count" id="consultCountWrap" style="display:none;"><strong id="consultCount">0</strong> 건</div>
+          </div>
+        </div>
+
         <div class="result-grid" id="consultingGrid">
         </div>
+
+        <!-- 더 보기 -->
+        <div class="consult-loadmore-wrap" id="consultLoadMoreWrap" style="display:none;">
+          <button class="btn-loadmore" id="consultLoadMoreBtn">더 보기 <span id="consultLoadMoreRemain"></span></button>
+        </div>
+
         <div style="text-align:center;margin-top:48px;padding:24px;border:1px solid var(--c-border);border-radius:var(--radius);background:var(--c-bg);">
-          <p style="font-size:.85rem;color:var(--c-sub);margin-bottom:12px;">총 50건 이상의 컨설팅 실적이 있습니다. 자세한 내용은 문의해 주세요.</p>
+          <p style="font-size:.85rem;color:var(--c-sub);margin-bottom:12px;">총 1,000건 이상의 컨설팅 실적이 있습니다. 자세한 내용은 문의해 주세요.</p>
           <a href="contact.html" class="btn btn-blue">컨설팅 문의하기</a>
         </div>
       </div>
@@ -139,11 +162,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=46"></script>
+<script src="script.js?v=47"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=46"></script>
-<script src="js/supabase-client.js?v=46"></script>
-<script src="js/client-logos.js?v=46"></script>
+<script src="js/supabase-config.js?v=47"></script>
+<script src="js/supabase-client.js?v=47"></script>
+<script src="js/client-logos.js?v=47"></script>
 
 <script>
 // ─── 분양실적 (동적 fetch + 유형 필터 + 더보기) ───
@@ -242,11 +265,93 @@
   loadSales(true);
 })();
 
-// ─── 컨설팅실적 (동적 fetch) ───
+// ─── 컨설팅실적 (동적 fetch + 검색·정렬·페이지네이션) ───
 (function(){
   const grid = document.getElementById('consultingGrid');
   if (!grid) return;
+  const searchEl = document.getElementById('consultSearch');
+  const sortEl = document.getElementById('consultSort');
+  const countEl = document.getElementById('consultCount');
+  const clearBtn = document.getElementById('consultSearchClear');
+  const loadMoreWrap = document.getElementById('consultLoadMoreWrap');
+  const loadMoreBtn = document.getElementById('consultLoadMoreBtn');
+  const loadMoreRemain = document.getElementById('consultLoadMoreRemain');
+  const PER_PAGE = 48;
+
   function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function renderThumb(r){
+    if (r.logo_url) return `<div class="result-thumb result-thumb-logo"><img src="${esc(r.logo_url)}" alt="${esc(r.client || '')}" loading="lazy"></div>`;
+    const logos = (window.CLIENT_LOGOS && window.CLIENT_LOGOS.getLogos(r.client)) || [];
+    if (logos.length === 1) return `<div class="result-thumb result-thumb-logo"><img src="${esc(logos[0].path)}" alt="${esc(logos[0].alias)}" loading="lazy"></div>`;
+    if (logos.length >= 2) {
+      const [a, b] = logos;
+      return `<div class="result-thumb result-thumb-logo result-thumb-split">
+        <div class="logo-half"><img src="${esc(a.path)}" alt="${esc(a.alias)}" loading="lazy"></div>
+        <div class="logo-half"><img src="${esc(b.path)}" alt="${esc(b.alias)}" loading="lazy"></div>
+      </div>`;
+    }
+    return `<div class="result-thumb result-thumb-gradient"></div>`;
+  }
+  function renderCard(r){
+    return `<div class="result-card">
+      ${renderThumb(r)}
+      <div class="result-body">
+        <span class="result-badge">${esc(r.client || '컨설팅')}</span>
+        <h4>${esc(r.project_name)}</h4>
+        <p>${esc(r.period || '')}</p>
+        <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
+      </div>
+    </div>`;
+  }
+
+  let allData = [];
+  let filtered = [];
+  let page = 1;
+
+  function applyFilters(){
+    const q = (searchEl ? searchEl.value : '').trim().toLowerCase();
+    const sort = sortEl ? sortEl.value : 'recent';
+    filtered = !q ? allData.slice() : allData.filter(r => {
+      const hay = [r.client, r.project_name, r.period].filter(Boolean).join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+    if (sort === 'name') filtered.sort((a,b) => (a.client||'').localeCompare(b.client||'', 'ko'));
+    else if (sort === 'project') filtered.sort((a,b) => (a.project_name||'').localeCompare(b.project_name||'', 'ko'));
+    page = 1;
+    // 검색·정렬 적용 중일 때만 결과 건수 표시
+    const wrap = document.getElementById('consultCountWrap');
+    if (wrap) wrap.style.display = (q || sort !== 'recent') ? '' : 'none';
+    render();
+  }
+  function render(){
+    if (!filtered.length) {
+      grid.innerHTML = '<div class="result-empty" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--c-sub);">검색 결과가 없습니다.</div>';
+      if (loadMoreWrap) loadMoreWrap.style.display = 'none';
+      if (countEl) countEl.textContent = '0';
+      return;
+    }
+    if (countEl) countEl.textContent = filtered.length.toLocaleString();
+    const slice = filtered.slice(0, page * PER_PAGE);
+    grid.innerHTML = slice.map(renderCard).join('');
+    const remain = filtered.length - slice.length;
+    if (loadMoreWrap && loadMoreBtn) {
+      if (filtered.length <= PER_PAGE) {
+        // 첫 페이지 안에 다 들어감 → 버튼 숨김
+        loadMoreWrap.style.display = 'none';
+      } else if (remain > 0) {
+        // 더 펼칠 게 남음
+        loadMoreWrap.style.display = '';
+        loadMoreBtn.dataset.action = 'more';
+        loadMoreBtn.innerHTML = `더 보기 <span>(+${remain.toLocaleString()})</span>`;
+      } else {
+        // 전부 펼쳐짐 → 접기 옵션
+        loadMoreWrap.style.display = '';
+        loadMoreBtn.dataset.action = 'collapse';
+        loadMoreBtn.innerHTML = `접기 <span style="display:inline-block;transform:rotate(180deg);margin-left:4px;">▾</span>`;
+      }
+    }
+  }
 
   (async function(){
     grid.innerHTML = '<div class="result-empty" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--c-sub);">불러오는 중…</div>';
@@ -259,41 +364,38 @@
       grid.innerHTML = '<div class="result-empty" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--c-sub);">등록된 컨설팅 실적이 없습니다.</div>';
       return;
     }
-    function renderThumb(r){
-      // 1순위: DB logo_url (관리자 직접 업로드)
-      if (r.logo_url) {
-        return `<div class="result-thumb result-thumb-logo"><img src="${esc(r.logo_url)}" alt="${esc(r.client || '')}" loading="lazy"></div>`;
-      }
-      // 2순위: client 이름 자동 매핑
-      const logos = (window.CLIENT_LOGOS && window.CLIENT_LOGOS.getLogos(r.client)) || [];
-      if (logos.length === 1) {
-        return `<div class="result-thumb result-thumb-logo"><img src="${esc(logos[0].path)}" alt="${esc(logos[0].alias)}" loading="lazy"></div>`;
-      }
-      if (logos.length >= 2) {
-        // 합작: 최대 2개까지 반반 분할 (3개 이상은 앞의 2개만)
-        const [a, b] = logos;
-        return `<div class="result-thumb result-thumb-logo result-thumb-split">
-          <div class="logo-half"><img src="${esc(a.path)}" alt="${esc(a.alias)}" loading="lazy"></div>
-          <div class="logo-half"><img src="${esc(b.path)}" alt="${esc(b.alias)}" loading="lazy"></div>
-        </div>`;
-      }
-      // 3순위: teal→blue 그라디언트 (로고 없음)
-      return `<div class="result-thumb result-thumb-gradient"></div>`;
-    }
-    grid.innerHTML = data.map(r => `
-      <div class="result-card">
-        ${renderThumb(r)}
-        <div class="result-body">
-          <span class="result-badge">${esc(r.client || '컨설팅')}</span>
-          <h4>${esc(r.project_name)}</h4>
-          <p>${esc(r.period || '')}</p>
-          <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
-        </div>
-      </div>
-    `).join('');
+    allData = data;
+    applyFilters();
   })();
+
+  // 이벤트 — 검색·정렬·더보기·지우기
+  let timer;
+  if (searchEl) searchEl.addEventListener('input', () => {
+    if (clearBtn) clearBtn.style.display = searchEl.value ? '' : 'none';
+    clearTimeout(timer);
+    timer = setTimeout(applyFilters, 180);
+  });
+  if (clearBtn) clearBtn.addEventListener('click', () => {
+    if (searchEl) { searchEl.value = ''; searchEl.focus(); }
+    clearBtn.style.display = 'none';
+    applyFilters();
+  });
+  if (sortEl) sortEl.addEventListener('change', applyFilters);
+  if (loadMoreBtn) loadMoreBtn.addEventListener('click', () => {
+    if (loadMoreBtn.dataset.action === 'collapse') {
+      page = 1;
+      render();
+      // 컨설팅 영역 상단으로 부드럽게
+      const target = document.getElementById('consulting');
+      if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+    } else {
+      page++;
+      render();
+      window.scrollBy({top: 200, behavior: 'smooth'});
+    }
+  });
 })();
 </script>
-<script src="js/admin-trigger.js?v=46"></script>
+<script src="js/admin-trigger.js?v=47"></script>
 </body>
 </html>

@@ -124,15 +124,17 @@
       return client.from('sales_results').delete().eq('id', id);
     },
 
-    // 컨설팅실적
+    // 컨설팅실적 (PostgREST 기본 limit 1000 초과 대응 — 명시적으로 2000건)
     async listConsulting() {
       return client.from('consulting_results').select('*')
         .eq('is_published', true)
-        .order('display_order', { ascending: false }).order('id', { ascending: false });
+        .order('display_order', { ascending: false }).order('id', { ascending: false })
+        .limit(2000);
     },
     async listConsultingAdmin() {
       return client.from('consulting_results').select('*')
-        .order('display_order', { ascending: false }).order('id', { ascending: false });
+        .order('display_order', { ascending: false }).order('id', { ascending: false })
+        .limit(2000);
     },
     async createConsulting(row) {
       return client.from('consulting_results').insert(row).select().single();

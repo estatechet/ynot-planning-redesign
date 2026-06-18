@@ -1,10 +1,11 @@
-// Navbar
+// Navbar — scroll 상태 (hide/show 는 sticky 자식들과 충돌하여 비활성화)
 const navbar = document.getElementById('navbar');
 const stbtn = document.getElementById('scrollTopBtn');
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
-  if(stbtn) stbtn.classList.toggle('show', window.scrollY > 400);
-});
+  const y = window.scrollY;
+  navbar.classList.toggle('scrolled', y > 50);
+  if(stbtn) stbtn.classList.toggle('show', y > 400);
+}, { passive: true });
 
 // Hamburger
 const hbg = document.getElementById('hbg');
@@ -256,4 +257,82 @@ document.querySelectorAll('.win-warm').forEach(w => {
     requestAnimationFrame(loop);
   }
   loop();
+})();
+
+// ═══════════════════════════════════════════════════════
+// 디벨롭 1단계: 스크롤 진행률 바
+// ═══════════════════════════════════════════════════════
+(function(){
+  const bar = document.createElement('div');
+  bar.className = 'scroll-progress';
+  const fill = document.createElement('div');
+  fill.className = 'scroll-progress-fill';
+  bar.appendChild(fill);
+  document.body.insertBefore(bar, document.body.firstChild);
+
+  let raf = null;
+  const update = () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    fill.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    raf = null;
+  };
+  const onScroll = () => { if (raf === null) raf = requestAnimationFrame(update); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+
+// ═══════════════════════════════════════════════════════
+// 디벨롭 1단계: 카카오톡 채널 플로팅 (Contact 페이지에만 표시)
+// ═══════════════════════════════════════════════════════
+(function(){
+  const path = location.pathname;
+  const isContact = path.endsWith('contact.html') || path.endsWith('/contact') || /\/contact\/?$/.test(path);
+  if (!isContact) return;
+  const KAKAO_CHANNEL_URL = '#'; // TODO: 실제 카카오톡 채널 URL 로 교체 (예: 'https://pf.kakao.com/_xxxxx')
+  const btn = document.createElement('a');
+  btn.className = 'kakao-float';
+  btn.href = KAKAO_CHANNEL_URL;
+  btn.target = '_blank';
+  btn.rel = 'noopener';
+  btn.setAttribute('aria-label', '카카오톡 상담');
+  btn.innerHTML = `
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 3.4C6.7 3.4 2.4 6.8 2.4 11c0 2.7 1.8 5.1 4.5 6.4l-.9 3.3c-.1.3.2.5.5.3l3.9-2.6c.5.1 1.1.1 1.6.1 5.3 0 9.6-3.4 9.6-7.6S17.3 3.4 12 3.4z"/>
+    </svg>
+    <span class="kakao-tooltip">카카오톡 상담</span>`;
+  document.body.appendChild(btn);
+  if (KAKAO_CHANNEL_URL === '#') {
+    btn.addEventListener('click', e => { e.preventDefault(); alert('카카오톡 채널 URL이 아직 설정되지 않았습니다.'); });
+  }
+})();
+
+// ═══════════════════════════════════════════════════════
+// 디벨롭 1단계: 숫자 카운터 애니메이션 (.stat-number)
+// ═══════════════════════════════════════════════════════
+(function(){
+  const counters = document.querySelectorAll('.stat-number[data-target]');
+  if (!counters.length) return;
+  const animate = (el) => {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1800;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 4); // easeOutQuart
+      el.textContent = Math.floor(target * eased).toLocaleString();
+      if (t < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString();
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animate(e.target);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(c => io.observe(c));
 })();
