@@ -20,7 +20,7 @@
 <title>YNOT Planning | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="style.css?v=49">
 </head>
 <body>
 
@@ -53,37 +53,27 @@
 <!-- HERO -->
 <section id="main-hero">
   <div class="hero-photo-wrap">
-    <img src="img/hero_main.png" alt="와이낫플래닝" class="hero-photo">
-  </div>
-
-  <!-- 구름: 사진 위, 어두운 오버레이 아래에서 잔잔히 드리프트 -->
-  <div class="hero-atmos hero-clouds" aria-hidden="true">
-    <div class="cloud cloud-1"></div>
-    <div class="cloud cloud-2"></div>
-    <div class="cloud cloud-3"></div>
-    <div class="cloud cloud-4"></div>
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="img/hero_main.png">
+      <source src="img/video/hero.mp4" type="video/mp4">
+    </video>
+    <img src="img/hero_main.png" alt="와이낫플래닝" class="hero-photo hero-photo-fallback">
   </div>
 
   <div class="hero-overlay"></div>
   <div class="hero-fog"></div>
 
-  <!-- 별 (좌상단) -->
-  <div class="hero-atmos hero-stars" id="heroStars" aria-hidden="true"></div>
-
-  <!-- 별똥별 (아주 가끔) -->
-  <div class="hero-atmos hero-shootingstars" aria-hidden="true">
-    <span class="shooting"></span>
-    <span class="shooting shooting-2"></span>
-  </div>
-
   <canvas id="hero-particles"></canvas>
 
-  <!-- Hero Content -->
+  <!-- Hero Content (시퀀스 텍스트 — 속도감 맞춰 단계적 등장) -->
   <div class="hero-content">
-    <p class="hero-tag">부동산 개발 · 분양 마케팅 전문기업 · YNOT Planning</p>
-    <h1 class="hero-h1">부동산 분양의<br>새로운 기준,<br><em>와이낫플래닝</em></h1>
-    <p class="hero-p">정확한 시장 분석과 차별화된 마케팅 전략으로<br>고객의 프로젝트가 성공적으로 완수되도록 지원합니다.</p>
-    <div class="hero-btns">
+    <p class="hero-tag hero-anim" style="--d:0s">부동산 개발 · 분양 마케팅 전문기업 · YNOT Planning</p>
+    <h1 class="hero-h1">
+      <span class="hero-line hero-anim" style="--d:.5s">부동산 분양의</span>
+      <span class="hero-line hero-anim" style="--d:1.1s">새로운 기준,</span>
+      <span class="hero-line hero-anim hero-line-em" style="--d:1.8s"><em>와이낫플래닝</em></span>
+    </h1>
+    <p class="hero-p hero-anim" style="--d:2.6s">정확한 시장 분석과 차별화된 마케팅 전략으로<br>고객의 프로젝트가 성공적으로 완수되도록 지원합니다.</p>
+    <div class="hero-btns hero-anim" style="--d:3.3s">
       <a href="result.html" class="btn btn-outline-w">분양 실적 보기</a>
     </div>
   </div>
@@ -291,12 +281,12 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=48"></script>
+<script src="script.js?v=49"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=48"></script>
-<script src="js/supabase-client.js?v=48"></script>
+<script src="js/supabase-config.js?v=49"></script>
+<script src="js/supabase-client.js?v=49"></script>
 
-<script src="js/admin-trigger.js?v=48"></script>
+<script src="js/admin-trigger.js?v=49"></script>
 <script>
 // Hero 별 동적 생성 (좌상단 영역에 적게 — 건물 근처 배제)
 (function(){
