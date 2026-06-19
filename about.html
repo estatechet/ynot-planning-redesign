@@ -20,13 +20,7 @@
 <title>About YNP | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=64">
-<style>
-  /* About 페이지: 모든 섹션 한 번에 노출 + anchor 스크롤 점프 */
-  .tab-pane{display:block !important;margin-bottom:120px;scroll-margin-top:80px}
-  .tab-pane:last-child{margin-bottom:0}
-  .tab-pane + .tab-pane{padding-top:20px;border-top:1px solid var(--c-border)}
-</style>
+<link rel="stylesheet" href="style.css?v=65">
 </head>
 <body>
 
@@ -492,7 +486,23 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=64"></script>
-<script src="js/admin-trigger.js?v=64"></script>
+<script src="script.js?v=65"></script>
+<script src="js/admin-trigger.js?v=65"></script>
+<script>
+// nav 메뉴 hash로 패널 전환 (inner-tabs 없이 동작)
+function openByHash(){
+  const h = location.hash.replace('#','');
+  const ids = ['ideology','ceo','history','org','location'];
+  const target = ids.includes(h) ? h : 'ideology';
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById(target);
+  if(panel) panel.classList.add('active');
+  if(h && ids.includes(h)){
+    window.scrollTo({top: document.querySelector('.section').offsetTop - 70, behavior:'smooth'});
+  }
+}
+openByHash();
+window.addEventListener('hashchange', openByHash);
+</script>
 </body>
 </html>
