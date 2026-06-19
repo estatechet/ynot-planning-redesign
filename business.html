@@ -20,7 +20,7 @@
 <title>Business | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=56">
+<link rel="stylesheet" href="style.css?v=57">
 <style>
 /* ──────────────────────────────────────────
    TAB BAR
@@ -347,7 +347,61 @@
 </div>
 
 <!-- ══════════════════════════════════════
-     STICKY TAB BAR
+     WAVE INDEX — 노드 클릭하면 본문으로 드릴다운
+══════════════════════════════════════ -->
+<section class="biz-wave-section" id="bizWaveSection">
+  <div class="wrap">
+    <p class="biz-wave-eyebrow">Work Process</p>
+    <h3 class="biz-wave-title">아래 단계를 눌러 자세히 보기</h3>
+    <div class="biz-wave-canvas">
+      <svg class="biz-wave-svg" viewBox="0 0 1200 320" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="waveLine" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#00A8A8"/>
+            <stop offset="50%" stop-color="#1e6eaa"/>
+            <stop offset="100%" stop-color="#0F4B96"/>
+          </linearGradient>
+        </defs>
+        <path class="biz-wave-path" d="M 0 160 C 50 40, 150 40, 200 160 C 250 280, 350 280, 400 160 C 450 40, 550 40, 600 160 C 650 280, 750 280, 800 160 C 850 40, 950 40, 1000 160 C 1050 280, 1150 280, 1200 160"
+              fill="none" stroke="url(#waveLine)" stroke-width="2.4" stroke-linecap="round" opacity="0.55"/>
+      </svg>
+      <button class="biz-wave-node n-top"    style="left:8.3%"  data-panel="p01" aria-label="시장조사 및 분석">
+        <span class="biz-wave-num">01</span>
+        <span class="biz-wave-dot"></span>
+        <span class="biz-wave-label">시장조사<br>및 분석</span>
+      </button>
+      <button class="biz-wave-node n-bot"    style="left:25%"   data-panel="p02" aria-label="마케팅 전략">
+        <span class="biz-wave-num">02</span>
+        <span class="biz-wave-dot"></span>
+        <span class="biz-wave-label">마케팅 전략</span>
+      </button>
+      <button class="biz-wave-node n-top"    style="left:41.7%" data-panel="p03" aria-label="사업계획 수립">
+        <span class="biz-wave-num">03</span>
+        <span class="biz-wave-dot"></span>
+        <span class="biz-wave-label">사업계획<br>수립</span>
+      </button>
+      <button class="biz-wave-node n-bot"    style="left:58.3%" data-panel="p04" aria-label="사업타당성 조사분석">
+        <span class="biz-wave-num">04</span>
+        <span class="biz-wave-dot"></span>
+        <span class="biz-wave-label">사업타당성<br>조사분석</span>
+      </button>
+      <button class="biz-wave-node n-top"    style="left:75%"   data-panel="p05" aria-label="상품투자 및 처분">
+        <span class="biz-wave-num">05</span>
+        <span class="biz-wave-dot"></span>
+        <span class="biz-wave-label">상품투자<br>및 처분</span>
+      </button>
+      <button class="biz-wave-node n-bot"    style="left:91.7%" data-panel="p06" aria-label="금융 비즈니스">
+        <span class="biz-wave-num">06</span>
+        <span class="biz-wave-dot"></span>
+        <span class="biz-wave-label">금융<br>비즈니스</span>
+      </button>
+    </div>
+    <p class="biz-wave-hint">단계 클릭 → 상세 페이지로 이동</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     STICKY TAB BAR (detail mode 전용)
 ══════════════════════════════════════ -->
 <div class="biz-tab-wrap">
   <div class="biz-tab-bar">
@@ -383,6 +437,10 @@
 ══════════════════════════════════════ -->
 <div class="biz-panels">
   <div class="wrap">
+    <button class="biz-back-btn" id="bizBackBtn" type="button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Work Process로 돌아가기
+    </button>
 
     <!-- ── 01 시장조사 및 분석 ── -->
     <div class="biz-panel active" id="p01">
@@ -865,34 +923,75 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=56"></script>
+<script src="script.js?v=57"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=56"></script>
-<script src="js/supabase-client.js?v=56"></script>
+<script src="js/supabase-config.js?v=57"></script>
+<script src="js/supabase-client.js?v=57"></script>
 
 <script>
-// Tab switching
-document.querySelectorAll('.biz-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.biz-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.biz-panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    const panel = document.getElementById(tab.dataset.panel);
-    if (panel) panel.classList.add('active');
+// Drill-down 진입 (wave 노드 또는 sticky 탭 → 본문)
+function enterDetail(panelId, animateFromNode) {
+  document.querySelectorAll('.biz-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.biz-panel').forEach(p => p.classList.remove('active'));
+  const tab = document.querySelector(`[data-panel="${panelId}"]`);
+  const panel = document.getElementById(panelId);
+  if (tab) tab.classList.add('active');
+  if (panel) panel.classList.add('active');
+  document.body.classList.add('biz-detail-mode');
+  // 원점에서 솟아오르는 zoom-in 효과
+  if (animateFromNode) {
+    const rect = animateFromNode.getBoundingClientRect();
+    const ox = rect.left + rect.width/2;
+    const oy = rect.top + rect.height/2;
+    document.documentElement.style.setProperty('--biz-zoom-origin-x', ox+'px');
+    document.documentElement.style.setProperty('--biz-zoom-origin-y', oy+'px');
+  }
+  // 본문 영역으로 스크롤
+  setTimeout(() => {
+    const wrap = document.querySelector('.biz-tab-wrap');
+    if (wrap) window.scrollTo({top: wrap.offsetTop - 70, behavior: 'smooth'});
+  }, 50);
+}
+
+// 돌아가기 → wave 인덱스로 복귀
+function exitDetail() {
+  document.body.classList.remove('biz-detail-mode');
+  const wave = document.getElementById('bizWaveSection');
+  if (wave) window.scrollTo({top: wave.offsetTop - 80, behavior: 'smooth'});
+  history.replaceState(null, '', location.pathname);
+}
+
+// Wave 노드 클릭
+document.querySelectorAll('.biz-wave-node').forEach(node => {
+  node.addEventListener('click', () => {
+    enterDetail(node.dataset.panel, node);
   });
 });
 
-// Hash tab open (from nav dropdown)
+// Sticky tab 클릭 (detail 모드 내에서 단계 이동)
+document.querySelectorAll('.biz-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    enterDetail(tab.dataset.panel, tab);
+  });
+});
+
+// 돌아가기 버튼
+const backBtn = document.getElementById('bizBackBtn');
+if (backBtn) backBtn.addEventListener('click', exitDetail);
+
+// ESC 키로 돌아가기
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.body.classList.contains('biz-detail-mode')) {
+    exitDetail();
+  }
+});
+
+// Hash로 직접 진입 (nav dropdown → #biz03 등) → 바로 detail mode
 function openByHash() {
   const h = location.hash.replace('#', '');
   const tabMap = { biz01:'p01', biz02:'p02', biz03:'p03', biz04:'p04', biz05:'p05', biz06:'p06' };
   if (tabMap[h]) {
-    document.querySelectorAll('.biz-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.biz-panel').forEach(p => p.classList.remove('active'));
-    const tab = document.querySelector(`[data-panel="${tabMap[h]}"]`);
-    const panel = document.getElementById(tabMap[h]);
-    if (tab) tab.classList.add('active');
-    if (panel) panel.classList.add('active');
+    enterDetail(tabMap[h], null);
   }
 }
 openByHash();
@@ -909,6 +1008,6 @@ window.addEventListener('hashchange', openByHash);
   if (row) io.observe(row);
 })();
 </script>
-<script src="js/admin-trigger.js?v=56"></script>
+<script src="js/admin-trigger.js?v=57"></script>
 </body>
 </html>
