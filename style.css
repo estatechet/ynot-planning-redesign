@@ -540,11 +540,12 @@ ul{list-style:none}
 .stat-item::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c-teal),var(--c-blue));transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.4,0,.2,1)}
 .stat-item:hover{transform:translateY(-8px);box-shadow:0 22px 50px rgba(15,75,150,.1);border-color:transparent}
 .stat-item:hover::before{transform:scaleX(1)}
-.stat-figure{display:flex;align-items:baseline;justify-content:center;gap:2px;margin-bottom:16px;line-height:1}
-.stat-number{font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:clamp(2.8rem,5.6vw,3.9rem);font-weight:600;color:var(--c-blue);line-height:1;font-feature-settings:"tnum","ss01";letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.stat-suffix{font-family:'Pretendard Variable','Pretendard',-apple-system,sans-serif;font-size:clamp(.95rem,1.4vw,1.2rem);font-weight:500;color:var(--c-sub);letter-spacing:-.01em;margin-left:6px;align-self:flex-end;padding-bottom:8px}
+.stat-figure{display:flex;align-items:baseline;justify-content:center;gap:4px;margin-bottom:16px;line-height:1;flex-wrap:nowrap;max-width:100%;overflow:hidden;padding:0 4px}
+.stat-number{font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:clamp(2rem,3.8vw,2.8rem);font-weight:600;color:var(--c-blue);line-height:1;font-feature-settings:"tnum","ss01";letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.stat-suffix{font-family:'Pretendard Variable','Pretendard',-apple-system,sans-serif;font-size:clamp(.78rem,1vw,.95rem);font-weight:500;color:var(--c-sub);letter-spacing:-.01em;margin-left:2px;align-self:flex-end;padding-bottom:6px;white-space:nowrap;flex-shrink:0}
 .stat-label{font-size:.86rem;font-weight:500;color:var(--c-sub);letter-spacing:.06em}
 @media(max-width:768px){.stats-section{padding:64px 0}.stats-grid{grid-template-columns:repeat(2,1fr);gap:16px}.stats-subtitle{margin-bottom:40px}.stat-item{padding:32px 20px 28px}}
+@media(max-width:480px){.stat-number{font-size:1.7rem}.stat-suffix{font-size:.72rem;padding-bottom:4px}}
 
 /* ═══════════════════════════════════════════════════════
    디자인 개선 1: Reveal 애니메이션 강화 (blur + scale + stagger)

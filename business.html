@@ -20,7 +20,7 @@
 <title>Business | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=65">
+<link rel="stylesheet" href="style.css?v=66">
 <style>
 /* ──────────────────────────────────────────
    TAB BAR
@@ -206,61 +206,9 @@
 }
 .biz-panel.active .bar-rise { transform: scaleY(1); }
 
-/* ──────────────────────────────────────────
-   PROCESS (bottom)
-────────────────────────────────────────── */
-.proc6-row {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 0;
-  position: relative;
-  margin-top: 52px;
-}
-.proc6-connector {
-  position: absolute;
-  top: 33px;
-  left: calc(100%/12);
-  right: calc(100%/12);
-  height: 1px;
-  background: var(--c-border);
-  overflow: hidden;
-}
-.proc6-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--c-teal), var(--c-blue));
-  width: 0;
-  transition: width 1.6s cubic-bezier(.4,0,.2,1);
-}
-.proc6-fill.on { width: 100%; }
-.proc6-step { text-align: center; padding: 0 4px; position: relative; }
-.proc6-dot {
-  width: 66px; height: 66px;
-  border-radius: 50%;
-  border: 2px solid var(--c-border);
-  background: var(--c-white);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 14px;
-  color: var(--c-blue);
-  position: relative; z-index: 1;
-  transition: border-color .28s, background .28s, color .28s, box-shadow .28s, transform .28s cubic-bezier(.22,.68,0,1.2);
-}
-.proc6-step:hover .proc6-dot {
-  border-color: var(--c-teal);
-  background: var(--c-teal);
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(0,168,168,.3);
-  transform: translateY(-4px);
-}
-.proc6-step.final .proc6-dot { background: var(--c-blue); border-color: var(--c-blue); color: #fff; }
-.proc6-step.final:hover .proc6-dot { background: var(--c-teal); border-color: var(--c-teal); }
-.proc6-step h4 { font-size: .78rem; font-weight: 700; margin-bottom: 4px; }
-.proc6-step p  { font-size: .68rem; color: var(--c-sub); line-height: 1.55; }
-
 @media(max-width: 900px) {
   .biz-panel-inner { grid-template-columns: 1fr; gap: 40px; }
   .biz-visual-box { aspect-ratio: 16/9; }
-  .proc6-row { grid-template-columns: repeat(3, 1fr); gap: 28px; }
-  .proc6-connector { display: none; }
 }
 @media(max-width: 768px) {
   .biz-tab-bar { flex-wrap: wrap; overflow-x: visible; gap: 4px; padding: 8px 4px; }
@@ -799,10 +747,10 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=65"></script>
+<script src="script.js?v=66"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=65"></script>
-<script src="js/supabase-client.js?v=65"></script>
+<script src="js/supabase-config.js?v=66"></script>
+<script src="js/supabase-client.js?v=66"></script>
 
 <script>
 // Drill-down 진입 (wave 노드 또는 sticky 탭 → 본문)
@@ -884,6 +832,6 @@ window.addEventListener('hashchange', openByHash);
   if (row) io.observe(row);
 })();
 </script>
-<script src="js/admin-trigger.js?v=65"></script>
+<script src="js/admin-trigger.js?v=66"></script>
 </body>
 </html>
