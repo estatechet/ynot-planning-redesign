@@ -693,55 +693,70 @@ img[loading="lazy"].loaded,img[loading="lazy"][src]{opacity:1}
 .biz-wave-section .wrap{max-width:1280px}
 .biz-wave-eyebrow{font-family:'Playfair Display',serif;font-size:.85rem;letter-spacing:.22em;text-transform:uppercase;color:var(--c-blue);font-weight:600;text-align:center;margin-bottom:10px}
 .biz-wave-title{font-size:clamp(1.4rem,2.4vw,1.9rem);font-weight:700;color:var(--c-text);text-align:center;margin-bottom:48px;letter-spacing:-.02em}
-.biz-wave-canvas{position:relative;width:100%;aspect-ratio:1200/300;max-width:1200px;margin:0 auto;padding:0 8px}
-.biz-wave-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.biz-wave-path{stroke-dasharray:3200;stroke-dashoffset:3200;animation:waveDraw 2.2s cubic-bezier(.4,0,.2,1) .2s forwards}
+.biz-wave-canvas{position:relative;width:100%;aspect-ratio:1200/380;max-width:1200px;margin:0 auto;padding:0 8px}
+.biz-wave-svg{position:absolute;inset:0;width:100%;height:100%}
+.biz-wave-path{stroke-dasharray:3500;stroke-dashoffset:3500;animation:waveDraw 2.2s cubic-bezier(.4,0,.2,1) .2s forwards}
 @keyframes waveDraw{to{stroke-dashoffset:0}}
+
+/* 노드 박스 = 캔버스 전체 높이. 자식(dot, label)을 absolute로 정확한 위치에 배치 */
 .biz-wave-node{
-  position:absolute;
+  position:absolute;top:0;
   transform:translateX(-50%);
+  width:140px;height:100%;
   background:transparent;border:none;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;gap:14px;
-  padding:8px;z-index:2;width:130px;
-  transition:transform .25s ease;
+  z-index:2;padding:0;
   opacity:0;animation:nodeFade .5s ease forwards;
 }
-.biz-wave-node.n-top{top:6%}
-.biz-wave-node.n-bot{top:60%;flex-direction:column-reverse}
-.biz-wave-node:nth-child(2){animation-delay:.4s}
-.biz-wave-node:nth-child(3){animation-delay:.6s}
-.biz-wave-node:nth-child(4){animation-delay:.8s}
-.biz-wave-node:nth-child(5){animation-delay:1.0s}
-.biz-wave-node:nth-child(6){animation-delay:1.2s}
-.biz-wave-node:nth-child(7){animation-delay:1.4s}
-@keyframes nodeFade{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.biz-wave-node:nth-of-type(1){animation-delay:.4s}
+.biz-wave-node:nth-of-type(2){animation-delay:.6s}
+.biz-wave-node:nth-of-type(3){animation-delay:.8s}
+.biz-wave-node:nth-of-type(4){animation-delay:1.0s}
+.biz-wave-node:nth-of-type(5){animation-delay:1.2s}
+.biz-wave-node:nth-of-type(6){animation-delay:1.4s}
+@keyframes nodeFade{from{opacity:0}to{opacity:1}}
+
+/* Dot: wave 곡선 정확히 위에 (peak=25%, valley=75%) */
 .biz-wave-dot{
-  width:72px;height:72px;border-radius:50%;
+  position:absolute;
+  left:50%;
+  width:64px;height:64px;border-radius:50%;
   background:#fff;
   border:1.5px solid rgba(15,75,150,.22);
   display:flex;align-items:center;justify-content:center;
-  position:relative;
-  transition:all .35s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 6px 18px rgba(15,75,150,.07);
+  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease;
+  box-shadow:0 6px 18px rgba(15,75,150,.08);
 }
+.biz-wave-node.n-top .biz-wave-dot{top:25%;transform:translate(-50%,-50%)}
+.biz-wave-node.n-bot .biz-wave-dot{top:75%;transform:translate(-50%,-50%)}
+
 .biz-wave-num{
   font-family:'Playfair Display',serif;
-  font-size:1.4rem;font-weight:700;color:var(--c-blue);
+  font-size:1.25rem;font-weight:700;color:var(--c-blue);
   letter-spacing:.02em;line-height:1;
   transition:color .25s ease;
 }
+
+/* Label: 캔버스 끝쪽 (top: 위쪽 / bottom: 아래쪽) — wave 영역과 완전 분리 */
 .biz-wave-label{
-  font-size:.85rem;font-weight:600;color:var(--c-text);
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:.88rem;font-weight:600;color:var(--c-text);
   text-align:center;line-height:1.4;letter-spacing:-.01em;
-  transition:color .25s ease;
   white-space:nowrap;
+  transition:color .25s ease;
 }
+.biz-wave-node.n-top .biz-wave-label{top:3%}
+.biz-wave-node.n-bot .biz-wave-label{bottom:3%}
+
+/* Hover */
 .biz-wave-node:hover .biz-wave-dot{
   background:var(--c-blue);
   border-color:var(--c-blue);
-  transform:scale(1.08);
-  box-shadow:0 12px 28px rgba(15,75,150,.28);
+  box-shadow:0 12px 28px rgba(15,75,150,.3);
 }
+.biz-wave-node.n-top:hover .biz-wave-dot{transform:translate(-50%,-50%) scale(1.1)}
+.biz-wave-node.n-bot:hover .biz-wave-dot{transform:translate(-50%,-50%) scale(1.1)}
 .biz-wave-node:hover .biz-wave-num{color:#fff}
 .biz-wave-node:hover .biz-wave-label{color:var(--c-blue)}
 .biz-wave-hint{
@@ -783,13 +798,31 @@ body.biz-detail-mode .biz-panels{
 @media (max-width:1023px){
   .biz-wave-canvas{aspect-ratio:auto;max-width:520px;display:flex;flex-direction:column;gap:0;padding:0}
   .biz-wave-svg{display:none}
-  .biz-wave-node{position:static;transform:none;width:100%;flex-direction:row !important;justify-content:flex-start;gap:18px;padding:18px 22px;background:#fff;border:1px solid var(--c-border);border-radius:14px;margin-bottom:12px;animation:nodeFade .35s ease forwards;box-shadow:0 2px 8px rgba(0,0,0,.03)}
-  .biz-wave-node.n-top,.biz-wave-node.n-bot{top:auto}
-  .biz-wave-dot{width:52px;height:52px;flex-shrink:0}
+  .biz-wave-node{
+    position:static;transform:none;
+    width:100%;height:auto;
+    display:flex;flex-direction:row;align-items:center;justify-content:flex-start;
+    gap:18px;padding:18px 22px;
+    background:#fff;border:1px solid var(--c-border);border-radius:14px;
+    margin-bottom:12px;
+    animation:nodeFade .35s ease forwards;
+    box-shadow:0 2px 8px rgba(0,0,0,.03);
+    transition:transform .2s ease,border-color .2s ease;
+  }
+  .biz-wave-node.n-top .biz-wave-dot,
+  .biz-wave-node.n-bot .biz-wave-dot{
+    position:static;left:auto;top:auto;transform:none;
+    width:52px;height:52px;flex-shrink:0;
+  }
+  .biz-wave-node.n-top .biz-wave-label,
+  .biz-wave-node.n-bot .biz-wave-label{
+    position:static;left:auto;top:auto;bottom:auto;transform:none;
+    text-align:left;font-size:.95rem;white-space:normal;
+  }
   .biz-wave-num{font-size:1.05rem}
-  .biz-wave-label{text-align:left;font-size:.95rem;white-space:normal}
-  .biz-wave-label br{display:none}
-  .biz-wave-node:hover{transform:translateX(4px)}
+  .biz-wave-node:hover{transform:translateX(4px);border-color:var(--c-blue)}
+  .biz-wave-node.n-top:hover .biz-wave-dot,
+  .biz-wave-node.n-bot:hover .biz-wave-dot{transform:none}
 }
 
 /* === CEO Editorial Split (인사말) === */
