@@ -830,15 +830,17 @@ body.biz-detail-mode .biz-panels{
   background:#fff;
 }
 .ceo-portrait-wrap{
-  position:relative;
+  position:sticky;
+  top:100px;
+  align-self:start;
   aspect-ratio:3/4;
   background:#fff;
   border-radius:4px;
   overflow:hidden;
   box-shadow:0 1px 2px rgba(0,0,0,.04),0 20px 50px -20px rgba(20,40,80,.15);
-  position:sticky;
-  top:120px;
 }
+/* 부모 .ceo-editorial 또는 .tab-pane에 overflow가 있으면 sticky 안 됨 — 보정 */
+.tab-pane.active,.tab-group{overflow:visible !important}
 .ceo-portrait-img{
   width:100%;
   height:100%;
@@ -907,6 +909,17 @@ body.biz-detail-mode .biz-panels{
   font-size:1.15rem;
   font-weight:700;
   letter-spacing:.08em;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.ceo-sig-img{
+  height:34px !important;
+  width:auto !important;
+  display:inline-block;
+  vertical-align:middle;
+  margin-left:14px;
+  opacity:.9;
+  flex-shrink:0;
+  pointer-events:none;user-select:none;
 }
 @media (max-width:900px){
   .ceo-editorial{grid-template-columns:1fr;gap:36px;max-width:560px}
