@@ -20,7 +20,7 @@
 <title>Business | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=73">
+<link rel="stylesheet" href="style.css?v=74">
 <style>
 /* ──────────────────────────────────────────
    TAB BAR
@@ -746,14 +746,14 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=73"></script>
+<script src="script.js?v=74"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=73"></script>
-<script src="js/supabase-client.js?v=73"></script>
+<script src="js/supabase-config.js?v=74"></script>
+<script src="js/supabase-client.js?v=74"></script>
 
 <script>
 // Drill-down 진입 (wave 노드 또는 sticky 탭 → 본문)
-function enterDetail(panelId, animateFromNode) {
+function enterDetail(panelId, animateFromNode, doScroll) {
   document.querySelectorAll('.biz-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.biz-panel').forEach(p => p.classList.remove('active'));
   const tab = document.querySelector(`[data-panel="${panelId}"]`);
@@ -769,11 +769,13 @@ function enterDetail(panelId, animateFromNode) {
     document.documentElement.style.setProperty('--biz-zoom-origin-x', ox+'px');
     document.documentElement.style.setProperty('--biz-zoom-origin-y', oy+'px');
   }
-  // 본문 영역으로 스크롤
-  setTimeout(() => {
-    const wrap = document.querySelector('.biz-tab-wrap');
-    if (wrap) window.scrollTo({top: wrap.offsetTop - 70, behavior: 'smooth'});
-  }, 50);
+  // 본문 영역으로 스크롤 (nav 호출 시는 X)
+  if (doScroll !== false) {
+    setTimeout(() => {
+      const wrap = document.querySelector('.biz-tab-wrap');
+      if (wrap) window.scrollTo({top: wrap.offsetTop - 70, behavior: 'smooth'});
+    }, 50);
+  }
 }
 
 // 돌아가기 → wave 인덱스로 복귀
@@ -809,12 +811,12 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Hash로 직접 진입 (nav dropdown → #biz03 등) → 바로 detail mode
+// Hash로 직접 진입 (nav dropdown → #biz03 등) → detail mode (스크롤 X)
 function openByHash() {
   const h = location.hash.replace('#', '');
   const tabMap = { biz01:'p01', biz02:'p02', biz03:'p03', biz04:'p04', biz05:'p05', biz06:'p06' };
   if (tabMap[h]) {
-    enterDetail(tabMap[h], null);
+    enterDetail(tabMap[h], null, false);
   }
 }
 openByHash();
@@ -831,6 +833,6 @@ window.addEventListener('hashchange', openByHash);
   if (row) io.observe(row);
 })();
 </script>
-<script src="js/admin-trigger.js?v=73"></script>
+<script src="js/admin-trigger.js?v=74"></script>
 </body>
 </html>
