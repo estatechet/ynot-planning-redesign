@@ -20,7 +20,7 @@
 <title>About YNP | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=71">
+<link rel="stylesheet" href="style.css?v=72">
 </head>
 <body>
 
@@ -486,8 +486,8 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=71"></script>
-<script src="js/admin-trigger.js?v=71"></script>
+<script src="script.js?v=72"></script>
+<script src="js/admin-trigger.js?v=72"></script>
 <script>
 // nav 메뉴: 패널만 전환, 스크롤은 절대 건들지 않음 (영상 화면 유지)
 const aboutIds = ['ideology','ceo','history','org','location'];
@@ -516,9 +516,17 @@ document.querySelectorAll('a[href*="about.html#"]').forEach(a => {
 
 // 페이지 로드 시 hash가 있으면 그 패널만 활성화 (스크롤 X)
 showPanel(location.hash.replace('#',''));
-// 페이지 진입 시 hash 때문에 브라우저가 자동 스크롤한 경우 즉시 최상단으로 복귀
+
+// 브라우저 hash anchor 자동 스크롤 완전 차단 — 여러 시점에서 강제 최상단 복귀
 if(location.hash){
-  setTimeout(() => window.scrollTo({top: 0, behavior: 'instant'}), 0);
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const forceTop = () => window.scrollTo(0, 0);
+  forceTop();
+  requestAnimationFrame(() => { forceTop(); requestAnimationFrame(forceTop); });
+  setTimeout(forceTop, 50);
+  setTimeout(forceTop, 150);
+  setTimeout(forceTop, 350);
+  window.addEventListener('load', forceTop, {once:true});
 }
 
 // 브라우저 뒤로/앞으로 이동에서 hash 변경된 경우
