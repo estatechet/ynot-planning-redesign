@@ -20,7 +20,7 @@
 <title>Contact | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=81">
+<link rel="stylesheet" href="style.css?v=82">
 </head>
 <body>
 
@@ -97,6 +97,9 @@
   .nc-brand-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:.78rem;color:var(--nc-sub);letter-spacing:.04em;margin-top:2px}
   .flip-btn{position:absolute;bottom:14px;right:14px;display:inline-flex;align-items:center;gap:4px;background:var(--nc-blue);color:#fff;padding:7px 14px;border:none;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.04em;cursor:pointer;box-shadow:0 4px 12px rgba(15,75,150,.3);transition:all .2s;z-index:3;font-family:inherit}
   .flip-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.4)}
+  /* 뒷면 좌상단 명함으로 돌아가기 (항상 보이는 X/← 버튼) */
+  .flip-back-btn{position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--nc-sub);padding:7px 13px;border:1px solid var(--nc-line);border-radius:100px;font-size:.7rem;font-weight:700;cursor:pointer;z-index:3;font-family:inherit;transition:all .2s}
+  .flip-back-btn:hover{border-color:var(--nc-blue);color:var(--nc-blue);background:#fff}
   .nc-back{transform:rotateY(180deg);padding:28px 34px;display:flex;flex-direction:column;text-align:left}
   .nc-back-head{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:14px;margin-bottom:16px;border-bottom:1.5px solid var(--nc-blue)}
   .nc-back-title{font-size:1.2rem;font-weight:800;color:var(--nc-text);letter-spacing:-.025em}
@@ -156,9 +159,7 @@
     <div class="nc-head">
       <p class="sec-eyebrow">Contact Us</p>
       <h2>YNP에 문의하기</h2>
-      <p>명함을 클릭하시면 문의 폼이 나타납니다.</p>
     </div>
-    <p class="nc-hint">명함 클릭 시 뒷면(상담 폼)으로 회전 <kbd>Click</kbd></p>
 
     <div class="nc-scene">
       <div class="nc-card" id="ncCard">
@@ -190,6 +191,7 @@
 
         <!-- BACK: 폼 -->
         <div class="nc-face nc-back">
+          <button class="flip-back-btn" id="toCardTop" type="button" aria-label="명함으로 돌아가기">← 명함으로</button>
           <div class="nc-back-head">
             <div>
               <div class="nc-back-eyebrow">Contact Form</div>
@@ -255,6 +257,7 @@
   const card = document.getElementById('ncCard');
   document.getElementById('toForm').addEventListener('click', e => {e.stopPropagation(); card.classList.add('flipped')});
   document.getElementById('toCard').addEventListener('click', e => {e.stopPropagation(); card.classList.remove('flipped')});
+  document.getElementById('toCardTop').addEventListener('click', e => {e.stopPropagation(); card.classList.remove('flipped')});
   card.addEventListener('click', () => { if(!card.classList.contains('flipped')) card.classList.add('flipped'); });
 
   // 개인정보 동의 Modal
@@ -377,11 +380,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=81"></script>
+<script src="script.js?v=82"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=81"></script>
-<script src="js/supabase-client.js?v=81"></script>
+<script src="js/supabase-config.js?v=82"></script>
+<script src="js/supabase-client.js?v=82"></script>
 
-<script src="js/admin-trigger.js?v=81"></script>
+<script src="js/admin-trigger.js?v=82"></script>
 </body>
 </html>
