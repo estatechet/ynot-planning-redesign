@@ -126,15 +126,34 @@
 
     // 컨설팅실적 (PostgREST 기본 limit 1000 초과 대응 — 명시적으로 2000건)
     async listConsulting() {
-      return client.from('consulting_results').select('*')
-        .eq('is_published', true)
-        .order('display_order', { ascending: false }).order('id', { ascending: false })
-        .limit(10000);
+      // PostgREST 기본 max-rows 1000 우회 — 페이지네이션으로 전체 fetch
+      const PAGE = 1000, MAX_PAGES = 20;
+      let all = [];
+      for (let p = 0; p < MAX_PAGES; p++) {
+        const { data, error } = await client.from('consulting_results').select('*')
+          .eq('is_published', true)
+          .order('display_order', { ascending: false }).order('id', { ascending: false })
+          .range(p * PAGE, (p + 1) * PAGE - 1);
+        if (error) return { data: null, error };
+        if (!data || data.length === 0) break;
+        all = all.concat(data);
+        if (data.length < PAGE) break;
+      }
+      return { data: all, error: null };
     },
     async listConsultingAdmin() {
-      return client.from('consulting_results').select('*')
-        .order('display_order', { ascending: false }).order('id', { ascending: false })
-        .limit(10000);
+      const PAGE = 1000, MAX_PAGES = 20;
+      let all = [];
+      for (let p = 0; p < MAX_PAGES; p++) {
+        const { data, error } = await client.from('consulting_results').select('*')
+          .order('display_order', { ascending: false }).order('id', { ascending: false })
+          .range(p * PAGE, (p + 1) * PAGE - 1);
+        if (error) return { data: null, error };
+        if (!data || data.length === 0) break;
+        all = all.concat(data);
+        if (data.length < PAGE) break;
+      }
+      return { data: all, error: null };
     },
     async createConsulting(row) {
       return client.from('consulting_results').insert(row).select().single();
