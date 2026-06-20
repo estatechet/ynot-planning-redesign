@@ -20,7 +20,7 @@
 <title>Recruit | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=76">
+<link rel="stylesheet" href="style.css?v=77">
 <style>
   /* ═══════════════════════════════════════════════════════════
      Recruit Redesign — PropTech / Startup style
@@ -134,9 +134,13 @@
   }
   .rk-hero-visual img,.rk-hero-video{
     width:100%;height:100%;object-fit:cover;display:block;
+    pointer-events:none; /* 우클릭/PiP 버튼 등 비디오 컨트롤 차단 */
   }
   .rk-hero-video{transition:transform 8s ease}
   .rk-hero-visual:hover .rk-hero-video{transform:scale(1.03)}
+  /* Safari PiP 버튼 숨김 */
+  .rk-hero-video::-webkit-media-controls{display:none !important}
+  .rk-hero-video::-webkit-media-controls-enclosure{display:none !important}
   .rk-hero-visual::after{
     content:"";position:absolute;inset:0;
     background:linear-gradient(180deg,transparent 50%,rgba(10,59,130,.4) 100%);
@@ -527,6 +531,7 @@
       </div>
       <div class="rk-hero-visual">
         <video class="rk-hero-video" autoplay muted loop playsinline preload="auto"
+               disablepictureinpicture disableremoteplayback controlslist="nodownload noplaybackrate nofullscreen"
                poster="img/hero_main.png" aria-label="부동산 개발 현장 영상">
           <source src="https://mansi8kzdseexkz1.public.blob.vercel-storage.com/recruit-hero.mp4?v=1" type="video/mp4">
         </video>
@@ -755,8 +760,8 @@
 </footer>
 
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=76"></script>
-<script src="js/admin-trigger.js?v=76"></script>
+<script src="script.js?v=77"></script>
+<script src="js/admin-trigger.js?v=77"></script>
 <script>
 /* ─────── Reveal on scroll ─────── */
 (function(){
