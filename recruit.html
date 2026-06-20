@@ -20,193 +20,463 @@
 <title>Recruit | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=70">
+<link rel="stylesheet" href="style.css?v=71">
 <style>
-/* ===== 인재상 카드 ===== */
-.talent-grid-new {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-top: 52px;
-}
-@media(min-width: 1024px) { .talent-grid-new { grid-template-columns: repeat(4, 1fr); } }
+  /* ═══════════════════════════════════════════════════════════
+     Recruit Redesign — PropTech / Startup style
+     Brand Blue #0E4DA4 (기존 변수 활용)
+     ═══════════════════════════════════════════════════════════ */
+  :root{
+    --rk-brand:#0E4DA4;
+    --rk-brand-dk:#0A3B82;
+    --rk-brand-lt:#E8F0FC;
+    --rk-cyan:#00A8A8;
+    --rk-text:#0F172A;
+    --rk-sub:#475569;
+    --rk-mute:#94A3B8;
+    --rk-line:#E2E8F0;
+    --rk-bg:#F8FAFC;
+    --rk-shadow-sm:0 1px 2px rgba(15,23,42,.04),0 2px 8px rgba(15,23,42,.04);
+    --rk-shadow-md:0 4px 14px rgba(15,23,42,.06),0 12px 32px rgba(15,23,42,.06);
+    --rk-shadow-lg:0 12px 28px rgba(14,77,164,.10),0 32px 64px rgba(14,77,164,.10);
+    --rk-radius:20px;
+    --rk-radius-card:16px;
+  }
 
-.tn-card {
-  position: relative;
-  padding: 36px 24px 32px;
-  background: var(--c-white);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  transition: transform .32s cubic-bezier(.22,.68,0,1.2), box-shadow .32s, border-color .25s;
-}
-.tn-card::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: linear-gradient(to bottom, var(--c-teal), var(--c-blue));
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform .38s cubic-bezier(.22,.68,0,1.2);
-}
-.tn-card:hover { transform: translateY(-8px); box-shadow: 0 20px 52px rgba(0,0,0,.09); border-color: rgba(0,168,168,.25); }
-.tn-card:hover::before { transform: scaleY(1); }
-.tn-num { display: none; }
-.tn-icon {
-  width: 46px; height: 46px;
-  background: var(--c-teal-lt);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--c-teal);
-  margin-bottom: 16px;
-  transition: background .25s, transform .3s cubic-bezier(.22,.68,0,1.2);
-}
-.tn-card:hover .tn-icon { background: rgba(0,168,168,.18); transform: scale(1.1) rotate(-4deg); }
-.tn-card h3 { font-size: .95rem; font-weight: 800; margin-bottom: 9px; }
-.tn-card p  { font-size: .8rem; color: var(--c-sub); line-height: 1.8; }
+  body{background:#fff;color:var(--rk-text)}
+  .rk-wrap{max-width:1280px;margin:0 auto;padding:0 32px}
 
-/* ===== 복리후생 카드 ===== */
-.ben-grid-new {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-top: 52px;
-}
-@media(min-width: 768px) { .ben-grid-new { grid-template-columns: repeat(3, 1fr); } }
+  /* Recruit 전용: hero가 흰 배경이라 페이지 진입 시점부터 navbar에 .scrolled 톤 강제 적용 (다른 페이지와 동일한 다크블루 톤 유지) */
+  body.rk #navbar,
+  body.rk #navbar.scrolled{
+    background:rgba(10,46,106,.92);
+    backdrop-filter:blur(16px) saturate(180%);
+    -webkit-backdrop-filter:blur(16px) saturate(180%);
+    box-shadow:0 1px 24px rgba(0,0,0,.12);
+  }
 
-.bn-card {
-  padding: 30px 24px;
-  background: var(--c-white);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius);
-  transition: border-color .22s, box-shadow .22s, transform .22s;
-}
-.bn-card:hover { border-color: rgba(0,168,168,.3); box-shadow: 0 8px 28px rgba(0,168,168,.08); transform: translateY(-4px); }
-.bn-icon {
-  width: 44px; height: 44px;
-  background: var(--c-teal-lt);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--c-teal);
-  margin-bottom: 16px;
-  transition: background .22s, transform .3s;
-}
-.bn-card:hover .bn-icon { background: rgba(0,168,168,.2); transform: scale(1.08); }
-.bn-card h4 { font-size: .92rem; font-weight: 700; margin-bottom: 8px; }
-.bn-card p  { font-size: .79rem; color: var(--c-sub); line-height: 1.8; }
+  /* Typography reset for this page */
+  .rk h1,.rk h2,.rk h3{font-family:'Noto Sans KR','Pretendard',-apple-system,sans-serif;color:var(--rk-text);letter-spacing:-.025em}
+  .rk h1{font-size:clamp(2rem,5vw,4rem);font-weight:700;line-height:1.08}
+  .rk h2{font-size:clamp(1.8rem,3.6vw,3rem);font-weight:700;line-height:1.15;letter-spacing:-.03em}
+  .rk h3{font-size:clamp(1.25rem,1.9vw,1.75rem);font-weight:600;line-height:1.25;letter-spacing:-.02em}
+  .rk p{font-size:clamp(.95rem,1.1vw,1.125rem);line-height:1.7;color:var(--rk-sub)}
 
-/* ===== 채용 공고 ===== */
-.oc-card {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 24px 28px;
-  background: var(--c-white);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius);
-  margin-bottom: 10px;
-  transition: border-color .22s, box-shadow .22s, transform .22s;
-}
-.oc-card:hover { border-color: rgba(0,168,168,.35); box-shadow: 0 6px 24px rgba(0,168,168,.08); transform: translateX(5px); }
-.oc-card.closed:hover { transform: none; border-color: var(--c-border); box-shadow: none; }
-.oc-tag {
-  flex-shrink: 0;
-  padding: 4px 13px;
-  border-radius: 100px;
-  font-size: .6rem; font-weight: 700; letter-spacing: .07em; white-space: nowrap;
-}
-.tag-always { background: rgba(14,168,108,.1); color: #0a9e68; border: 1px solid rgba(14,168,108,.2); }
-.tag-open   { background: var(--c-teal-lt); color: var(--c-teal); border: 1px solid rgba(0,168,168,.2); }
-.tag-closed { background: rgba(0,0,0,.05); color: #aaa; border: 1px solid rgba(0,0,0,.06); }
-.oc-body { flex: 1; min-width: 0; }
-.oc-body h3 { font-size: .96rem; font-weight: 700; margin-bottom: 4px; }
-.oc-body p  { font-size: .75rem; color: var(--c-sub); }
-.oc-card.closed .oc-body h3 { color: var(--c-sub); }
-.oc-date { flex-shrink: 0; text-align: right; }
-.oc-date strong { display: block; font-size: .82rem; font-weight: 600; }
-.oc-date span   { font-size: .71rem; color: var(--c-sub); }
+  .rk-sec{padding:clamp(80px,11vw,160px) 0;position:relative}
+  .rk-sec-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:.85rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--rk-brand);margin-bottom:18px;
+  }
+  .rk-sec-eyebrow::before{content:"";width:32px;height:1.5px;background:var(--rk-brand);border-radius:2px}
+  .rk-sec-head{margin-bottom:72px;max-width:760px}
+  .rk-sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+  .rk-sec-head.center .rk-sec-eyebrow{justify-content:center}
+  .rk-sec-head p{margin-top:18px;font-size:clamp(1rem,1.3vw,1.18rem)}
 
-/* ===== CTA 배너 ===== */
-.recruit-cta {
-  background: var(--c-blue-dk);
-  border-radius: calc(var(--radius) * 1.5);
-  padding: 52px 48px;
-  display: flex; align-items: center; justify-content: space-between; gap: 32px;
-  position: relative; overflow: hidden; margin-top: 60px;
-}
-.recruit-cta::after {
-  content: ''; position: absolute; top: -60px; right: -60px;
-  width: 280px; height: 280px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,168,168,.15), transparent 65%);
-  pointer-events: none;
-}
-.rcta-text { position: relative; z-index: 1; }
-.rcta-text h3 { font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 10px; line-height: 1.35; }
-.rcta-text p  { font-size: .85rem; color: rgba(255,255,255,.5); line-height: 1.75; }
-.rcta-side { position: relative; z-index: 1; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; min-width: 200px; }
-.rcta-email-box { padding: 12px 18px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; }
-.rcta-email-label { font-size: .6rem; letter-spacing: .12em; color: rgba(255,255,255,.3); margin-bottom: 4px; }
-.rcta-email-val   { font-size: .84rem; color: var(--c-teal); font-weight: 600; }
+  /* Reveal */
+  .rk-rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.22,.68,0,1),transform .9s cubic-bezier(.22,.68,0,1)}
+  .rk-rv.in{opacity:1;transform:none}
 
-/* ===== SVG 웨이브 프로세스 ===== */
-.wave-proc-wrap {
-  margin-top: 52px;
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .7s ease, transform .7s ease;
-}
-.wave-proc-wrap.revealed { opacity: 1; transform: none; }
-.wave-proc-svg { width: 100%; height: auto; display: block; overflow: visible; }
+  /* ════════════ SECTION 01 : HERO ════════════ */
+  .rk-hero{
+    position:relative;overflow:hidden;
+    padding:140px 0 0;
+    background:
+      radial-gradient(ellipse 900px 480px at 88% 0%,rgba(14,77,164,.10) 0%,transparent 60%),
+      radial-gradient(ellipse 600px 400px at 5% 25%,rgba(0,168,168,.08) 0%,transparent 55%),
+      linear-gradient(180deg,#FFFFFF 0%,#F8FAFC 100%);
+  }
+  .rk-hero::after{
+    content:"";position:absolute;inset:0;
+    background-image:radial-gradient(circle at 1px 1px,rgba(14,77,164,.06) 1px,transparent 0);
+    background-size:44px 44px;mask-image:linear-gradient(180deg,#000 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .rk-hero-inner{
+    display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:center;
+    padding-top:24px;padding-bottom:80px;position:relative;z-index:1;
+  }
+  .rk-hero-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 16px;border-radius:100px;
+    background:rgba(14,77,164,.06);border:1px solid rgba(14,77,164,.18);
+    font-size:.82rem;font-weight:600;color:var(--rk-brand);
+    margin-bottom:28px;
+  }
+  .rk-hero-tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--rk-cyan);box-shadow:0 0 0 4px rgba(0,168,168,.18)}
+  .rk-hero h1{margin-bottom:24px}
+  .rk-hero h1 .em{
+    background:linear-gradient(120deg,var(--rk-brand) 0%,var(--rk-cyan) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .rk-hero-sub{max-width:540px;margin-bottom:36px}
+  .rk-hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+  .rk-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 24px;border-radius:100px;
+    font-size:.94rem;font-weight:600;text-decoration:none;
+    transition:transform .25s ease,box-shadow .25s ease,background .25s;
+    cursor:pointer;border:none;font-family:inherit;
+  }
+  .rk-btn-primary{background:var(--rk-brand);color:#fff}
+  .rk-btn-primary:hover{background:var(--rk-brand-dk);transform:translateY(-2px);box-shadow:0 10px 24px rgba(14,77,164,.28)}
+  .rk-btn-ghost{background:transparent;color:var(--rk-text);border:1px solid var(--rk-line)}
+  .rk-btn-ghost:hover{border-color:var(--rk-brand);color:var(--rk-brand)}
+  .rk-btn svg{transition:transform .25s ease}
+  .rk-btn:hover svg{transform:translateX(3px)}
 
-/* ring pulse on nodes */
-.wp-ring {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-@keyframes ringPulse {
-  from { opacity: .55; transform: scale(1); }
-  to   { opacity: 0;   transform: scale(2.6); }
-}
-.wp-ring.go { animation: ringPulse 1.3s ease-out forwards; }
+  /* Hero 우측 이미지 */
+  .rk-hero-visual{
+    position:relative;aspect-ratio:4/5;border-radius:24px;overflow:hidden;
+    box-shadow:var(--rk-shadow-lg);
+    background:linear-gradient(135deg,var(--rk-brand-lt) 0%,#f0f6ff 100%);
+  }
+  .rk-hero-visual img,.rk-hero-video{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .rk-hero-video{transition:transform 8s ease}
+  .rk-hero-visual:hover .rk-hero-video{transform:scale(1.03)}
+  .rk-hero-visual::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 50%,rgba(10,59,130,.4) 100%);
+    pointer-events:none;
+  }
+  .rk-hero-visual-badge{
+    position:absolute;bottom:24px;left:24px;right:24px;
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.4);
+    padding:18px 22px;border-radius:14px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .rk-hero-visual-badge svg{flex-shrink:0;color:var(--rk-brand)}
+  .rk-hero-visual-badge strong{font-size:.95rem;font-weight:700;color:var(--rk-text);display:block;margin-bottom:2px}
+  .rk-hero-visual-badge span{font-size:.78rem;color:var(--rk-sub)}
 
-/* mobile fallback list */
-.proc-mobile {
-  display: none;
-  counter-reset: proc;
-}
-.proc-mobile-item {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--c-border);
-}
-.proc-mobile-item:last-child { border-bottom: none; }
-.proc-mobile-num {
-  flex-shrink: 0;
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  border: 2px solid var(--c-border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: .82rem; font-weight: 700; color: var(--c-blue);
-}
-.proc-mobile-item.final .proc-mobile-num { background: var(--c-blue); border-color: var(--c-blue); color: #fff; }
-.proc-mobile-body h4 { font-size: .9rem; font-weight: 700; margin-bottom: 4px; }
-.proc-mobile-body p  { font-size: .78rem; color: var(--c-sub); }
+  /* KPI 카드 */
+  .rk-kpi{
+    margin-top:-48px;margin-bottom:0;padding-bottom:120px;position:relative;z-index:2;
+  }
+  .rk-kpi-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  }
+  .rk-kpi-card{
+    background:rgba(255,255,255,.7);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:var(--rk-radius);
+    padding:28px 28px 24px;
+    box-shadow:var(--rk-shadow-md);
+    transition:transform .35s cubic-bezier(.22,.68,0,1),box-shadow .35s;
+  }
+  .rk-kpi-card:hover{transform:translateY(-6px);box-shadow:var(--rk-shadow-lg)}
+  .rk-kpi-label{
+    font-size:.8rem;font-weight:600;color:var(--rk-sub);
+    letter-spacing:.04em;margin-bottom:8px;
+  }
+  .rk-kpi-figure{
+    display:flex;align-items:baseline;gap:4px;
+    font-family:'Noto Sans KR',sans-serif;
+    color:var(--rk-brand);
+  }
+  .rk-kpi-num{
+    font-size:clamp(2.2rem,3.4vw,2.8rem);font-weight:700;
+    letter-spacing:-.03em;line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .rk-kpi-suffix{font-size:1.1rem;font-weight:600;color:var(--rk-brand)}
 
-@media(max-width: 768px) {
-  .recruit-cta { flex-direction: column; padding: 36px 24px; }
-  .rcta-side { width: 100%; }
-  .talent-grid-new { grid-template-columns: 1fr; }
-  .oc-card { flex-wrap: wrap; gap: 10px; }
-  .oc-date { text-align: left; }
-  .wave-proc-wrap { display: none; }
-  .proc-mobile { display: block; margin-top: 40px; }
-}
+  /* ════════════ SECTION 02 : WHY YNP ════════════ */
+  .rk-why-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  .rk-why-card{
+    background:#fff;border:1px solid var(--rk-line);
+    border-radius:var(--rk-radius);
+    padding:40px 36px;position:relative;overflow:hidden;
+    transition:transform .35s cubic-bezier(.22,.68,0,1),box-shadow .35s,border-color .35s;
+  }
+  .rk-why-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--rk-brand),var(--rk-cyan));
+    transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,.68,0,1);
+  }
+  .rk-why-card:hover{transform:translateY(-8px) scale(1.015);box-shadow:var(--rk-shadow-lg);border-color:transparent}
+  .rk-why-card:hover::before{transform:scaleX(1)}
+  .rk-why-card:hover .rk-why-icon{transform:rotate(-6deg) scale(1.1);background:var(--rk-brand);color:#fff}
+  .rk-why-num{
+    font-family:'Playfair Display',serif;
+    font-size:1rem;font-weight:700;color:var(--rk-cyan);
+    letter-spacing:.16em;margin-bottom:24px;
+  }
+  .rk-why-icon{
+    width:56px;height:56px;border-radius:16px;
+    background:var(--rk-brand-lt);color:var(--rk-brand);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:24px;
+    transition:transform .4s cubic-bezier(.22,.68,0,1),background .35s,color .35s;
+  }
+  .rk-why-card h3{margin-bottom:12px}
+  .rk-why-card p{font-size:.96rem;color:var(--rk-sub)}
+
+  /* ════════════ SECTION 03 : TALENT — Horizontal Timeline ════════════ */
+  .rk-talent-bg{background:var(--rk-bg);position:relative}
+  .rk-tl{position:relative;margin-top:40px}
+  .rk-tl-line{
+    position:absolute;top:38px;left:6%;right:6%;height:2px;
+    background:var(--rk-line);border-radius:2px;
+  }
+  .rk-tl-fill{
+    position:absolute;top:38px;left:6%;height:2px;border-radius:2px;
+    background:linear-gradient(90deg,var(--rk-brand),var(--rk-cyan));
+    width:0;transition:width 1.2s cubic-bezier(.22,.68,0,1);
+  }
+  .rk-tl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative;z-index:1}
+  .rk-tl-card{
+    text-align:center;padding:0 8px;
+    transition:transform .4s cubic-bezier(.22,.68,0,1);
+  }
+  .rk-tl-dot{
+    width:78px;height:78px;border-radius:50%;
+    background:#fff;border:2px solid var(--rk-line);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 24px;color:var(--rk-mute);
+    transition:all .45s cubic-bezier(.22,.68,0,1);
+    position:relative;
+  }
+  .rk-tl-card.active .rk-tl-dot{
+    background:var(--rk-brand);border-color:var(--rk-brand);color:#fff;
+    box-shadow:0 0 0 8px rgba(14,77,164,.12);transform:scale(1.06);
+  }
+  .rk-tl-card.active{transform:translateY(-4px)}
+  .rk-tl-step{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:.78rem;font-weight:600;color:var(--rk-mute);
+    letter-spacing:.14em;margin-bottom:6px;transition:color .35s;
+  }
+  .rk-tl-card.active .rk-tl-step{color:var(--rk-brand)}
+  .rk-tl-en{
+    font-size:.82rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--rk-cyan);margin-bottom:10px;
+  }
+  .rk-tl-card h3{font-size:1.2rem;margin-bottom:8px;color:var(--rk-text)}
+  .rk-tl-card p{font-size:.88rem;color:var(--rk-sub);line-height:1.55}
+
+  /* ════════════ SECTION 04 : CULTURE — Masonry ════════════ */
+  .rk-culture-grid{
+    display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:160px;gap:16px;
+  }
+  .rk-culture-tile{
+    position:relative;overflow:hidden;border-radius:var(--rk-radius-card);
+    background:var(--rk-bg);box-shadow:var(--rk-shadow-sm);
+    transition:box-shadow .35s,transform .35s;
+  }
+  .rk-culture-tile img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .8s cubic-bezier(.22,.68,0,1);
+  }
+  .rk-culture-tile:hover{box-shadow:var(--rk-shadow-lg)}
+  .rk-culture-tile:hover img{transform:scale(1.05)}
+  .rk-culture-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,59,130,0) 40%,rgba(10,59,130,.88) 100%);
+    opacity:0;transition:opacity .35s ease;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    padding:24px;color:#fff;
+  }
+  .rk-culture-tile:hover .rk-culture-overlay{opacity:1}
+  .rk-culture-overlay strong{font-size:1.1rem;font-weight:700;letter-spacing:-.02em;margin-bottom:4px;display:block;color:#fff}
+  .rk-culture-overlay span{font-size:.82rem;color:rgba(255,255,255,.78)}
+  /* 비대칭 배치 */
+  .rk-c-1{grid-column:span 6;grid-row:span 2}
+  .rk-c-2{grid-column:span 3;grid-row:span 1}
+  .rk-c-3{grid-column:span 3;grid-row:span 1}
+  .rk-c-4{grid-column:span 3;grid-row:span 1}
+  .rk-c-5{grid-column:span 3;grid-row:span 1}
+  .rk-c-6{grid-column:span 6;grid-row:span 1}
+
+  /* ════════════ SECTION 05 : BENEFITS — Bento ════════════ */
+  .rk-ben-bg{background:#fff}
+  .rk-ben-grid{
+    display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:200px;gap:16px;
+  }
+  .rk-ben-card{
+    background:var(--rk-bg);border:1px solid var(--rk-line);
+    border-radius:var(--rk-radius-card);padding:32px;
+    display:flex;flex-direction:column;justify-content:space-between;
+    transition:transform .35s cubic-bezier(.22,.68,0,1),box-shadow .35s,background .35s,border-color .35s;
+    position:relative;overflow:hidden;
+  }
+  .rk-ben-card:hover{
+    transform:translateY(-6px);background:#fff;
+    border-color:var(--rk-brand-lt);box-shadow:var(--rk-shadow-md);
+  }
+  .rk-ben-card:hover .rk-ben-icon{background:var(--rk-brand);color:#fff;transform:rotate(-8deg)}
+  .rk-ben-icon{
+    width:48px;height:48px;border-radius:14px;
+    background:var(--rk-brand-lt);color:var(--rk-brand);
+    display:flex;align-items:center;justify-content:center;
+    transition:all .4s cubic-bezier(.22,.68,0,1);
+  }
+  .rk-ben-card h3{font-size:1.18rem;margin-bottom:8px}
+  .rk-ben-big h3{font-size:1.7rem}
+  .rk-ben-card p{font-size:.9rem;color:var(--rk-sub)}
+  .rk-ben-big{
+    grid-column:span 3;grid-row:span 2;
+    background:linear-gradient(135deg,var(--rk-brand) 0%,var(--rk-brand-dk) 100%);
+    border-color:transparent;color:#fff;
+  }
+  .rk-ben-big h3{color:#fff}
+  .rk-ben-big p{color:rgba(255,255,255,.82)}
+  .rk-ben-big .rk-ben-icon{background:rgba(255,255,255,.14);color:#fff;width:56px;height:56px}
+  .rk-ben-big:hover{transform:translateY(-6px);background:linear-gradient(135deg,var(--rk-brand-dk) 0%,var(--rk-brand) 100%);box-shadow:var(--rk-shadow-lg)}
+  .rk-ben-big:hover .rk-ben-icon{background:rgba(255,255,255,.22);color:#fff}
+  .rk-ben-md{grid-column:span 3;grid-row:span 1}
+  .rk-ben-sm{grid-column:span 2;grid-row:span 1}
+  .rk-ben-wide{grid-column:span 3;grid-row:span 1}
+
+  /* ════════════ SECTION 06 : PROCESS — Vertical ════════════ */
+  .rk-proc-bg{background:var(--rk-bg)}
+  .rk-proc{position:relative;max-width:780px;margin:0 auto}
+  .rk-proc-line{
+    position:absolute;left:36px;top:36px;bottom:36px;width:2px;
+    background:var(--rk-line);border-radius:2px;
+  }
+  .rk-proc-line-fill{
+    position:absolute;left:36px;top:36px;width:2px;height:0;border-radius:2px;
+    background:linear-gradient(180deg,var(--rk-brand),var(--rk-cyan));
+    transition:height 1.4s cubic-bezier(.22,.68,0,1);
+  }
+  .rk-proc-step{
+    display:grid;grid-template-columns:72px 1fr;gap:32px;align-items:flex-start;
+    padding:24px 0;position:relative;
+  }
+  .rk-proc-circle{
+    width:72px;height:72px;border-radius:50%;
+    background:#fff;border:2px solid var(--rk-line);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--rk-mute);position:relative;z-index:1;
+    transition:all .45s cubic-bezier(.22,.68,0,1);
+  }
+  .rk-proc-step.active .rk-proc-circle{
+    background:var(--rk-brand);border-color:var(--rk-brand);color:#fff;
+    box-shadow:0 0 0 8px rgba(14,77,164,.12);
+  }
+  .rk-proc-step.last.active .rk-proc-circle{background:var(--rk-cyan);border-color:var(--rk-cyan)}
+  .rk-proc-text{padding-top:14px}
+  .rk-proc-step .rk-proc-stepnum{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:.82rem;font-weight:600;color:var(--rk-cyan);
+    letter-spacing:.14em;margin-bottom:6px;
+  }
+  .rk-proc-step h3{margin-bottom:6px}
+  .rk-proc-step p{font-size:.94rem;color:var(--rk-sub)}
+
+  /* ════════════ SECTION 07 : OPEN POSITIONS ════════════ */
+  .rk-pos-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:20px;
+  }
+  .rk-pos-card{
+    background:#fff;border:1px solid var(--rk-line);
+    border-radius:var(--rk-radius-card);
+    padding:32px;text-decoration:none;color:inherit;
+    transition:transform .35s cubic-bezier(.22,.68,0,1),box-shadow .35s,border-color .35s;
+    display:flex;flex-direction:column;gap:18px;
+    position:relative;overflow:hidden;
+  }
+  .rk-pos-card.closed{opacity:.5;pointer-events:none}
+  .rk-pos-card:hover{transform:translateY(-6px) scale(1.005);box-shadow:var(--rk-shadow-lg);border-color:var(--rk-brand-lt)}
+  .rk-pos-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+  .rk-pos-badge{
+    display:inline-flex;align-items:center;padding:5px 12px;border-radius:100px;
+    font-size:.72rem;font-weight:700;letter-spacing:.06em;flex-shrink:0;
+  }
+  .rk-pos-badge.always{background:rgba(0,168,168,.1);color:var(--rk-cyan)}
+  .rk-pos-badge.open{background:rgba(14,77,164,.1);color:var(--rk-brand)}
+  .rk-pos-badge.closed{background:#f1f5f9;color:var(--rk-mute)}
+  .rk-pos-card h3{margin-bottom:0}
+  .rk-pos-meta{
+    display:flex;flex-wrap:wrap;gap:10px 18px;
+    font-size:.86rem;color:var(--rk-sub);
+  }
+  .rk-pos-meta span{display:inline-flex;align-items:center;gap:6px}
+  .rk-pos-meta svg{color:var(--rk-mute);flex-shrink:0}
+  .rk-pos-foot{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:auto;padding-top:18px;border-top:1px solid var(--rk-line);
+  }
+  .rk-pos-deadline{font-size:.8rem;color:var(--rk-sub);font-variant-numeric:tabular-nums}
+  .rk-pos-deadline strong{display:block;font-weight:700;color:var(--rk-text);font-size:.9rem;margin-bottom:2px}
+  .rk-pos-apply{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:.88rem;font-weight:700;color:var(--rk-brand);
+    transition:gap .25s ease;
+  }
+  .rk-pos-card:hover .rk-pos-apply{gap:12px}
+
+  /* ════════════ SECTION 08 : FINAL CTA ════════════ */
+  .rk-final{
+    margin-top:60px;
+    background:linear-gradient(135deg,var(--rk-brand-dk) 0%,var(--rk-brand) 50%,#1c5fc5 100%);
+    color:#fff;padding:120px 0;text-align:center;
+    position:relative;overflow:hidden;
+  }
+  .rk-final::before{
+    content:"";position:absolute;top:-30%;right:-10%;width:60%;height:160%;
+    background:radial-gradient(ellipse,rgba(0,168,168,.28),transparent 60%);
+    pointer-events:none;
+  }
+  .rk-final::after{
+    content:"";position:absolute;top:0;left:0;right:0;bottom:0;
+    background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.06) 1px,transparent 0);
+    background-size:36px 36px;pointer-events:none;opacity:.6;
+  }
+  .rk-final .rk-wrap{position:relative;z-index:1}
+  .rk-final h2{color:#fff;margin-bottom:20px}
+  .rk-final h2 .em{color:#7DDDDD}
+  .rk-final p{color:rgba(255,255,255,.82);font-size:clamp(1rem,1.3vw,1.18rem);max-width:540px;margin:0 auto 40px}
+  .rk-final-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .rk-final .rk-btn-primary{background:#fff;color:var(--rk-brand)}
+  .rk-final .rk-btn-primary:hover{background:#fff;transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,.2)}
+  .rk-final .rk-btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.32)}
+  .rk-final .rk-btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.08);color:#fff}
+
+  /* ════════════ Responsive ════════════ */
+  @media (max-width:1024px){
+    .rk-hero-inner{grid-template-columns:1fr;gap:48px;padding-bottom:48px}
+    .rk-hero-visual{max-width:560px;margin:0 auto;aspect-ratio:16/11}
+    .rk-kpi{margin-top:0;padding-bottom:80px}
+    .rk-kpi-grid{grid-template-columns:repeat(2,1fr)}
+    .rk-why-grid{grid-template-columns:1fr;gap:18px}
+    .rk-tl-grid{grid-template-columns:repeat(2,1fr);gap:48px}
+    .rk-tl-line,.rk-tl-fill{display:none}
+    .rk-culture-grid{grid-auto-rows:140px}
+    .rk-c-1{grid-column:span 12;grid-row:span 2}
+    .rk-c-2,.rk-c-3,.rk-c-4,.rk-c-5{grid-column:span 6;grid-row:span 1}
+    .rk-c-6{grid-column:span 12;grid-row:span 1}
+    .rk-ben-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto}
+    .rk-ben-big,.rk-ben-md,.rk-ben-sm,.rk-ben-wide{grid-column:span 1;grid-row:auto;min-height:180px}
+    .rk-ben-big{min-height:260px}
+    .rk-pos-grid{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .rk-wrap{padding:0 20px}
+    .rk-kpi-grid{grid-template-columns:1fr 1fr;gap:12px}
+    .rk-kpi-card{padding:22px 20px 18px}
+    .rk-why-card{padding:32px 28px}
+    .rk-tl-grid{grid-template-columns:1fr}
+    .rk-culture-grid{grid-auto-rows:120px}
+    .rk-c-1,.rk-c-2,.rk-c-3,.rk-c-4,.rk-c-5,.rk-c-6{grid-column:span 12;grid-row:span 1}
+    .rk-c-1{grid-row:span 2}
+    .rk-ben-grid{grid-template-columns:1fr}
+    .rk-proc-step{grid-template-columns:56px 1fr;gap:20px}
+    .rk-proc-circle{width:56px;height:56px}
+    .rk-proc-line,.rk-proc-line-fill{left:28px}
+    .rk-final{padding:72px 0}
+  }
 </style>
 </head>
-<body>
+<body class="rk">
 
 <!-- NAVBAR -->
 <nav id="navbar" class="scrolled">
@@ -229,301 +499,233 @@
         <ul class="sub-nav"><li><a href="community.html">보도자료</a></li><li><a href="contact.html">Contact us</a></li></ul>
       </li>
       <li><a href="recruit.html" class="active">Recruit</a></li>
-          </ul>
+    </ul>
   </div>
 </nav>
 
-<!-- PAGE HERO -->
-<div class="page-hero">
-  <div class="wrap">
-    <div>
-      <p class="page-hero-sub">Join Our Team</p>
-      <h1 class="page-hero-title">함께 성장할<br>인재를 찾습니다</h1>
+<!-- ═══════════════════════════════════
+     SECTION 01 : HERO
+     ═══════════════════════════════════ -->
+<section class="rk-hero">
+  <div class="rk-wrap">
+    <div class="rk-hero-inner">
+      <div>
+        <h1>
+          대한민국 분양시장의<br>
+          <span class="em">새로운 기준</span>을<br>
+          만드는 사람들.
+        </h1>
+        <p class="rk-hero-sub">
+          YNP는 시장의 변화를 가장 먼저 읽고, 발주처가 신뢰하는 결과를 만드는
+          부동산 분양·마케팅 전문가들이 모인 곳입니다. 함께 당신의 커리어를 성장시키세요.
+        </p>
+        <div class="rk-hero-cta">
+          <a href="#positions" class="rk-btn rk-btn-primary">
+            채용 공고 보기
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a></div>
+      </div>
+      <div class="rk-hero-visual">
+        <video class="rk-hero-video" autoplay muted loop playsinline preload="auto"
+               poster="img/hero_main.png" aria-label="부동산 개발 현장 영상">
+          <source src="https://mansi8kzdseexkz1.public.blob.vercel-storage.com/recruit-hero.mp4?v=1" type="video/mp4">
+        </video>
+      </div>
     </div>
-    <div class="page-breadcrumb">Home &gt; <span>Recruit</span></div>
   </div>
-</div>
+  </div>
+</section>
 
-<!-- ==============================
-     인재상
-     ============================== -->
-<section class="section">
-  <div class="wrap">
-    <div class="sec-header center rv">
-      <p class="sec-eyebrow">We Want You</p>
-      <h2 class="sec-title">인재상</h2>
-      <p class="sec-desc">와이낫플래닝은 부동산 분양 업계의 미래를 함께 만들어갈<br>열정적인 인재를 찾습니다.</p>
+<!-- ═══════════════════════════════════
+     SECTION 03 : TALENT — Horizontal Timeline
+     ═══════════════════════════════════ -->
+<section class="rk-sec rk-talent-bg" id="talent">
+  <div class="rk-wrap">
+    <div class="rk-sec-head center rk-rv">
+      <div class="rk-sec-eyebrow">We Want You</div>
+      <h2>우리가 함께 일하고 싶은 사람</h2>
+      <p>네 가지 자질을 기준으로 동료를 찾습니다.</p>
     </div>
 
-    <div class="talent-grid-new">
-      <div class="tn-card rv">
-        <div class="tn-num">01</div>
-        <div class="tn-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <div class="rk-tl" id="rkTimeline">
+      <div class="rk-tl-line"></div>
+      <div class="rk-tl-fill" id="rkTlFill"></div>
+      <div class="rk-tl-grid">
+        <div class="rk-tl-card active" data-step="1">
+          <div class="rk-tl-dot">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div class="rk-tl-step">STEP 01</div>
+          <div class="rk-tl-en">Explore</div>
+          <h3>탐구하는 인재</h3>
+          <p>시장의 변화를 민감하게 포착하고, 끊임없이 새로운 지식을 탐구하는 호기심 넘치는 분.</p>
         </div>
-        <h3>탐구하는 인재</h3>
-        <p>시장의 변화를 민감하게 포착하고, 끊임없이 새로운 지식을 탐구하는 호기심 넘치는 분을 원합니다.</p>
-      </div>
-      <div class="tn-card rv" data-delay="80">
-        <div class="tn-num">02</div>
-        <div class="tn-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <div class="rk-tl-card" data-step="2">
+          <div class="rk-tl-dot">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="rk-tl-step">STEP 02</div>
+          <div class="rk-tl-en">Connect</div>
+          <h3>소통하는 인재</h3>
+          <p>고객, 동료와의 원활한 소통을 통해 팀워크를 강화하고 더 나은 결과를 만들어내는 분.</p>
         </div>
-        <h3>소통하는 인재</h3>
-        <p>고객, 동료와의 원활한 소통을 통해 팀워크를 강화하고 더 나은 결과를 만들어내는 분을 원합니다.</p>
-      </div>
-      <div class="tn-card rv" data-delay="160">
-        <div class="tn-num">03</div>
-        <div class="tn-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <div class="rk-tl-card" data-step="3">
+          <div class="rk-tl-dot">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="rk-tl-step">STEP 03</div>
+          <div class="rk-tl-en">Achieve</div>
+          <h3>성과를 내는 인재</h3>
+          <p>목표를 향해 끈기 있게 도전하고, 말이 아닌 실제 성과로 증명하는 결과 중심적 사고를 가진 분.</p>
         </div>
-        <h3>성과를 내는 인재</h3>
-        <p>목표를 향해 끈기 있게 도전하고, 말이 아닌 실제 성과로 증명하는 결과 중심적 사고를 가진 분을 원합니다.</p>
-      </div>
-      <div class="tn-card rv" data-delay="240">
-        <div class="tn-num">04</div>
-        <div class="tn-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        <div class="rk-tl-card" data-step="4">
+          <div class="rk-tl-dot">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          </div>
+          <div class="rk-tl-step">STEP 04</div>
+          <div class="rk-tl-en">Innovate</div>
+          <h3>혁신하는 인재</h3>
+          <p>기존의 방식에 안주하지 않고 더 나은 방법을 모색하며 변화를 주도하는 창의적인 분.</p>
         </div>
-        <h3>혁신하는 인재</h3>
-        <p>기존의 방식에 안주하지 않고 더 나은 방법을 모색하며 변화를 주도하는 창의적인 분을 원합니다.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ==============================
-     복리후생
-     ============================== -->
-<section class="section section-bg">
-  <div class="wrap">
-    <div class="sec-header center rv">
-      <p class="sec-eyebrow">Benefits</p>
-      <h2 class="sec-title">복리후생</h2>
-      <p class="sec-desc">와이낫플래닝은 구성원들이 최고의 역량을 발휘할 수 있도록 다양한 복리후생을 지원합니다.</p>
-    </div>
-    <div class="ben-grid-new">
-      <div class="bn-card rv">
-        <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
-        <h4>급여 및 성과급</h4>
-        <p>업계 우수 수준의 기본급과 성과에 따른 인센티브. 연 2회 성과급 지급.</p>
-      </div>
-      <div class="bn-card rv" data-delay="60">
-        <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h4>4대 보험</h4>
-        <p>국민연금, 건강보험, 고용보험, 산재보험 전액 지원.</p>
-      </div>
-      <div class="bn-card rv" data-delay="120">
-        <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <h4>자유로운 연차</h4>
-        <p>법정 연차 100% 보장, 눈치 없이 자유롭게 사용하는 문화.</p>
-      </div>
-      <div class="bn-card rv" data-delay="60">
-        <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
-        <h4>교육 지원</h4>
-        <p>자격증 취득비 지원, 외부 교육 프로그램 지원, 사내 도서구매비 지원.</p>
-      </div>
-      <div class="bn-card rv" data-delay="120">
-        <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
-        <h4>경조사 지원</h4>
-        <p>결혼, 출산, 장례 등 주요 경조사에 휴가 및 지원금 제공.</p>
-      </div>
-      <div class="bn-card rv" data-delay="180">
-        <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
-        <h4>장기 근속 포상</h4>
-        <p>3년·5년·10년 근속 시 특별 포상 및 리프레시 휴가 제공.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==============================
-     채용 공고
-     ============================== -->
-<section class="section" id="openings">
-  <div class="wrap">
-    <div class="sec-header rv">
-      <p class="sec-eyebrow">Open Positions</p>
-      <h2 class="sec-title">채용 공고</h2>
-      <p class="sec-desc">현재 아래 포지션을 상시 모집 중입니다. 관심 있으신 분은 언제든 지원해 주세요.</p>
-    </div>
-    <div style="margin-top:8px;">
-      <div class="oc-card rv">
-        <span class="oc-tag tag-always">상시채용</span>
-        <div class="oc-body"><h3>분양 컨설턴트 (신입/경력)</h3><p>분양대행팀 &nbsp;·&nbsp; 정규직 &nbsp;·&nbsp; 서울 마곡</p></div>
-        <div class="oc-date"><strong>수시 모집</strong><span>경력 무관</span></div>
-      </div>
-      <div class="oc-card rv" data-delay="60">
-        <span class="oc-tag tag-always">상시채용</span>
-        <div class="oc-body"><h3>디지털 마케팅 담당 (경력 2년 이상)</h3><p>마케팅팀 &nbsp;·&nbsp; 정규직 &nbsp;·&nbsp; 서울 마곡</p></div>
-        <div class="oc-date"><strong>수시 모집</strong><span>경력 2년+</span></div>
-      </div>
-      <div class="oc-card rv" data-delay="120">
-        <span class="oc-tag tag-always">상시채용</span>
-        <div class="oc-body"><h3>부동산 컨설턴트 (경력 3년 이상)</h3><p>컨설팅팀 &nbsp;·&nbsp; 정규직 &nbsp;·&nbsp; 서울 마곡</p></div>
-        <div class="oc-date"><strong>수시 모집</strong><span>경력 3년+</span></div>
-      </div>
-      <div class="oc-card rv" data-delay="180">
-        <span class="oc-tag tag-open">채용중</span>
-        <div class="oc-body"><h3>금융 분석 담당 (경력 2년 이상)</h3><p>금융사업팀 &nbsp;·&nbsp; 정규직 &nbsp;·&nbsp; 서울 마곡</p></div>
-        <div class="oc-date"><strong>2026.08.31</strong><span>마감예정</span></div>
-      </div>
-      <div class="oc-card closed rv" data-delay="240">
-        <span class="oc-tag tag-closed">마감</span>
-        <div class="oc-body"><h3>경영지원팀 신입 사원 채용</h3><p>경영지원팀 &nbsp;·&nbsp; 정규직 &nbsp;·&nbsp; 서울 마곡</p></div>
-        <div class="oc-date"><strong style="color:var(--c-sub);">2025.09.30</strong><span>채용완료</span></div>
-      </div>
+<!-- ═══════════════════════════════════
+     SECTION 06 : RECRUIT PROCESS
+     ═══════════════════════════════════ -->
+<section class="rk-sec rk-proc-bg">
+  <div class="rk-wrap">
+    <div class="rk-sec-head center rk-rv">
+      <div class="rk-sec-eyebrow">How to Apply</div>
+      <h2>채용 절차</h2>
+      <p>간결한 4단계 프로세스로 진행됩니다.</p>
     </div>
 
-    <!-- CTA -->
-    <div class="recruit-cta rv">
-      <div class="rcta-text">
-        <h3>함께 성장할 인재를 기다립니다</h3>
-        <p>이력서와 자기소개서를 이메일로 보내주시거나<br>문의 폼을 통해 편하게 연락해 주세요.</p>
-      </div>
-      <div class="rcta-side">
-        <div class="rcta-email-box">
-          <div class="rcta-email-label">RECRUITMENT EMAIL</div>
-          <div class="rcta-email-val">ynp073@ynp.uplusworks.co.kr</div>
+    <div class="rk-proc" id="rkProc">
+      <div class="rk-proc-line"></div>
+      <div class="rk-proc-line-fill" id="rkProcFill"></div>
+
+      <div class="rk-proc-step active" data-pstep="1">
+        <div class="rk-proc-circle">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         </div>
-        <a href="contact.html" class="btn btn-teal" style="text-align:center;justify-content:center;">지원 문의하기 →</a>
+        <div class="rk-proc-text">
+          <div class="rk-proc-stepnum">STEP 01</div>
+          <h3>서류전형</h3>
+          <p>이력서와 자기소개서를 채용 메일 또는 Contact 폼으로 보내주세요.</p>
+        </div>
+      </div>
+      <div class="rk-proc-step" data-pstep="2">
+        <div class="rk-proc-circle">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <div class="rk-proc-text">
+          <div class="rk-proc-stepnum">STEP 02</div>
+          <h3>실무면접</h3>
+          <p>지원 직무 실무진과의 1차 면접. 직무 관련 경험과 역량을 깊이 있게 확인합니다.</p>
+        </div>
+      </div>
+      <div class="rk-proc-step" data-pstep="3">
+        <div class="rk-proc-circle">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        </div>
+        <div class="rk-proc-text">
+          <div class="rk-proc-stepnum">STEP 03</div>
+          <h3>최종면접</h3>
+          <p>임원진과의 2차 면접. 조직 적합성과 비전을 함께 확인합니다.</p>
+        </div>
+      </div>
+      <div class="rk-proc-step last" data-pstep="4">
+        <div class="rk-proc-circle">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="rk-proc-text">
+          <div class="rk-proc-stepnum">STEP 04</div>
+          <h3>합격</h3>
+          <p>처우 협의 후 입사일 결정. 첫 달은 온보딩과 사수 매칭이 함께 진행됩니다.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ==============================
-     채용 프로세스 — SVG 웨이브
-     ============================== -->
-<section class="section section-bg">
-  <div class="wrap">
-    <div class="sec-header center rv">
-      <p class="sec-eyebrow">How to Apply</p>
-      <h2 class="sec-title">채용 프로세스</h2>
+<!-- ═══════════════════════════════════
+     SECTION 07 : OPEN POSITIONS
+     ═══════════════════════════════════ -->
+<section class="rk-sec" id="positions">
+  <div class="rk-wrap">
+    <div class="rk-sec-head rk-rv">
+      <div class="rk-sec-eyebrow">Open Positions</div>
+      <h2>지금 모집 중인 포지션</h2>
+      <p>상시 모집 중이며, 마감일이 명시된 포지션은 채용 일정에 맞춰 진행됩니다.</p>
     </div>
 
-    <!-- SVG 웨이브 (데스크톱) -->
-    <div class="wave-proc-wrap" id="waveWrap">
-      <!--
-        Wave path: 4 steps
-        01 (valley, bottom-left) → 02 (peak, top) → 03 (valley, bottom) → 04 (peak, top-right)
-        Path: M 90,230 C 225,230 225,80 370,80 C 515,80 515,230 660,230 C 805,230 845,80 1010,80
-        ViewBox: 0 0 1100 310  (top 60px for labels, wave 150px, bottom 60px for labels)
-      -->
-      <svg id="waveSvg" class="wave-proc-svg"
-           viewBox="0 0 1100 310"
-           xmlns="http://www.w3.org/2000/svg"
-           aria-label="채용 프로세스 웨이브 다이어그램">
-        <defs>
-          <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stop-color="#00A8A8"/>
-            <stop offset="100%" stop-color="#0F4B96"/>
-          </linearGradient>
-        </defs>
+    <div class="rk-pos-grid">
+      <a href="contact.html" class="rk-pos-card rk-rv">
+        <div class="rk-pos-head">
+          <h3>분양 컨설턴트 (신입/경력)</h3>
+          <span class="rk-pos-badge always">상시채용</span>
+        </div>
+        <div class="rk-pos-meta">
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>서울 마곡</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>정규직</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>분양대행팀</span>
+        </div>
+        <div class="rk-pos-foot">
+          <div class="rk-pos-deadline"><strong>수시 모집</strong>경력 무관</div>
+          <span class="rk-pos-apply">지원하기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </div>
+      </a>
 
-        <!-- 배경 워터마크 -->
-        <text x="550" y="175" text-anchor="middle"
-              font-size="80" font-weight="900" letter-spacing="6"
-              fill="rgba(15,75,150,0.04)"
-              font-family="'Playfair Display', serif">Process</text>
+      <a href="contact.html" class="rk-pos-card rk-rv" style="transition-delay:.06s">
+        <div class="rk-pos-head">
+          <h3>디지털 마케팅 담당</h3>
+          <span class="rk-pos-badge always">상시채용</span>
+        </div>
+        <div class="rk-pos-meta">
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>서울 마곡</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>정규직</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>마케팅팀</span>
+        </div>
+        <div class="rk-pos-foot">
+          <div class="rk-pos-deadline"><strong>수시 모집</strong>경력 2년+</div>
+          <span class="rk-pos-apply">지원하기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </div>
+      </a>
 
-        <!-- 웨이브 경로 (stroke-dashoffset 으로 그려짐) -->
-        <path id="wavePath"
-          d="M 90,230 C 225,230 225,80 370,80 C 515,80 515,230 660,230 C 805,230 845,80 1010,80"
-          fill="none"
-          stroke="url(#waveGrad)"
-          stroke-width="2"
-          stroke-linecap="round"/>
+      <a href="contact.html" class="rk-pos-card rk-rv" style="transition-delay:.12s">
+        <div class="rk-pos-head">
+          <h3>부동산 컨설턴트</h3>
+          <span class="rk-pos-badge always">상시채용</span>
+        </div>
+        <div class="rk-pos-meta">
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>서울 마곡</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>정규직</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>컨설팅팀</span>
+        </div>
+        <div class="rk-pos-foot">
+          <div class="rk-pos-deadline"><strong>수시 모집</strong>경력 3년+</div>
+          <span class="rk-pos-apply">지원하기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </div>
+      </a>
 
-        <!-- ── Step 01: valley (아래쪽) ── -->
-        <circle class="wp-ring" cx="90" cy="230" r="9"
-          fill="none" stroke="#00A8A8" stroke-width="1.5"/>
-        <circle cx="90" cy="230" r="7"
-          fill="#fff" stroke="#00A8A8" stroke-width="2.2"/>
-        <!-- 레이블 아래 -->
-        <text x="90" y="262" text-anchor="middle"
-              font-size="10" font-weight="700" fill="#00A8A8" letter-spacing="1"
-              font-family="'Noto Sans KR', sans-serif">01.</text>
-        <text x="90" y="281" text-anchor="middle"
-              font-size="13" font-weight="700" fill="#111827"
-              font-family="'Noto Sans KR', sans-serif">서류 접수</text>
-        <text x="90" y="298" text-anchor="middle"
-              font-size="10" fill="#6B7280"
-              font-family="'Noto Sans KR', sans-serif">이력서·자기소개서</text>
-
-        <!-- ── Step 02: peak (위쪽) ── -->
-        <circle class="wp-ring" cx="370" cy="80" r="9"
-          fill="none" stroke="#00A8A8" stroke-width="1.5"/>
-        <circle cx="370" cy="80" r="7"
-          fill="#fff" stroke="#00A8A8" stroke-width="2.2"/>
-        <!-- 레이블 위 -->
-        <text x="370" y="52" text-anchor="middle"
-              font-size="10" font-weight="700" fill="#00A8A8" letter-spacing="1"
-              font-family="'Noto Sans KR', sans-serif">02.</text>
-        <text x="370" y="34" text-anchor="middle"
-              font-size="13" font-weight="700" fill="#111827"
-              font-family="'Noto Sans KR', sans-serif">서류 심사</text>
-        <text x="370" y="17" text-anchor="middle"
-              font-size="10" fill="#6B7280"
-              font-family="'Noto Sans KR', sans-serif">2주 이내 결과 통보</text>
-
-        <!-- ── Step 03: valley (아래쪽) ── -->
-        <circle class="wp-ring" cx="660" cy="230" r="9"
-          fill="none" stroke="#1e6eaa" stroke-width="1.5"/>
-        <circle cx="660" cy="230" r="7"
-          fill="#fff" stroke="#1e6eaa" stroke-width="2.2"/>
-        <!-- 레이블 아래 -->
-        <text x="660" y="262" text-anchor="middle"
-              font-size="10" font-weight="700" fill="#1e6eaa" letter-spacing="1"
-              font-family="'Noto Sans KR', sans-serif">03.</text>
-        <text x="660" y="281" text-anchor="middle"
-              font-size="13" font-weight="700" fill="#111827"
-              font-family="'Noto Sans KR', sans-serif">면접</text>
-        <text x="660" y="298" text-anchor="middle"
-              font-size="10" fill="#6B7280"
-              font-family="'Noto Sans KR', sans-serif">1차 실무 · 2차 임원</text>
-
-        <!-- ── Step 04: peak (위쪽, 최종합격) ── -->
-        <circle class="wp-ring" cx="1010" cy="80" r="11"
-          fill="none" stroke="#0F4B96" stroke-width="1.5"/>
-        <!-- filled dot (합격) -->
-        <circle cx="1010" cy="80" r="9"
-          fill="#0F4B96" stroke="#0F4B96" stroke-width="0"/>
-        <!-- 체크 아이콘 -->
-        <polyline points="1004,80 1008,85 1017,74"
-          fill="none" stroke="#fff" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- 레이블 위 -->
-        <text x="1010" y="52" text-anchor="middle"
-              font-size="10" font-weight="700" fill="#0F4B96" letter-spacing="1"
-              font-family="'Noto Sans KR', sans-serif">04.</text>
-        <text x="1010" y="34" text-anchor="middle"
-              font-size="13" font-weight="700" fill="#111827"
-              font-family="'Noto Sans KR', sans-serif">최종 합격</text>
-        <text x="1010" y="17" text-anchor="middle"
-              font-size="10" fill="#6B7280"
-              font-family="'Noto Sans KR', sans-serif">처우 협의 후 입사</text>
-      </svg>
-    </div>
-
-    <!-- 모바일 폴백 (≤768px) -->
-    <div class="proc-mobile rv">
-      <div class="proc-mobile-item">
-        <div class="proc-mobile-num">01</div>
-        <div class="proc-mobile-body"><h4>서류 접수</h4><p>이력서 및 자기소개서 제출</p></div>
-      </div>
-      <div class="proc-mobile-item">
-        <div class="proc-mobile-num">02</div>
-        <div class="proc-mobile-body"><h4>서류 심사</h4><p>제출 서류 검토 (2주 이내)</p></div>
-      </div>
-      <div class="proc-mobile-item">
-        <div class="proc-mobile-num">03</div>
-        <div class="proc-mobile-body"><h4>면접</h4><p>1차 실무 면접 · 2차 임원 면접</p></div>
-      </div>
-      <div class="proc-mobile-item final">
-        <div class="proc-mobile-num">✓</div>
-        <div class="proc-mobile-body"><h4>최종 합격</h4><p>처우 협의 후 입사 확정</p></div>
-      </div>
+      <a href="contact.html" class="rk-pos-card rk-rv" style="transition-delay:.18s">
+        <div class="rk-pos-head">
+          <h3>금융 분석 담당</h3>
+          <span class="rk-pos-badge open">채용중</span>
+        </div>
+        <div class="rk-pos-meta">
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>서울 마곡</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>정규직</span>
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>금융사업팀</span>
+        </div>
+        <div class="rk-pos-foot">
+          <div class="rk-pos-deadline"><strong>~ 2026.08.31</strong>경력 2년+</div>
+          <span class="rk-pos-apply">지원하기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -541,7 +743,7 @@
         <div class="ft-col"><strong>About YNP</strong><a href="about.html">경영이념</a><a href="about.html">인사말</a><a href="about.html">회사연혁</a><a href="about.html#location">오시는길</a></div>
         <div class="ft-col"><strong>Business</strong><a href="business.html">시장조사 및 분석</a><a href="business.html">마케팅 전략</a><a href="business.html">사업계획수립</a><a href="business.html">금융비즈니스</a></div>
         <div class="ft-col"><strong>Result</strong><a href="result.html">분양대행실적</a><a href="result.html">컨설팅실적</a></div>
-        <div class="ft-col"><strong>Quick</strong><a href="community.html">보도자료</a><a href="recruit.html">채용정보</a><a href="privacy.html">개인정보처리방침</a></div>
+        <div class="ft-col"><strong>Quick</strong><a href="community.html">보도자료</a><a href="recruit.html">채용정보</a><a href="contact.html">Contact us</a></div>
       </div>
     </div>
     <div class="ft-bottom">
@@ -551,48 +753,85 @@
     </div>
   </div>
 </footer>
+
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=70"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=70"></script>
-<script src="js/supabase-client.js?v=70"></script>
-
+<script src="script.js?v=71"></script>
+<script src="js/admin-trigger.js?v=71"></script>
 <script>
-(function () {
-  const path = document.getElementById('wavePath');
-  const wrap = document.getElementById('waveWrap');
-  if (!path || !wrap) return;
+/* ─────── Reveal on scroll ─────── */
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12, rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.rk-rv').forEach(el => io.observe(el));
+})();
 
-  // 경로 전체 길이 측정 후 dasharray 초기화
-  const len = path.getTotalLength();
-  path.style.strokeDasharray = len;
-  path.style.strokeDashoffset = len;
+/* ─────── KPI count-up ─────── */
+(function(){
+  const nums = document.querySelectorAll('.rk-kpi-num[data-target]');
+  if(!nums.length) return;
+  const animate = (el) => {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1600;
+    const start = performance.now();
+    const fmt = (n) => n.toLocaleString('ko-KR');
+    const step = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = fmt(Math.floor(target * eased));
+      if(t < 1) requestAnimationFrame(step);
+      else el.textContent = fmt(target);
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ animate(e.target); io.unobserve(e.target); } });
+  }, {threshold:.6});
+  nums.forEach(n => io.observe(n));
+})();
 
-  const rings = wrap.querySelectorAll('.wp-ring');
+/* ─────── Talent timeline scroll activate ─────── */
+(function(){
+  const cards = document.querySelectorAll('.rk-tl-card');
+  const fill = document.getElementById('rkTlFill');
+  if(!cards.length) return;
 
-  const io = new IntersectionObserver(entries => {
+  const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (!e.isIntersecting) return;
-
-      // 1. 섹션 fade-in
-      wrap.classList.add('revealed');
-
-      // 2. 웨이브 선 그리기 (1.8s)
-      path.style.transition = 'stroke-dashoffset 1.9s cubic-bezier(.4,0,.2,1)';
-      path.style.strokeDashoffset = '0';
-
-      // 3. 각 노드 ring pulse (선 그리기 완료 후 순서대로)
-      rings.forEach((r, i) => {
-        setTimeout(() => r.classList.add('go'), 1900 + i * 400);
-      });
-
-      io.disconnect();
+      if(e.isIntersecting && e.intersectionRatio > .5){
+        const idx = parseInt(e.target.dataset.step, 10);
+        cards.forEach(c => c.classList.toggle('active', parseInt(c.dataset.step,10) <= idx));
+        if(fill) fill.style.width = (idx / cards.length * 100) + '%';
+      }
     });
-  }, { threshold: 0.35 });
+  }, {threshold:[.5,.8]});
+  cards.forEach(c => io.observe(c));
+})();
 
-  io.observe(wrap);
+/* ─────── Process vertical line fill ─────── */
+(function(){
+  const steps = document.querySelectorAll('.rk-proc-step');
+  const fill = document.getElementById('rkProcFill');
+  const wrap = document.getElementById('rkProc');
+  if(!steps.length || !fill || !wrap) return;
+
+  const update = () => {
+    const r = wrap.getBoundingClientRect();
+    const vh = window.innerHeight;
+    if(r.bottom < 0 || r.top > vh) return;
+    const visible = Math.max(0, Math.min(vh - r.top, r.height));
+    const ratio = Math.min(1, visible / r.height);
+    fill.style.height = (ratio * 100) + '%';
+    // active
+    steps.forEach((s, i) => {
+      const sr = s.getBoundingClientRect();
+      s.classList.toggle('active', sr.top < vh * .7);
+    });
+  };
+  window.addEventListener('scroll', update, {passive:true});
+  window.addEventListener('resize', update);
+  update();
 })();
 </script>
-<script src="js/admin-trigger.js?v=70"></script>
 </body>
 </html>
