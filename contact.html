@@ -20,7 +20,7 @@
 <title>Contact | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=80">
+<link rel="stylesheet" href="style.css?v=81">
 </head>
 <body>
 
@@ -61,163 +61,239 @@
   </div>
 </div>
 
-<!-- CONTACT MAIN -->
-<section class="section">
+<!-- CONTACT MAIN — YNP Name Card (Flip) -->
+<style>
+  :root{
+    --nc-green:#3FA34D;--nc-blue:#0F4B96;--nc-blue-dk:#0A3B82;
+    --nc-text:#1A1A1A;--nc-sub:#6B7280;--nc-line:#E5E5E5;
+  }
+  .nc-section{padding:80px 0 100px;background:linear-gradient(135deg,#EEF2F8 0%,#E2E8F0 100%)}
+  .nc-section .wrap{max-width:900px;text-align:center}
+  .nc-head{margin-bottom:36px}
+  .nc-head .sec-eyebrow{justify-content:center;color:var(--nc-blue)}
+  .nc-head h2{font-size:clamp(1.6rem,2.4vw,2rem);font-weight:800;margin-bottom:10px;letter-spacing:-.025em}
+  .nc-head p{font-size:.95rem;color:var(--nc-sub)}
+  .nc-hint{font-size:.78rem;color:var(--nc-sub);margin:14px 0 28px}
+  .nc-hint kbd{background:#fff;border:1px solid var(--nc-line);border-radius:4px;padding:2px 8px;font-family:inherit;font-size:.74rem;color:var(--nc-text);margin:0 4px;box-shadow:0 2px 4px rgba(0,0,0,.04)}
+  .nc-scene{perspective:2400px;width:100%;max-width:760px;margin:0 auto;aspect-ratio:1.75/1}
+  .nc-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.4,0,.2,1);cursor:pointer}
+  .nc-card.flipped{transform:rotateY(180deg);cursor:default}
+  .nc-face{position:absolute;inset:0;border-radius:6px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;box-shadow:0 30px 60px -15px rgba(15,75,150,.28),0 12px 24px rgba(0,0,0,.1)}
+  .nc-front{padding:36px 44px;display:grid;grid-template-columns:auto 1px 1fr auto;gap:28px;align-items:stretch;text-align:left;color:var(--nc-text)}
+  .nc-front::before{content:"http://와이낫플래닝.kr";position:absolute;top:16px;right:16px;font-size:.7rem;color:var(--nc-sub);letter-spacing:.04em}
+  .nc-left{display:flex;flex-direction:column;justify-content:space-between;padding:10px 0;gap:18px}
+  .nc-left-top{font-size:.75rem;color:var(--nc-blue);letter-spacing:.04em;line-height:1.5;font-weight:500}
+  .nc-logo-img{width:auto;height:auto;max-width:130px;max-height:70px;display:block}
+  .nc-divider{width:1.5px;background:var(--nc-blue);align-self:stretch}
+  .nc-info{padding:10px 0;display:flex;flex-direction:column;justify-content:center;gap:6px}
+  .nc-company{font-size:.96rem;font-weight:700;color:var(--nc-text);letter-spacing:-.005em;margin-bottom:8px}
+  .nc-addr{font-size:.78rem;color:var(--nc-sub);line-height:1.6}
+  .nc-contact{font-size:.78rem;color:var(--nc-text);line-height:1.75;margin-top:8px}
+  .nc-contact span{color:var(--nc-blue);font-weight:700;margin-right:3px}
+  .nc-contact-row{display:flex;gap:18px;flex-wrap:wrap}
+  .nc-brand-block{display:flex;flex-direction:column;justify-content:center;align-items:flex-end;text-align:right;padding:10px 0;min-width:130px;gap:10px}
+  .nc-brand-label{font-size:.7rem;color:var(--nc-sub);letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  .nc-brand-main{font-size:1.6rem;font-weight:800;color:var(--nc-blue);letter-spacing:.06em;line-height:1.15}
+  .nc-brand-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:.78rem;color:var(--nc-sub);letter-spacing:.04em;margin-top:2px}
+  .flip-btn{position:absolute;bottom:14px;right:14px;display:inline-flex;align-items:center;gap:4px;background:var(--nc-blue);color:#fff;padding:7px 14px;border:none;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.04em;cursor:pointer;box-shadow:0 4px 12px rgba(15,75,150,.3);transition:all .2s;z-index:3;font-family:inherit}
+  .flip-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.4)}
+  .nc-back{transform:rotateY(180deg);padding:28px 34px;display:flex;flex-direction:column;text-align:left}
+  .nc-back-head{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:14px;margin-bottom:16px;border-bottom:1.5px solid var(--nc-blue)}
+  .nc-back-title{font-size:1.2rem;font-weight:800;color:var(--nc-text);letter-spacing:-.025em}
+  .nc-back-eyebrow{font-family:'Playfair Display',serif;font-style:italic;font-size:.78rem;color:var(--nc-blue);letter-spacing:.14em;margin-bottom:3px}
+  .nc-back-sub{font-size:.76rem;color:var(--nc-sub)}
+  .nc-form{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;align-content:start}
+  .nc-form .full{grid-column:1/-1}
+  .nc-form label{display:block;font-size:.7rem;font-weight:700;color:var(--nc-sub);letter-spacing:.02em;margin-bottom:4px;text-transform:uppercase}
+  .nc-form input,.nc-form select,.nc-form textarea{width:100%;padding:9px 12px;border:1px solid var(--nc-line);border-radius:6px;font-family:inherit;font-size:.84rem;color:var(--nc-text);background:#fafafa;transition:all .15s}
+  .nc-form input:focus,.nc-form select:focus,.nc-form textarea:focus{outline:none;border-color:var(--nc-blue);background:#fff;box-shadow:0 0 0 2px rgba(15,75,150,.08)}
+  .nc-form textarea{resize:none;height:54px}
+  .nc-actions{grid-column:1/-1;display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+  .nc-back-btn,.nc-submit{padding:9px 18px;border-radius:100px;font-weight:700;font-size:.78rem;cursor:pointer;font-family:inherit;transition:.2s}
+  .nc-back-btn{background:transparent;border:1px solid var(--nc-line);color:var(--nc-sub)}
+  .nc-back-btn:hover{border-color:var(--nc-blue);color:var(--nc-blue)}
+  .nc-submit{background:var(--nc-blue);color:#fff;border:none;padding:9px 22px;font-size:.82rem}
+  .nc-submit:hover{background:var(--nc-blue-dk);transform:translateY(-1px);box-shadow:0 6px 14px rgba(15,75,150,.3)}
+
+  /* 개인정보 동의 Modal */
+  .consent-modal{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+  .consent-modal.open{opacity:1;visibility:visible}
+  .consent-box-modal{background:#fff;border-radius:14px;max-width:560px;width:100%;padding:32px 32px 24px;box-shadow:0 30px 80px rgba(0,0,0,.3);transform:translateY(20px) scale(.96);transition:transform .35s cubic-bezier(.22,.68,0,1.2)}
+  .consent-modal.open .consent-box-modal{transform:translateY(0) scale(1)}
+  .consent-modal h3{font-size:1.15rem;font-weight:800;color:var(--nc-text);margin-bottom:8px;letter-spacing:-.02em}
+  .consent-modal h3 small{color:#c0392b;font-size:.78rem;font-weight:700;margin-left:6px}
+  .consent-modal .consent-table{width:100%;border-collapse:collapse;font-size:.82rem;color:var(--nc-sub);line-height:1.7;margin:18px 0}
+  .consent-modal .consent-table td{padding:6px 0;vertical-align:top}
+  .consent-modal .consent-table td:first-child{width:80px;color:var(--nc-text);font-weight:600}
+  .consent-modal .form-check{display:flex;align-items:flex-start;gap:10px;padding:10px 0;font-size:.85rem}
+  .consent-modal .form-check input{width:18px;height:18px;flex-shrink:0;margin-top:2px;accent-color:var(--nc-blue)}
+  .consent-modal .form-check label{color:var(--nc-text);line-height:1.5}
+  .consent-modal .form-check a{color:var(--nc-blue);text-decoration:underline}
+  .consent-modal .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;padding-top:18px;border-top:1px solid var(--nc-line)}
+  .modal-cancel,.modal-confirm{padding:11px 22px;border-radius:100px;font-weight:700;font-size:.86rem;cursor:pointer;font-family:inherit;transition:.2s;border:none}
+  .modal-cancel{background:transparent;border:1px solid var(--nc-line);color:var(--nc-sub)}
+  .modal-cancel:hover{border-color:var(--nc-blue);color:var(--nc-blue)}
+  .modal-confirm{background:var(--nc-blue);color:#fff}
+  .modal-confirm:hover{background:var(--nc-blue-dk);transform:translateY(-1px);box-shadow:0 6px 14px rgba(15,75,150,.3)}
+  .modal-confirm:disabled{background:#94A3B8;cursor:not-allowed;transform:none;box-shadow:none}
+
+  @media(max-width:700px){
+    .nc-scene{aspect-ratio:1.6/1}
+    .nc-front{grid-template-columns:1fr;gap:14px;padding:22px 24px}
+    .nc-divider{display:none}
+    .nc-brand-block{align-items:flex-start;text-align:left}
+    .nc-brand-main{font-size:1.3rem}
+    .nc-form{grid-template-columns:1fr}
+    .nc-form .full{grid-column:1}
+    .nc-form textarea{height:70px}
+    .nc-back{padding:20px 22px}
+    .consent-box-modal{padding:24px 22px 18px}
+  }
+</style>
+
+<section class="nc-section">
   <div class="wrap">
-    <div class="contact-grid rv">
-      <!-- 왼쪽: 연락처 정보 -->
-      <div>
-        <div class="sec-header">
-          <p class="sec-eyebrow">Contact Info</p>
-          <h2 class="sec-title">연락처</h2>
-          <p class="sec-desc">궁금한 점이 있으시면 언제든지 연락 주세요. 빠르게 답변 드리겠습니다.</p>
-        </div>
+    <div class="nc-head">
+      <p class="sec-eyebrow">Contact Us</p>
+      <h2>YNP에 문의하기</h2>
+      <p>명함을 클릭하시면 문의 폼이 나타납니다.</p>
+    </div>
+    <p class="nc-hint">명함 클릭 시 뒷면(상담 폼)으로 회전 <kbd>Click</kbd></p>
 
-        <div class="contact-item">
-          <div class="contact-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    <div class="nc-scene">
+      <div class="nc-card" id="ncCard">
+        <!-- FRONT -->
+        <div class="nc-face nc-front">
+          <div class="nc-left">
+            <div class="nc-left-top">분양대행 / 개발사업</div>
+            <img src="img/ynp_logo.png?v=3" alt="YNP YNOT PLANNING" class="nc-logo-img">
           </div>
-          <div>
-            <strong>ADDRESS</strong>
-            <p>서울특별시 강서구 마곡서로 152<br>두산더랜드타워 B동 1318-1323호</p>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 7.81 19.79 19.79 0 01.1 4.19 2 2 0 012.08 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.72 6.72l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-          </div>
-          <div>
-            <strong>TEL</strong>
-            <p><a href="tel:02-6022-8793" style="color:var(--c-sub);">02-6022-8793</a></p>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 7.81 19.79 19.79 0 01.1 4.19 2 2 0 012.08 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.72 6.72l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-          </div>
-          <div>
-            <strong>FAX</strong>
-            <p>02-2088-4040</p>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </div>
-          <div>
-            <strong>EMAIL</strong>
-            <p><a href="mailto:ynp073@ynp.uplusworks.co.kr" style="color:var(--c-sub);">ynp073@ynp.uplusworks.co.kr</a></p>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <strong>HOURS</strong>
-            <p>평일 09:00 – 18:00<br>토·일·공휴일 휴무</p>
-          </div>
-        </div>
-
-        <!-- 지도 영역 -->
-        <div class="map-wrap" style="margin-top:8px;">
-          <img src="img/location-map.svg" alt="와이낫플래닝 위치 안내 — 두산더랜드타워 B동" class="map-illust">
-          <a class="map-naver-link"
-             href="https://map.naver.com/v5/search/서울+강서구+마곡서로+152+두산더랜드타워"
-             target="_blank" rel="noopener">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            네이버 지도에서 보기
-          </a>
-        </div>
-
-        <!-- 교통 안내 -->
-        <div style="margin-top:24px;padding:20px;background:var(--c-teal-lt);border-radius:var(--radius);border-left:3px solid var(--c-teal);">
-          <p style="font-size:.85rem;font-weight:700;color:var(--c-teal);margin-bottom:10px;">대중교통 안내</p>
-          <div style="display:grid;gap:6px;">
-            <p style="font-size:.8rem;color:var(--c-sub);">
-              <strong style="color:var(--c-text);">지하철</strong> 5호선 마곡역 3번 출구 도보 5분
-            </p>
-            <p style="font-size:.8rem;color:var(--c-sub);">
-              <strong style="color:var(--c-text);">공항철도</strong> 마곡나루역 2번 출구 도보 8분
-            </p>
-            <p style="font-size:.8rem;color:var(--c-sub);">
-              <strong style="color:var(--c-text);">버스</strong> 마곡서로 정류장 하차 후 도보 2분
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 오른쪽: 문의 폼 -->
-      <div class="rv-r">
-        <div class="form-wrap">
-          <div style="margin-bottom:28px;">
-            <p class="sec-eyebrow" style="margin-bottom:8px;">문의 양식</p>
-            <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:8px;">프로젝트 상담 문의</h3>
-            <p style="font-size:.82rem;color:var(--c-sub);">영업일 기준 1-2일 이내 담당 컨설턴트가 연락 드립니다.</p>
-          </div>
-          <form id="contactForm">
-            <div class="form-row">
-              <div class="form-group">
-                <label>이름 *</label>
-                <input type="text" name="이름" placeholder="홍길동" required>
+          <div class="nc-divider"></div>
+          <div class="nc-info">
+            <div class="nc-company">주식회사 와이낫플래닝</div>
+            <div class="nc-addr">서울 강서구 마곡서로 152, 두산더랜드타워<br>B동 1318호~1323호 (마곡동 759-1)</div>
+            <div class="nc-contact">
+              <div class="nc-contact-row">
+                <div><span>T.</span>02-6022-8793</div>
+                <div><span>F.</span>02-2088-4040</div>
               </div>
-              <div class="form-group">
-                <label>연락처 *</label>
-                <input type="tel" name="연락처" placeholder="010-0000-0000" required>
-              </div>
+              <div><span>E.</span>ynp073@ynp.uplusworks.co.kr</div>
             </div>
-            <div class="form-group">
-              <label>이메일</label>
-              <input type="email" name="이메일" placeholder="example@email.com">
+          </div>
+          <div class="nc-brand-block">
+            <div class="nc-brand-label">Contact Us</div>
+            <div class="nc-brand-main">와이낫<br>플래닝</div>
+            <div class="nc-brand-sub">Corporate Inquiry</div>
+          </div>
+          <button class="flip-btn" id="toForm" type="button">상담 문의 →</button>
+        </div>
+
+        <!-- BACK: 폼 -->
+        <div class="nc-face nc-back">
+          <div class="nc-back-head">
+            <div>
+              <div class="nc-back-eyebrow">Contact Form</div>
+              <div class="nc-back-title">프로젝트 상담 문의</div>
             </div>
-            <div class="form-group">
-              <label>소속 / 회사명</label>
-              <input type="text" name="소속" placeholder="회사명 또는 소속">
-            </div>
-            <div class="form-group">
-              <label>문의 유형 *</label>
+            <div class="nc-back-sub">1~2 영업일 내 회신</div>
+          </div>
+          <form class="nc-form" id="contactForm">
+            <div><label>이름 *</label><input type="text" name="이름" placeholder="홍길동" required></div>
+            <div><label>연락처 *</label><input type="tel" name="연락처" placeholder="010-0000-0000" required></div>
+            <div><label>이메일</label><input type="email" name="이메일" placeholder="example@email.com"></div>
+            <div><label>소속</label><input type="text" name="소속" placeholder="회사명 또는 소속"></div>
+            <div class="full"><label>문의 유형 *</label>
               <select name="문의유형" required>
                 <option value="">선택해 주세요</option>
-                <option>분양대행 문의</option>
-                <option>시장조사 / 컨설팅 문의</option>
-                <option>마케팅 전략 문의</option>
-                <option>금융 컨설팅 문의</option>
-                <option>채용 문의</option>
-                <option>기타</option>
+                <option>분양대행 문의</option><option>시장조사 / 컨설팅</option>
+                <option>마케팅 전략</option><option>금융 컨설팅</option>
+                <option>채용 문의</option><option>기타</option>
               </select>
             </div>
-            <div class="form-group">
-              <label>사업지 지역 (분양대행 문의 시)</label>
-              <input type="text" name="사업지" placeholder="예: 경기도 화성시">
+            <div class="full"><label>문의 내용 *</label>
+              <textarea name="문의내용" placeholder="프로젝트 개요, 세대수, 원하시는 서비스 등" required></textarea>
             </div>
-            <div class="form-group">
-              <label>문의 내용 *</label>
-              <textarea rows="6" name="문의내용" placeholder="프로젝트 개요, 세대수, 원하시는 서비스 등을 자세히 입력해 주세요." required></textarea>
+            <div class="nc-actions">
+              <button type="button" class="nc-back-btn" id="toCard">← 명함</button>
+              <button type="submit" class="nc-submit">문의 보내기</button>
             </div>
-            <div class="consent-box" style="background:var(--c-bg);border:1px solid var(--c-border);border-radius:8px;padding:16px 18px;margin:18px 0 14px;">
-              <p style="font-size:.78rem;font-weight:700;color:var(--c-text);margin-bottom:10px;">개인정보 수집·이용 동의 안내 <span style="color:#c0392b;font-weight:600;">(필수)</span></p>
-              <table style="width:100%;border-collapse:collapse;font-size:.74rem;color:var(--c-sub);line-height:1.7;">
-                <tr><td style="padding:3px 0;width:100px;color:var(--c-text);font-weight:600;">수집 목적</td><td>서비스 문의·상담 처리 및 회신</td></tr>
-                <tr><td style="padding:3px 0;color:var(--c-text);font-weight:600;">수집 항목</td><td>이름, 연락처, 이메일, 소속/회사명, 문의 내용 (필수: 이름·연락처·문의내용)</td></tr>
-                <tr><td style="padding:3px 0;color:var(--c-text);font-weight:600;">보유 기간</td><td>문의 처리 완료 후 1년</td></tr>
-                <tr><td style="padding:3px 0;color:var(--c-text);font-weight:600;vertical-align:top;">동의 거부</td><td>동의를 거부하실 수 있으며, 거부 시 문의 접수가 제한될 수 있습니다.</td></tr>
-              </table>
-            </div>
-            <div class="form-check">
-              <input type="checkbox" id="agree" required>
-              <label for="agree">위 개인정보 수집 및 이용에 동의합니다. <a href="privacy.html" target="_blank" style="color:var(--c-blue);text-decoration:underline;">개인정보처리방침 전문 보기</a></label>
-            </div>
-            <div class="form-check">
-              <input type="checkbox" id="agreeMarketing">
-              <label for="agreeMarketing">마케팅·홍보 정보 수신에 동의합니다. <span style="color:var(--c-sub);">(선택)</span></label>
-            </div>
-            <button type="submit" class="btn-submit">문의 보내기 →</button>
           </form>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- 개인정보 수집·이용 동의 Modal -->
+<div class="consent-modal" id="consentModal" role="dialog" aria-labelledby="consentTitle" aria-modal="true">
+  <div class="consent-box-modal">
+    <h3 id="consentTitle">개인정보 수집·이용 동의 <small>(필수)</small></h3>
+    <p style="font-size:.84rem;color:var(--nc-sub);line-height:1.6">문의 접수를 위해 아래 정보의 수집·이용에 동의해 주세요.</p>
+    <table class="consent-table">
+      <tr><td>수집 목적</td><td>서비스 문의·상담 처리 및 회신</td></tr>
+      <tr><td>수집 항목</td><td>이름, 연락처, 이메일, 소속, 문의 내용</td></tr>
+      <tr><td>보유 기간</td><td>문의 처리 완료 후 1년</td></tr>
+      <tr><td>동의 거부</td><td>거부 시 문의 접수가 제한됩니다.</td></tr>
+    </table>
+    <div class="form-check">
+      <input type="checkbox" id="agreeRequired">
+      <label for="agreeRequired">위 개인정보 수집·이용에 동의합니다. <a href="privacy.html" target="_blank">개인정보처리방침 전문 보기</a></label>
+    </div>
+    <div class="form-check">
+      <input type="checkbox" id="agreeMarketing">
+      <label for="agreeMarketing">마케팅·홍보 정보 수신에 동의합니다. <span style="color:var(--nc-sub)">(선택)</span></label>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" id="consentCancel" type="button">취소</button>
+      <button class="modal-confirm" id="consentConfirm" type="button" disabled>동의하고 제출</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const card = document.getElementById('ncCard');
+  document.getElementById('toForm').addEventListener('click', e => {e.stopPropagation(); card.classList.add('flipped')});
+  document.getElementById('toCard').addEventListener('click', e => {e.stopPropagation(); card.classList.remove('flipped')});
+  card.addEventListener('click', () => { if(!card.classList.contains('flipped')) card.classList.add('flipped'); });
+
+  // 개인정보 동의 Modal
+  const form = document.getElementById('contactForm');
+  const modal = document.getElementById('consentModal');
+  const agree = document.getElementById('agreeRequired');
+  const confirmBtn = document.getElementById('consentConfirm');
+  const cancelBtn = document.getElementById('consentCancel');
+
+  let pendingSubmit = false;
+
+  form.addEventListener('submit', (e) => {
+    if (pendingSubmit) return;  // 모달 거친 후 진짜 제출
+    e.preventDefault();
+    // 모든 필수 필드 OK 여부는 form.checkValidity()
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    modal.classList.add('open');
+    agree.checked = false;
+    confirmBtn.disabled = true;
+  });
+
+  agree.addEventListener('change', () => { confirmBtn.disabled = !agree.checked; });
+
+  cancelBtn.addEventListener('click', () => { modal.classList.remove('open'); });
+  modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('open'); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') modal.classList.remove('open'); });
+
+  confirmBtn.addEventListener('click', () => {
+    if (!agree.checked) return;
+    modal.classList.remove('open');
+    pendingSubmit = true;
+    // 실제 제출 — 여기에 fetch / submit API 연결 (지금은 alert)
+    alert('문의가 접수되었습니다. 1~2 영업일 내 회신드립니다.');
+    form.reset();
+    card.classList.remove('flipped');
+    pendingSubmit = false;
+  });
+})();
+</script>
 
 <!-- Q&A ANCHOR -->
 <div id="qna"></div>
@@ -301,11 +377,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=80"></script>
+<script src="script.js?v=81"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=80"></script>
-<script src="js/supabase-client.js?v=80"></script>
+<script src="js/supabase-config.js?v=81"></script>
+<script src="js/supabase-client.js?v=81"></script>
 
-<script src="js/admin-trigger.js?v=80"></script>
+<script src="js/admin-trigger.js?v=81"></script>
 </body>
 </html>

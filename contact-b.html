@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시안 B — YNP Name Card | YNOT Planning</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=81">
+<style>
+  :root{
+    --nc-green:#3FA34D;
+    --nc-blue:#0F4B96;
+    --nc-blue-dk:#0A3B82;
+    --nc-text:#1A1A1A;
+    --nc-sub:#6B7280;
+    --nc-line:#E5E5E5;
+  }
+  body{background:linear-gradient(135deg,#EEF2F8 0%,#E2E8F0 100%);min-height:100vh}
+  .page-wrap{max-width:900px;margin:120px auto 80px;padding:0 24px;text-align:center}
+  .scheme-tag{display:inline-block;padding:6px 14px;border-radius:100px;background:var(--nc-blue);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.1em;margin-bottom:18px}
+  .hint{font-size:.82rem;color:var(--nc-sub);margin-bottom:40px}
+  .hint kbd{background:#fff;border:1px solid var(--nc-line);border-radius:4px;padding:2px 8px;font-family:inherit;font-size:.78rem;color:var(--nc-text);margin:0 4px;box-shadow:0 2px 4px rgba(0,0,0,.04)}
+
+  /* 명함 비율 1.75:1 (실제 명함 90x55mm 근사) */
+  .nc-scene{perspective:2400px;width:100%;max-width:760px;margin:0 auto;aspect-ratio:1.75/1}
+  .nc-card{
+    width:100%;height:100%;position:relative;
+    transform-style:preserve-3d;
+    transition:transform .9s cubic-bezier(.4,0,.2,1);
+    cursor:pointer;
+  }
+  .nc-card.flipped{transform:rotateY(180deg);cursor:default}
+  .nc-face{
+    position:absolute;inset:0;border-radius:6px;overflow:hidden;
+    backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    background:#fff;
+    box-shadow:0 30px 60px -15px rgba(15,75,150,.28),0 12px 24px rgba(0,0,0,.1);
+  }
+
+  /* ────── FRONT: 실제 YNP 명함 디자인 ────── */
+  .nc-front{
+    padding:36px 44px;
+    display:grid;grid-template-columns:auto 1px 1fr auto;
+    gap:28px;align-items:stretch;text-align:left;
+    color:var(--nc-text);
+  }
+  .nc-front::before{
+    content:"http://와이낫플래닝.kr";
+    position:absolute;top:16px;right:16px;
+    font-size:.7rem;color:var(--nc-sub);letter-spacing:.04em;
+  }
+
+  /* 좌측: 로고 영역 */
+  .nc-left{display:flex;flex-direction:column;justify-content:space-between;padding:10px 0;gap:18px}
+  .nc-left-top{font-size:.75rem;color:var(--nc-blue);letter-spacing:.04em;line-height:1.5;font-weight:500}
+  .nc-logo-img{
+    width:auto;height:auto;
+    max-width:170px;max-height:90px;
+    display:block;
+  }
+
+  /* 중앙 세로 라인 */
+  .nc-divider{width:1.5px;background:var(--nc-blue);align-self:stretch}
+
+  /* 회사 정보 */
+  .nc-info{padding:10px 0;display:flex;flex-direction:column;justify-content:center;gap:6px}
+  .nc-company{
+    font-size:.96rem;font-weight:700;color:var(--nc-text);
+    letter-spacing:-.005em;margin-bottom:8px;
+  }
+  .nc-addr{font-size:.78rem;color:var(--nc-sub);line-height:1.6}
+  .nc-contact{font-size:.78rem;color:var(--nc-text);line-height:1.75;margin-top:8px}
+  .nc-contact span{color:var(--nc-blue);font-weight:700;margin-right:3px}
+  .nc-contact-row{display:flex;gap:18px;flex-wrap:wrap}
+
+  /* 우측: 회사 워드마크 (회사 명함 — 개인 이름 X) */
+  .nc-brand-block{
+    display:flex;flex-direction:column;justify-content:center;align-items:flex-end;
+    text-align:right;padding:10px 0;min-width:130px;gap:10px;
+  }
+  .nc-brand-label{
+    font-size:.7rem;color:var(--nc-sub);letter-spacing:.16em;
+    text-transform:uppercase;font-weight:600;
+  }
+  .nc-brand-main{
+    font-size:1.6rem;font-weight:800;color:var(--nc-blue);
+    letter-spacing:.06em;line-height:1.15;
+  }
+  .nc-brand-sub{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:.78rem;color:var(--nc-sub);letter-spacing:.04em;
+    margin-top:2px;
+  }
+
+  /* ────── FLIP BUTTON ────── */
+  .flip-btn{
+    position:absolute;bottom:14px;right:14px;
+    display:inline-flex;align-items:center;gap:4px;
+    background:var(--nc-blue);color:#fff;
+    padding:7px 14px;border:none;border-radius:100px;
+    font-size:.7rem;font-weight:700;letter-spacing:.04em;cursor:pointer;
+    box-shadow:0 4px 12px rgba(15,75,150,.3);
+    transition:all .2s;z-index:3;
+  }
+  .flip-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.4)}
+
+  /* ────── BACK: 폼 (명함 가로 비율 유지) ────── */
+  .nc-back{
+    transform:rotateY(180deg);
+    padding:28px 34px;display:flex;flex-direction:column;
+    text-align:left;
+  }
+  .nc-back-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    padding-bottom:14px;margin-bottom:16px;
+    border-bottom:1.5px solid var(--nc-blue);
+  }
+  .nc-back-title{
+    font-size:1.2rem;font-weight:800;color:var(--nc-text);letter-spacing:-.025em;
+  }
+  .nc-back-eyebrow{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:.78rem;color:var(--nc-blue);letter-spacing:.14em;margin-bottom:3px;
+  }
+  .nc-back-sub{font-size:.76rem;color:var(--nc-sub)}
+
+  /* 폼 — 가로 비율에 맞게 컴팩트 grid */
+  .nc-form{
+    flex:1;
+    display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;
+    align-content:start;
+  }
+  .nc-form .full{grid-column:1/-1}
+  .nc-form label{
+    display:block;font-size:.7rem;font-weight:700;color:var(--nc-sub);
+    letter-spacing:.02em;margin-bottom:4px;text-transform:uppercase;
+  }
+  .nc-form input,.nc-form select,.nc-form textarea{
+    width:100%;padding:9px 12px;border:1px solid var(--nc-line);border-radius:6px;
+    font-family:inherit;font-size:.84rem;color:var(--nc-text);background:#fafafa;
+    transition:all .15s;
+  }
+  .nc-form input:focus,.nc-form select:focus,.nc-form textarea:focus{
+    outline:none;border-color:var(--nc-blue);background:#fff;
+    box-shadow:0 0 0 2px rgba(15,75,150,.08);
+  }
+  .nc-form textarea{resize:none;height:54px}
+  .nc-actions{
+    grid-column:1/-1;
+    display:flex;gap:10px;justify-content:flex-end;
+    margin-top:8px;
+  }
+  .nc-back-btn{
+    padding:9px 18px;background:transparent;border:1px solid var(--nc-line);
+    border-radius:100px;font-weight:600;font-size:.78rem;color:var(--nc-sub);cursor:pointer;
+  }
+  .nc-back-btn:hover{border-color:var(--nc-blue);color:var(--nc-blue)}
+  .nc-submit{
+    padding:9px 22px;background:var(--nc-blue);color:#fff;
+    border:none;border-radius:100px;font-weight:700;font-size:.82rem;cursor:pointer;
+    transition:.2s;
+  }
+  .nc-submit:hover{background:var(--nc-blue-dk);transform:translateY(-1px);box-shadow:0 6px 14px rgba(15,75,150,.3)}
+
+  @media(max-width:700px){
+    .nc-scene{aspect-ratio:1.6/1}
+    .nc-front{grid-template-columns:1fr;gap:14px;padding:22px 24px}
+    .nc-divider{display:none}
+    .nc-brand-block{align-items:flex-start;text-align:left}
+    .nc-brand-main{font-size:1.3rem}
+    .nc-logo-text{font-size:2.2rem}
+    .nc-form{grid-template-columns:1fr}
+    .nc-form .full{grid-column:1}
+    .nc-form textarea{height:70px}
+    .nc-back{padding:20px 22px}
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <span class="scheme-tag">시안 B · YNP Name Card</span>
+  <div class="hint">명함을 클릭하면 뒷면(상담 문의 폼)으로 회전됩니다 <kbd>Click</kbd></div>
+
+  <div class="nc-scene">
+    <div class="nc-card" id="ncCard">
+
+      <!-- ─── FRONT: 명함 ─── -->
+      <div class="nc-face nc-front">
+        <!-- 좌측 -->
+        <div class="nc-left">
+          <div class="nc-left-top">분양대행 / 개발사업</div>
+          <img src="img/ynp_logo.png?v=3" alt="YNP YNOT PLANNING" class="nc-logo-img">
+        </div>
+
+        <!-- 중앙 세로 라인 -->
+        <div class="nc-divider"></div>
+
+        <!-- 회사 정보 -->
+        <div class="nc-info">
+          <div class="nc-company">주식회사 와이낫플래닝</div>
+          <div class="nc-addr">
+            서울 강서구 마곡서로 152, 두산더랜드타워<br>
+            B동 1318호~1323호 (마곡동 759-1)
+          </div>
+          <div class="nc-contact">
+            <div class="nc-contact-row">
+              <div><span>T.</span>02-6022-8793</div>
+              <div><span>F.</span>02-2088-4040</div>
+            </div>
+            <div><span>E.</span>ynp073@ynp.uplusworks.co.kr</div>
+          </div>
+        </div>
+
+        <!-- 우측: 회사 워드마크 (개인 이름 X — 회사 contact) -->
+        <div class="nc-brand-block">
+          <div class="nc-brand-label">Contact Us</div>
+          <div class="nc-brand-main">와이낫<br>플래닝</div>
+          <div class="nc-brand-sub">Corporate Inquiry</div>
+        </div>
+
+        <button class="flip-btn" id="toForm">상담 문의 →</button>
+      </div>
+
+      <!-- ─── BACK: 폼 ─── -->
+      <div class="nc-face nc-back">
+        <div class="nc-back-head">
+          <div>
+            <div class="nc-back-eyebrow">Contact Form</div>
+            <div class="nc-back-title">프로젝트 상담 문의</div>
+          </div>
+          <div class="nc-back-sub">1~2 영업일 내 회신</div>
+        </div>
+
+        <form class="nc-form">
+          <div><label>이름 *</label><input type="text" placeholder="홍길동" required></div>
+          <div><label>연락처 *</label><input type="tel" placeholder="010-0000-0000" required></div>
+          <div><label>이메일</label><input type="email" placeholder="example@email.com"></div>
+          <div><label>소속</label><input type="text" placeholder="회사명 또는 소속"></div>
+          <div class="full">
+            <label>문의 유형 *</label>
+            <select required>
+              <option value="">선택해 주세요</option>
+              <option>분양대행 문의</option><option>시장조사 / 컨설팅</option>
+              <option>마케팅 전략</option><option>금융 컨설팅</option>
+              <option>채용 문의</option><option>기타</option>
+            </select>
+          </div>
+          <div class="full">
+            <label>문의 내용 *</label>
+            <textarea placeholder="프로젝트 개요, 세대수, 원하시는 서비스 등" required></textarea>
+          </div>
+          <div class="nc-actions">
+            <button type="button" class="nc-back-btn" id="toCard">← 명함</button>
+            <button type="submit" class="nc-submit">문의 보내기</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+  const card = document.getElementById('ncCard');
+  document.getElementById('toForm').addEventListener('click', e => {e.stopPropagation(); card.classList.add('flipped')});
+  document.getElementById('toCard').addEventListener('click', e => {e.stopPropagation(); card.classList.remove('flipped')});
+  card.addEventListener('click', e => { if(!card.classList.contains('flipped')) card.classList.add('flipped'); });
+</script>
+</body>
+</html>

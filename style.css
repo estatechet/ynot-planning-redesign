@@ -926,3 +926,19 @@ body.biz-detail-mode .biz-panels{
   .ceo-portrait-wrap{position:relative;top:0;max-width:380px;margin:0 auto}
 }
 
+
+/* ═══ 한 글자/단어 widow 방지 (text-wrap balance + keep-all) ═══ */
+.philo-card p,.philo-card h3,.rk-tl-card p,.rk-tl-card h3,
+.bn-card p,.bn-card h4,.tn-card p,.tn-card h3,
+.sec-desc,.rk-sec-head p,.bento-card p,.bento-card h4,
+.proc6-step h4,.proc6-step p,.pm-step p,.pf-step p,
+.quick-card p,.quick-card h3,.stat-label,
+.ceo-body,.bb-card p,.bb-card h4,.tc-card p,.tc-card h3{
+  text-wrap:pretty;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+/* 헤딩만 balance (모던 브라우저) */
+h1,h2,h3,.sec-title,.rk-sec-title,.rk-hero-title,.page-hero-title{
+  text-wrap:balance;
+}
