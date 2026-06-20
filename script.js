@@ -283,31 +283,6 @@ document.querySelectorAll('.win-warm').forEach(w => {
 })();
 
 // ═══════════════════════════════════════════════════════
-// 디벨롭 1단계: 카카오톡 채널 플로팅 (Contact 페이지에만 표시)
-// ═══════════════════════════════════════════════════════
-(function(){
-  const path = location.pathname;
-  const isContact = path.endsWith('contact.html') || path.endsWith('/contact') || /\/contact\/?$/.test(path);
-  if (!isContact) return;
-  const KAKAO_CHANNEL_URL = '#'; // TODO: 실제 카카오톡 채널 URL 로 교체 (예: 'https://pf.kakao.com/_xxxxx')
-  const btn = document.createElement('a');
-  btn.className = 'kakao-float';
-  btn.href = KAKAO_CHANNEL_URL;
-  btn.target = '_blank';
-  btn.rel = 'noopener';
-  btn.setAttribute('aria-label', '카카오톡 상담');
-  btn.innerHTML = `
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 3.4C6.7 3.4 2.4 6.8 2.4 11c0 2.7 1.8 5.1 4.5 6.4l-.9 3.3c-.1.3.2.5.5.3l3.9-2.6c.5.1 1.1.1 1.6.1 5.3 0 9.6-3.4 9.6-7.6S17.3 3.4 12 3.4z"/>
-    </svg>
-    <span class="kakao-tooltip">카카오톡 상담</span>`;
-  document.body.appendChild(btn);
-  if (KAKAO_CHANNEL_URL === '#') {
-    btn.addEventListener('click', e => { e.preventDefault(); alert('카카오톡 채널 URL이 아직 설정되지 않았습니다.'); });
-  }
-})();
-
-// ═══════════════════════════════════════════════════════
 // 디벨롭 1단계: 숫자 카운터 애니메이션 (.stat-number)
 // ═══════════════════════════════════════════════════════
 (function(){
