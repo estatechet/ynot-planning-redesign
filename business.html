@@ -20,7 +20,7 @@
 <title>Business | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=74">
+<link rel="stylesheet" href="style.css?v=75">
 <style>
 /* ──────────────────────────────────────────
    TAB BAR
@@ -746,10 +746,10 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=74"></script>
+<script src="script.js?v=75"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=74"></script>
-<script src="js/supabase-client.js?v=74"></script>
+<script src="js/supabase-config.js?v=75"></script>
+<script src="js/supabase-client.js?v=75"></script>
 
 <script>
 // Drill-down 진입 (wave 노드 또는 sticky 탭 → 본문)
@@ -796,7 +796,7 @@ document.querySelectorAll('.biz-wave-node').forEach(node => {
 // Sticky tab 클릭 (detail 모드 내에서 단계 이동)
 document.querySelectorAll('.biz-tab').forEach(tab => {
   tab.addEventListener('click', () => {
-    enterDetail(tab.dataset.panel, tab);
+    enterDetail(tab.dataset.panel, tab, false);
   });
 });
 
@@ -833,6 +833,6 @@ window.addEventListener('hashchange', openByHash);
   if (row) io.observe(row);
 })();
 </script>
-<script src="js/admin-trigger.js?v=74"></script>
+<script src="js/admin-trigger.js?v=75"></script>
 </body>
 </html>
