@@ -1,3 +1,43 @@
+// ═══════════════════════════════════════════════════════
+// 글로벌: nav 메뉴 anchor 클릭 시 자동 스크롤 차단 (모든 페이지 공통)
+// 같은 페이지 내 hash 변경만 발생, 페이지는 최상단(hero) 유지
+// 각 페이지의 hashchange 핸들러가 패널/탭 전환 처리
+// ═══════════════════════════════════════════════════════
+(function(){
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  const currentFile = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+
+  // nav anchor 클릭 가로채기
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('#navbar a[href*="#"]');
+    if(!a) return;
+    const href = a.getAttribute('href') || '';
+    const [pathPart, hashPart] = href.split('#');
+    if(!hashPart) return;
+    const targetFile = (pathPart || currentFile).toLowerCase();
+    // 같은 페이지 내에서만 가로챔
+    if(targetFile === currentFile){
+      e.preventDefault();
+      if(location.hash !== '#'+hashPart){
+        history.replaceState(null, '', '#'+hashPart);
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+      }
+    }
+  }, true);
+
+  // 페이지 진입 시 hash가 있으면 강제 최상단 (다중 시점)
+  if(location.hash){
+    const forceTop = () => window.scrollTo(0, 0);
+    forceTop();
+    requestAnimationFrame(() => { forceTop(); requestAnimationFrame(forceTop); });
+    setTimeout(forceTop, 50);
+    setTimeout(forceTop, 150);
+    setTimeout(forceTop, 350);
+    window.addEventListener('load', forceTop, {once:true});
+  }
+})();
+
 // Navbar — scroll 상태 (hide/show 는 sticky 자식들과 충돌하여 비활성화)
 const navbar = document.getElementById('navbar');
 const stbtn = document.getElementById('scrollTopBtn');
