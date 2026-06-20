@@ -637,8 +637,8 @@ img[loading="lazy"].loaded,img[loading="lazy"][src]{opacity:1}
 .consult-controls{display:flex;gap:14px;align-items:center}
 .consult-controls select{padding:10px 32px 10px 14px;border:1px solid var(--c-border);border-radius:8px;background:var(--c-bg) url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%236B7280' d='M5 6 0 0h10z'/%3E%3C/svg%3E") no-repeat right 12px center;font-size:.86rem;color:var(--c-text);outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;font-family:inherit;transition:border-color .2s}
 .consult-controls select:focus,.consult-controls select:hover{border-color:var(--c-teal)}
-.consult-count{font-size:.82rem;color:var(--c-sub);letter-spacing:.02em;white-space:nowrap}
-.consult-count strong{color:var(--c-blue);font-size:1.05rem;font-weight:900;font-family:'Playfair Display',serif;letter-spacing:-.01em}
+.consult-count{font-size:.78rem;color:var(--c-sub);white-space:nowrap}
+.consult-count strong{color:inherit;font-size:inherit;font-weight:inherit;font-family:inherit;letter-spacing:inherit}
 .consult-loadmore-wrap{text-align:center;margin-top:32px}
 .btn-loadmore{padding:12px 32px;border:1px solid var(--c-border);background:#fff;color:var(--c-text);border-radius:30px;font-size:.88rem;font-weight:700;cursor:pointer;transition:var(--trans);font-family:inherit}
 .btn-loadmore:hover{background:var(--c-text);color:#fff;border-color:var(--c-text);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.12)}

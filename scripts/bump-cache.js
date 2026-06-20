@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const NEW_V = '102';
+const NEW_V = '103';
 const root = path.join(__dirname, '..');
 const targets = [
   ...fs.readdirSync(root).filter(f => f.endsWith('.html')).map(f => path.join(root, f)),
