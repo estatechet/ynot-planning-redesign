@@ -144,6 +144,31 @@
     },
     async deleteConsulting(id) {
       return client.from('consulting_results').delete().eq('id', id);
+    },
+
+    // ── Inquiries (상담 문의) ────────────────────────────────
+    async createInquiry(row) {
+      return client.from('inquiries').insert(row).select().single();
+    },
+    async listInquiries({ status = '', search = '', page = 1, perPage = 30 } = {}) {
+      const from = (page - 1) * perPage;
+      const to = from + perPage - 1;
+      let q = client.from('inquiries')
+        .select('*', { count: 'exact' })
+        .order('created_at', { ascending: false })
+        .range(from, to);
+      if (status) q = q.eq('status', status);
+      if (search) q = q.or(`name.ilike.%${search}%,phone.ilike.%${search}%,message.ilike.%${search}%`);
+      return q;
+    },
+    async getInquiry(id) {
+      return client.from('inquiries').select('*').eq('id', id).single();
+    },
+    async updateInquiry(id, patch) {
+      return client.from('inquiries').update(patch).eq('id', id).select().single();
+    },
+    async deleteInquiry(id) {
+      return client.from('inquiries').delete().eq('id', id);
     }
   };
 

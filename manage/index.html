@@ -137,7 +137,33 @@ a{color:inherit;text-decoration:none}
     <button class="mg-tab active" data-pane="press">보도자료</button>
     <button class="mg-tab" data-pane="sales">분양실적</button>
     <button class="mg-tab" data-pane="consulting">컨설팅실적</button>
+    <button class="mg-tab" data-pane="inquiries">📩 상담 문의 <span id="inqBadge" class="mg-badge" style="display:none">0</span></button>
   </nav>
+  <style>
+    .mg-badge{background:#e74c3c;color:#fff;font-size:.66rem;font-weight:700;padding:2px 7px;border-radius:100px;margin-left:6px;vertical-align:middle}
+    .inq-filter{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
+    .inq-filter button{padding:6px 12px;border:1px solid var(--c-border);background:#fff;border-radius:6px;font-size:.78rem;color:var(--c-sub);cursor:pointer}
+    .inq-filter button.on{background:var(--c-blue);color:#fff;border-color:var(--c-blue)}
+    .inq-search{margin-left:auto;display:flex;gap:6px}
+    .inq-search input{padding:6px 10px;border:1px solid var(--c-border);border-radius:6px;font-size:.8rem;width:200px}
+    .inq-status{display:inline-block;padding:3px 9px;border-radius:100px;font-size:.7rem;font-weight:700}
+    .inq-status.new{background:#fef3c7;color:#92400e}
+    .inq-status.in_progress{background:#dbeafe;color:#1e40af}
+    .inq-status.done{background:#d1fae5;color:#065f46}
+    .inq-row td{vertical-align:top}
+    .inq-row .name{font-weight:700;color:var(--c-text)}
+    .inq-row .phone{font-size:.78rem;color:var(--c-sub);margin-top:2px}
+    .inq-row .msg{font-size:.78rem;color:var(--c-sub);max-width:480px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.5}
+    .inq-row .date{font-size:.74rem;color:var(--c-mute,#999);white-space:nowrap}
+    .inq-detail-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:none;align-items:center;justify-content:center;padding:24px}
+    .inq-detail-modal.open{display:flex}
+    .inq-detail-box{background:#fff;border-radius:12px;max-width:640px;width:100%;max-height:90vh;overflow-y:auto;padding:28px}
+    .inq-detail-box h3{font-size:1.2rem;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+    .inq-detail-box .field{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--c-border)}
+    .inq-detail-box .field label{display:block;font-size:.7rem;color:var(--c-sub);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:4px}
+    .inq-detail-box .field .val{font-size:.92rem;color:var(--c-text);white-space:pre-wrap;word-break:break-all}
+    .inq-detail-box .actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  </style>
 
   <main class="mg-main">
 
@@ -316,6 +342,41 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
 
+    <!-- ───────── 상담 문의 ───────── -->
+    <div id="paneI" class="mg-pane" data-pane="inquiries">
+      <div class="mg-section">
+        <h3>상담 문의 (게시판)</h3>
+        <p class="desc">고객이 contact 페이지에서 작성한 문의가 여기 저장됩니다. 상태(접수/진행중/완료)로 관리하세요.</p>
+
+        <div class="inq-filter">
+          <button class="on" data-status="">전체 <span id="inqCntAll">0</span></button>
+          <button data-status="new">새 문의 <span id="inqCntNew">0</span></button>
+          <button data-status="in_progress">진행중 <span id="inqCntProg">0</span></button>
+          <button data-status="done">완료 <span id="inqCntDone">0</span></button>
+          <div class="inq-search">
+            <input type="text" id="inqSearch" placeholder="이름·전화·내용 검색">
+          </div>
+        </div>
+
+        <div class="mg-table-wrap">
+          <table class="mg-table">
+            <thead>
+              <tr>
+                <th width="60">상태</th>
+                <th width="140">이름·연락처</th>
+                <th>문의 유형 · 내용</th>
+                <th width="120">접수일</th>
+                <th width="160" class="act">관리</th>
+              </tr>
+            </thead>
+            <tbody id="inqTbody">
+              <tr><td colspan="5" style="text-align:center;padding:40px;color:var(--c-sub)">불러오는 중…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -335,8 +396,8 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../js/supabase-config.js?v=89"></script>
-<script src="../js/supabase-client.js?v=89"></script>
+<script src="../js/supabase-config.js?v=90"></script>
+<script src="../js/supabase-client.js?v=90"></script>
 <script>
 // ============================================================
 // 관리자 콘솔
@@ -846,6 +907,138 @@ a{color:inherit;text-decoration:none}
       btn.disabled = false; btn.textContent = '저장';
     }
   });
+
+  // ═══════════════════════ 상담 문의 관리 ═══════════════════════
+  let inqCurrentStatus = '';
+  let inqSearchQuery = '';
+  const inqStatusLabel = { new:'새 문의', in_progress:'진행중', done:'완료' };
+
+  function inqRow(r){
+    const dt = r.created_at ? new Date(r.created_at).toLocaleString('ko-KR',{year:'2-digit',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '';
+    const msg = (r.message || '').slice(0, 200);
+    return `<tr class="inq-row" data-id="${r.id}">
+      <td><span class="inq-status ${r.status}">${inqStatusLabel[r.status] || r.status}</span></td>
+      <td><div class="name">${esc(r.name)}</div><div class="phone">${esc(r.phone)}</div></td>
+      <td>
+        <div style="font-size:.78rem;color:var(--c-blue);font-weight:700;margin-bottom:3px">${esc(r.inquiry_type)}</div>
+        <div class="msg">${esc(msg)}</div>
+      </td>
+      <td class="date">${dt}</td>
+      <td class="act">
+        <button class="btn btn-sec" data-inq-view="${r.id}">상세</button>
+        <button class="btn btn-danger" data-inq-del="${r.id}">삭제</button>
+      </td>
+    </tr>`;
+  }
+
+  async function loadInquiries(){
+    const tb = $('inqTbody');
+    tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--c-sub)">불러오는 중…</td></tr>';
+    const { data, error, count } = await window.ynpDB.listInquiries({
+      status: inqCurrentStatus, search: inqSearchQuery, page: 1, perPage: 100
+    });
+    if(error){ tb.innerHTML = `<tr><td colspan="5" style="color:#c0392b;padding:20px">오류: ${esc(error.message)}</td></tr>`; return; }
+    if(!data || !data.length){
+      tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--c-sub)">문의가 없습니다.</td></tr>';
+    } else {
+      tb.innerHTML = data.map(inqRow).join('');
+    }
+    // 카운트
+    const all = await window.ynpDB.listInquiries({page:1,perPage:1});
+    const ne = await window.ynpDB.listInquiries({status:'new',page:1,perPage:1});
+    const ip = await window.ynpDB.listInquiries({status:'in_progress',page:1,perPage:1});
+    const dn = await window.ynpDB.listInquiries({status:'done',page:1,perPage:1});
+    $('inqCntAll').textContent = all.count || 0;
+    $('inqCntNew').textContent = ne.count || 0;
+    $('inqCntProg').textContent = ip.count || 0;
+    $('inqCntDone').textContent = dn.count || 0;
+    const badge = $('inqBadge');
+    if(ne.count > 0){ badge.style.display='inline-block'; badge.textContent = ne.count; } else { badge.style.display='none'; }
+  }
+
+  // 필터 버튼
+  document.querySelectorAll('.inq-filter button[data-status]').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.inq-filter button[data-status]').forEach(x => x.classList.toggle('on', x === b));
+      inqCurrentStatus = b.dataset.status;
+      loadInquiries();
+    });
+  });
+  // 검색
+  let inqSearchTimer;
+  $('inqSearch').addEventListener('input', (e) => {
+    clearTimeout(inqSearchTimer);
+    inqSearchTimer = setTimeout(() => { inqSearchQuery = e.target.value.trim(); loadInquiries(); }, 300);
+  });
+
+  // 상세 모달
+  function showInqDetail(r){
+    const dt = r.created_at ? new Date(r.created_at).toLocaleString('ko-KR') : '';
+    const html = `
+      <div class="inq-detail-modal open" id="inqModal">
+        <div class="inq-detail-box">
+          <h3>
+            <span><span class="inq-status ${r.status}">${inqStatusLabel[r.status]}</span> #${r.id}</span>
+            <button class="btn btn-sec" id="inqClose">닫기</button>
+          </h3>
+          <div class="field"><label>이름</label><div class="val">${esc(r.name)}</div></div>
+          <div class="field"><label>연락처</label><div class="val"><a href="tel:${esc(r.phone)}" style="color:var(--c-blue)">${esc(r.phone)}</a></div></div>
+          ${r.email ? `<div class="field"><label>이메일</label><div class="val"><a href="mailto:${esc(r.email)}" style="color:var(--c-blue)">${esc(r.email)}</a></div></div>` : ''}
+          ${r.company ? `<div class="field"><label>소속</label><div class="val">${esc(r.company)}</div></div>` : ''}
+          <div class="field"><label>문의 유형</label><div class="val">${esc(r.inquiry_type)}</div></div>
+          <div class="field"><label>문의 내용</label><div class="val">${esc(r.message)}</div></div>
+          <div class="field"><label>마케팅 수신</label><div class="val">${r.agree_marketing ? '동의' : '미동의'}</div></div>
+          <div class="field"><label>접수일</label><div class="val">${dt}</div></div>
+          <div class="actions">
+            <button class="btn btn-sec" data-set-status="new">새 문의로</button>
+            <button class="btn btn-pri" data-set-status="in_progress">진행중으로</button>
+            <button class="btn btn-pri" data-set-status="done" style="background:#10b981;border-color:#10b981">완료로</button>
+          </div>
+        </div>
+      </div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+    document.getElementById('inqClose').onclick = () => document.getElementById('inqModal').remove();
+    document.getElementById('inqModal').addEventListener('click', (e) => { if(e.target.id === 'inqModal') e.target.remove(); });
+    document.querySelectorAll('[data-set-status]').forEach(b => {
+      b.onclick = async () => {
+        const newStatus = b.dataset.setStatus;
+        const { error } = await window.ynpDB.updateInquiry(r.id, { status: newStatus });
+        if(error) return alert('상태 변경 실패: '+error.message);
+        document.getElementById('inqModal').remove();
+        loadInquiries();
+      };
+    });
+  }
+
+  // 행 클릭 (상세/삭제)
+  document.addEventListener('click', async (e) => {
+    const vBtn = e.target.closest('[data-inq-view]');
+    const dBtn = e.target.closest('[data-inq-del]');
+    if(vBtn){
+      const id = vBtn.dataset.inqView;
+      const { data, error } = await window.ynpDB.getInquiry(id);
+      if(error) return alert('불러오기 실패: '+error.message);
+      showInqDetail(data);
+    }
+    if(dBtn){
+      if(!confirm('이 문의를 삭제하시겠습니까?')) return;
+      const id = dBtn.dataset.inqDel;
+      const { error } = await window.ynpDB.deleteInquiry(id);
+      if(error) return alert('삭제 실패: '+error.message);
+      loadInquiries();
+    }
+  });
+
+  // 탭 활성 시 로드
+  document.querySelectorAll('.mg-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      if(t.dataset.pane === 'inquiries') loadInquiries();
+    });
+  });
+  // 페이지 로드 시 카운트만 미리 (badge용)
+  if(window.ynpDB && window.ynpDB.listInquiries){
+    setTimeout(() => loadInquiries(), 500);
+  }
 
 })();
 </script>

@@ -20,7 +20,7 @@
 <title>Contact | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=89">
+<link rel="stylesheet" href="style.css?v=90">
 </head>
 <body>
 
@@ -282,15 +282,34 @@
   modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('open'); });
   document.addEventListener('keydown', (e) => { if(e.key === 'Escape') modal.classList.remove('open'); });
 
-  confirmBtn.addEventListener('click', () => {
+  confirmBtn.addEventListener('click', async () => {
     if (!agree.checked) return;
-    modal.classList.remove('open');
-    pendingSubmit = true;
-    // 실제 제출 — 여기에 fetch / submit API 연결 (지금은 alert)
-    alert('문의가 접수되었습니다. 1~2 영업일 내 회신드립니다.');
-    form.reset();
-    card.classList.remove('flipped');
-    pendingSubmit = false;
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = '전송 중...';
+    try {
+      const fd = new FormData(form);
+      const payload = {
+        name: fd.get('이름') || '',
+        phone: fd.get('연락처') || '',
+        email: fd.get('이메일') || null,
+        company: fd.get('소속') || null,
+        inquiry_type: fd.get('문의유형') || '',
+        message: fd.get('문의내용') || '',
+        agree_marketing: document.getElementById('agreeMarketing').checked,
+        status: 'new'
+      };
+      const { error } = await window.ynpDB.createInquiry(payload);
+      if (error) throw error;
+      modal.classList.remove('open');
+      alert('문의가 접수되었습니다. 빠르게 회신드리겠습니다.');
+      form.reset();
+      card.classList.remove('flipped');
+    } catch(e) {
+      alert('전송에 실패했습니다. 잠시 후 다시 시도해 주세요.\n(' + (e.message || e) + ')');
+    } finally {
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = '동의하고 제출';
+    }
   });
 })();
 </script>
@@ -377,11 +396,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=89"></script>
+<script src="script.js?v=90"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=89"></script>
-<script src="js/supabase-client.js?v=89"></script>
+<script src="js/supabase-config.js?v=90"></script>
+<script src="js/supabase-client.js?v=90"></script>
 
-<script src="js/admin-trigger.js?v=89"></script>
+<script src="js/admin-trigger.js?v=90"></script>
 </body>
 </html>
