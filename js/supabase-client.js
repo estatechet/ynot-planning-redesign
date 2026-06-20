@@ -129,12 +129,12 @@
       return client.from('consulting_results').select('*')
         .eq('is_published', true)
         .order('display_order', { ascending: false }).order('id', { ascending: false })
-        .limit(2000);
+        .limit(10000);
     },
     async listConsultingAdmin() {
       return client.from('consulting_results').select('*')
         .order('display_order', { ascending: false }).order('id', { ascending: false })
-        .limit(2000);
+        .limit(10000);
     },
     async createConsulting(row) {
       return client.from('consulting_results').insert(row).select().single();
