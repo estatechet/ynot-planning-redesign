@@ -20,7 +20,7 @@
 <title>Contact | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=87">
+<link rel="stylesheet" href="style.css?v=88">
 </head>
 <body>
 
@@ -216,7 +216,6 @@
               <textarea name="문의내용" placeholder="프로젝트 개요, 세대수, 원하시는 서비스 등" required></textarea>
             </div>
             <div class="nc-actions">
-              <button type="button" class="nc-back-btn" id="toCard">← 명함</button>
               <button type="submit" class="nc-submit">문의 보내기</button>
             </div>
           </form>
@@ -256,7 +255,6 @@
 (function(){
   const card = document.getElementById('ncCard');
   document.getElementById('toForm').addEventListener('click', e => {e.stopPropagation(); card.classList.add('flipped')});
-  document.getElementById('toCard').addEventListener('click', e => {e.stopPropagation(); card.classList.remove('flipped')});
   document.getElementById('toCardTop').addEventListener('click', e => {e.stopPropagation(); card.classList.remove('flipped')});
   card.addEventListener('click', () => { if(!card.classList.contains('flipped')) card.classList.add('flipped'); });
 
@@ -380,11 +378,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=87"></script>
+<script src="script.js?v=88"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=87"></script>
-<script src="js/supabase-client.js?v=87"></script>
+<script src="js/supabase-config.js?v=88"></script>
+<script src="js/supabase-client.js?v=88"></script>
 
-<script src="js/admin-trigger.js?v=87"></script>
+<script src="js/admin-trigger.js?v=88"></script>
 </body>
 </html>
