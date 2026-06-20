@@ -20,7 +20,7 @@
 <title>Contact | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=82">
+<link rel="stylesheet" href="style.css?v=83">
 </head>
 <body>
 
@@ -75,7 +75,7 @@
   .nc-head p{font-size:.95rem;color:var(--nc-sub)}
   .nc-hint{font-size:.78rem;color:var(--nc-sub);margin:14px 0 28px}
   .nc-hint kbd{background:#fff;border:1px solid var(--nc-line);border-radius:4px;padding:2px 8px;font-family:inherit;font-size:.74rem;color:var(--nc-text);margin:0 4px;box-shadow:0 2px 4px rgba(0,0,0,.04)}
-  .nc-scene{perspective:2400px;width:100%;max-width:760px;margin:0 auto;aspect-ratio:1.75/1}
+  .nc-scene{perspective:2400px;width:100%;max-width:820px;margin:0 auto;aspect-ratio:1.55/1}
   .nc-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.4,0,.2,1);cursor:pointer}
   .nc-card.flipped{transform:rotateY(180deg);cursor:default}
   .nc-face{position:absolute;inset:0;border-radius:6px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;box-shadow:0 30px 60px -15px rgba(15,75,150,.28),0 12px 24px rgba(0,0,0,.1)}
@@ -100,23 +100,23 @@
   /* 뒷면 좌상단 명함으로 돌아가기 (항상 보이는 X/← 버튼) */
   .flip-back-btn{position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--nc-sub);padding:7px 13px;border:1px solid var(--nc-line);border-radius:100px;font-size:.7rem;font-weight:700;cursor:pointer;z-index:3;font-family:inherit;transition:all .2s}
   .flip-back-btn:hover{border-color:var(--nc-blue);color:var(--nc-blue);background:#fff}
-  .nc-back{transform:rotateY(180deg);padding:28px 34px;display:flex;flex-direction:column;text-align:left}
-  .nc-back-head{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:14px;margin-bottom:16px;border-bottom:1.5px solid var(--nc-blue)}
-  .nc-back-title{font-size:1.2rem;font-weight:800;color:var(--nc-text);letter-spacing:-.025em}
-  .nc-back-eyebrow{font-family:'Playfair Display',serif;font-style:italic;font-size:.78rem;color:var(--nc-blue);letter-spacing:.14em;margin-bottom:3px}
-  .nc-back-sub{font-size:.76rem;color:var(--nc-sub)}
-  .nc-form{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;align-content:start}
+  .nc-back{transform:rotateY(180deg);padding:22px 28px 18px;display:flex;flex-direction:column;text-align:left;overflow:hidden}
+  .nc-back-head{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:10px;margin-bottom:12px;border-bottom:1.5px solid var(--nc-blue);padding-right:90px}
+  .nc-back-title{font-size:1.1rem;font-weight:800;color:var(--nc-text);letter-spacing:-.025em}
+  .nc-back-eyebrow{font-family:'Playfair Display',serif;font-style:italic;font-size:.7rem;color:var(--nc-blue);letter-spacing:.14em;margin-bottom:2px}
+  .nc-back-sub{font-size:.7rem;color:var(--nc-sub)}
+  .nc-form{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;align-content:start;min-height:0}
   .nc-form .full{grid-column:1/-1}
-  .nc-form label{display:block;font-size:.7rem;font-weight:700;color:var(--nc-sub);letter-spacing:.02em;margin-bottom:4px;text-transform:uppercase}
-  .nc-form input,.nc-form select,.nc-form textarea{width:100%;padding:9px 12px;border:1px solid var(--nc-line);border-radius:6px;font-family:inherit;font-size:.84rem;color:var(--nc-text);background:#fafafa;transition:all .15s}
+  .nc-form label{display:block;font-size:.62rem;font-weight:700;color:var(--nc-sub);letter-spacing:.02em;margin-bottom:3px;text-transform:uppercase}
+  .nc-form input,.nc-form select,.nc-form textarea{width:100%;padding:7px 11px;border:1px solid var(--nc-line);border-radius:6px;font-family:inherit;font-size:.78rem;color:var(--nc-text);background:#fafafa;transition:all .15s}
   .nc-form input:focus,.nc-form select:focus,.nc-form textarea:focus{outline:none;border-color:var(--nc-blue);background:#fff;box-shadow:0 0 0 2px rgba(15,75,150,.08)}
-  .nc-form textarea{resize:none;height:54px}
-  .nc-actions{grid-column:1/-1;display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+  .nc-form textarea{resize:none;height:46px}
+  .nc-actions{grid-column:1/-1;display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
   .nc-back-btn,.nc-submit{padding:9px 18px;border-radius:100px;font-weight:700;font-size:.78rem;cursor:pointer;font-family:inherit;transition:.2s}
   .nc-back-btn{background:transparent;border:1px solid var(--nc-line);color:var(--nc-sub)}
   .nc-back-btn:hover{border-color:var(--nc-blue);color:var(--nc-blue)}
-  .nc-submit{background:var(--nc-blue);color:#fff;border:none;padding:9px 22px;font-size:.82rem}
-  .nc-submit:hover{background:var(--nc-blue-dk);transform:translateY(-1px);box-shadow:0 6px 14px rgba(15,75,150,.3)}
+  .nc-submit{background:var(--nc-blue);color:#fff;border:none;padding:9px 24px;font-size:.82rem;box-shadow:0 4px 12px rgba(15,75,150,.25)}
+  .nc-submit:hover{background:var(--nc-blue-dk);transform:translateY(-1px);box-shadow:0 8px 18px rgba(15,75,150,.35)}
 
   /* 개인정보 동의 Modal */
   .consent-modal{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
@@ -380,11 +380,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=82"></script>
+<script src="script.js?v=83"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=82"></script>
-<script src="js/supabase-client.js?v=82"></script>
+<script src="js/supabase-config.js?v=83"></script>
+<script src="js/supabase-client.js?v=83"></script>
 
-<script src="js/admin-trigger.js?v=82"></script>
+<script src="js/admin-trigger.js?v=83"></script>
 </body>
 </html>
