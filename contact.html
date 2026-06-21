@@ -20,7 +20,7 @@
 <title>Contact | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=104">
+<link rel="stylesheet" href="style.css?v=105">
 </head>
 <body>
 
@@ -102,9 +102,10 @@
   .flip-btn{position:absolute;bottom:14px;right:14px;display:inline-flex;align-items:center;gap:4px;background:var(--nc-blue);color:#fff;padding:7px 14px;border:none;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.04em;cursor:pointer;box-shadow:0 4px 12px rgba(15,75,150,.3);transition:all .2s;z-index:3;font-family:inherit}
   .nc-scene:hover .nc-card:not(.flipped) .flip-btn{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.5)}
   .flip-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.4)}
-  /* 뒷면 좌상단 명함으로 돌아가기 (항상 보이는 X/← 버튼) */
-  .flip-back-btn{position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--nc-sub);padding:7px 13px;border:1px solid var(--nc-line);border-radius:100px;font-size:.7rem;font-weight:700;cursor:pointer;z-index:3;font-family:inherit;transition:all .2s}
-  .flip-back-btn:hover{border-color:var(--nc-blue);color:var(--nc-blue);background:#fff}
+  /* 뒷면 우상단: 미니멀 뒤집기 아이콘 버튼 */
+  .flip-back-btn{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--nc-sub);padding:0;border:1px solid var(--nc-line);cursor:pointer;z-index:3;font-family:inherit;transition:transform .5s cubic-bezier(.4,0,.2,1),border-color .25s,color .25s,box-shadow .25s}
+  .flip-back-btn:hover{border-color:var(--nc-blue);color:var(--nc-blue);box-shadow:0 4px 12px rgba(15,75,150,.18);transform:rotate(-180deg)}
+  .flip-back-btn svg{width:15px;height:15px;display:block}
   .nc-back{transform:rotateY(180deg);padding:22px 28px 64px;display:flex;flex-direction:column;text-align:left;overflow:hidden;position:relative}
   .nc-back-head{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:10px;margin-bottom:12px;border-bottom:1.5px solid var(--nc-blue);padding-right:90px}
   .nc-back-title{font-size:1.1rem;font-weight:800;color:var(--nc-text);letter-spacing:-.025em}
@@ -200,7 +201,9 @@
 
         <!-- BACK: 폼 -->
         <div class="nc-face nc-back">
-          <button class="flip-back-btn" id="toCardTop" type="button" aria-label="명함으로 돌아가기">← 명함으로</button>
+          <button class="flip-back-btn" id="toCardTop" type="button" aria-label="명함으로 돌아가기" title="명함으로 돌아가기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          </button>
           <div class="nc-back-head">
             <div>
               <div class="nc-back-eyebrow">Contact Form</div>
@@ -426,11 +429,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=104"></script>
+<script src="script.js?v=105"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=104"></script>
-<script src="js/supabase-client.js?v=104"></script>
+<script src="js/supabase-config.js?v=105"></script>
+<script src="js/supabase-client.js?v=105"></script>
 
-<script src="js/admin-trigger.js?v=104"></script>
+<script src="js/admin-trigger.js?v=105"></script>
 </body>
 </html>
