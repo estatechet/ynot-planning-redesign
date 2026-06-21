@@ -20,7 +20,7 @@
 <title>About YNP | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=103">
+<link rel="stylesheet" href="style.css?v=104">
 <style>
   /* CEO 인사말 portrait sticky 작동을 위해 body overflow-x 해제 */
   html,body{overflow-x:clip !important;overflow-y:visible !important}
@@ -100,56 +100,161 @@
           <p class="sec-desc">외형 성장과 이익을 추구하는 Big Company보다는, 발주처·소비자·직원이 행복하고 인류사회의 행복과 번영에 기여하는 Good Company를 지향하는 것이 와이낫플래닝의 경영이념입니다.</p>
         </div>
 
-        <!-- 경영이념 키워드 배너 -->
-        <div class="rv" style="background:var(--c-blue-dk);border-radius:var(--radius);padding:40px 48px;margin-bottom:56px;text-align:center;">
-          <p style="font-size:.68rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--c-teal);margin-bottom:14px;">Management Philosophy</p>
-          <h3 style="font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1.2;">인류가 행복한 기업의 실현</h3>
+        <!-- 경영이념 키워드 배너 — Rolling Text -->
+        <div class="rv philo-banner">
+          <p class="philo-banner-eyebrow">Management Philosophy</p>
+          <h3 class="philo-banner-title">
+            <span class="philo-fixed">YNOT은</span>
+            <span class="philo-roll" id="philoRoll">
+              <span class="word active">고객 우선을</span>
+              <span class="word">인간 존중을</span>
+              <span class="word">최선을</span>
+              <span class="word">차별화를</span>
+              <span class="word">일관 서비스를</span>
+              <span class="word">사회 공헌을</span>
+            </span>
+            <span class="philo-fixed">추구합니다.</span>
+          </h3>
         </div>
+        <style>
+          .philo-banner{
+            background:var(--c-blue-dk);border-radius:var(--radius);
+            padding:56px 32px;margin-bottom:48px;text-align:center;overflow:hidden;
+          }
+          .philo-banner-eyebrow{
+            font-size:.68rem;font-weight:700;letter-spacing:.28em;
+            text-transform:uppercase;color:var(--c-teal);margin-bottom:18px;
+          }
+          .philo-banner-title{
+            font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;color:#fff;
+            letter-spacing:-.02em;line-height:1.25;
+            display:inline-flex;align-items:baseline;justify-content:center;
+            gap:14px;flex-wrap:wrap;
+          }
+          .philo-fixed{display:inline-block;white-space:nowrap}
+          .philo-roll{
+            position:relative;display:inline-block;
+            min-width:260px;height:1.3em;overflow:hidden;
+            vertical-align:baseline;
+          }
+          .philo-roll .word{
+            position:absolute;left:0;right:0;top:0;
+            display:block;width:100%;text-align:center;white-space:nowrap;
+            color:#7DDDDD;font-weight:900;
+            opacity:0;transform:translateY(120%);
+            transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.34,1.56,.64,1);
+          }
+          .philo-roll .word.active{opacity:1;transform:translateY(0)}
+          .philo-roll .word.out{opacity:0;transform:translateY(-120%);transition:opacity .5s,transform .6s ease-in}
+          @media(max-width:900px){
+            .philo-banner-title{flex-direction:column;gap:6px;font-size:1.4rem}
+            .philo-roll{min-width:auto;width:auto;display:block}
+            .philo-roll .word{position:relative;display:inline-block;width:auto}
+            .philo-roll .word:not(.active){display:none}
+          }
 
-        <div class="philo-grid rv" style="grid-template-columns:repeat(3,1fr);">
+          /* 경영이념 카드 — Stack 형식 (rolling text에 맞춰 1개씩 표시) */
+          .philo-grid{
+            position:relative;min-height:340px;display:block !important;
+            grid-template-columns:none !important;
+            max-width:780px;margin:0 auto;
+          }
+          .philo-card{
+            position:absolute;inset:0;
+            background:#fff;border:1px solid var(--c-border);border-radius:var(--radius);
+            padding:48px 52px;text-align:center;
+            display:flex;flex-direction:column;align-items:center;justify-content:center;
+            opacity:0;transform:translateY(28px) scale(.98);pointer-events:none;
+            transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.34,1.56,.64,1);
+          }
+          .philo-card.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+          .philo-card .philo-icon{
+            width:52px;height:52px;border-radius:14px;background:var(--c-blue);color:#fff;
+            display:flex;align-items:center;justify-content:center;margin:0 auto 24px;
+          }
+          .philo-card h3{
+            font-size:1.35rem;font-weight:800;color:var(--c-text);
+            margin-bottom:14px;letter-spacing:-.025em;line-height:1.25;text-align:center;
+          }
+          .philo-card h3 small{
+            display:block;font-size:.72rem;font-weight:600;color:var(--c-teal);
+            letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;
+          }
+          .philo-card p{
+            font-size:1rem;color:var(--c-sub);line-height:1.7;max-width:520px;text-align:center;
+          }
+          @media(max-width:600px){
+            .philo-grid{min-height:420px}
+            .philo-card{padding:32px 24px}
+          }
+        </style>
+
+        <div class="philo-grid rv">
           <div class="philo-card">
             <div class="philo-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
-            <h3>01. 고객을 우선시하는 기업</h3>
+            <h3><small>01 · Customer First</small>고객을 우선시하는 기업</h3>
             <p>당사의 이익보다는 발주처의 이익을 우선시합니다. 고객이 만족해야 프로젝트가 성공할 수 있으며, 결과보다 과정의 소중함과 순수한 열정의 소중함을 잃지 않겠습니다.</p>
           </div>
           <div class="philo-card">
             <div class="philo-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
             </div>
-            <h3>02. 인간존중의 기업</h3>
+            <h3><small>02 · Human Respect</small>인간 존중의 기업</h3>
             <p>세상에 사람보다 우선시되는 가치는 없습니다. 조직 구성원이 역량을 최대한 발휘할 수 있는 환경을 제공하고, 고객의 말씀에 귀를 기울이는 기업이 되겠습니다.</p>
           </div>
           <div class="philo-card">
             <div class="philo-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
-            <h3>03. 최선을 다하는 기업</h3>
+            <h3><small>03 · Excellence</small>최선을 다하는 기업</h3>
             <p>인재 등용과 능력 개발을 통해 실력으로 승부하겠습니다. 끊임없이 노력하여 진정한 Global Player로 거듭나는 와이낫플래닝이 되겠습니다.</p>
           </div>
           <div class="philo-card">
             <div class="philo-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
             </div>
-            <h3>04. 남들과는 다른 기업</h3>
+            <h3><small>04 · Differentiation</small>남들과는 다른 기업</h3>
             <p>지속적인 자기 반성과 Creative Mind로 미래 트렌드를 예견하고 선도합니다. 현재의 성공에 안주하지 않고 미래지향적 기업의 표본이 되고자 합니다.</p>
           </div>
           <div class="philo-card">
             <div class="philo-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
             </div>
-            <h3>05. 부동산 일관서비스 기업</h3>
+            <h3><small>05 · Total Solution</small>부동산 일관서비스 기업</h3>
             <p>부동산 Total Solution을 지향합니다. 개발사업·분양대행·광고대행·입주대행·자산매각 등 부동산 서비스 전 분야에 걸친 일관 서비스 체제를 구축하겠습니다.</p>
           </div>
           <div class="philo-card">
             <div class="philo-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <h3>06. 인류사회에 공헌하는 기업</h3>
+            <h3><small>06 · Social Contribution</small>인류사회에 공헌하는 기업</h3>
             <p>노블리스 오블리제(Noblesse Oblige) 실천을 통해 인류사회에 공헌하겠습니다. 기업 성장과 더불어 이익의 일정 부분을 사회에 환원하고 소득재분배에 동참하겠습니다.</p>
           </div>
         </div>
+        <script>
+          (function(){
+            const words = document.querySelectorAll('#philoRoll .word');
+            const cards = document.querySelectorAll('.philo-grid .philo-card');
+            if(words.length < 2 || cards.length === 0) return;
+            cards[0].classList.add('show');
+            let cur = 0;
+            setInterval(() => {
+              const prev = words[cur];
+              const prevCard = cards[cur];
+              cur = (cur + 1) % words.length;
+              const next = words[cur];
+              const nextCard = cards[cur];
+              prev.classList.remove('active');
+              prev.classList.add('out');
+              setTimeout(() => prev.classList.remove('out'), 600);
+              next.classList.add('active');
+              if(prevCard) prevCard.classList.remove('show');
+              if(nextCard) nextCard.classList.add('show');
+            }, 5200);
+          })();
+        </script>
 
         <!-- Vision & Mission -->
         <div style="margin-top:64px;background:var(--c-blue-dk);border-radius:var(--radius);padding:56px;display:grid;grid-template-columns:1fr 1fr;gap:48px;" class="rv">
@@ -516,8 +621,8 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=103"></script>
-<script src="js/admin-trigger.js?v=103"></script>
+<script src="script.js?v=104"></script>
+<script src="js/admin-trigger.js?v=104"></script>
 <script>
 // nav 메뉴: 패널만 전환, 스크롤은 절대 건들지 않음 (영상 화면 유지)
 const aboutIds = ['ideology','ceo','history','org','location'];

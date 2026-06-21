@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YNOT Planning — 부동산 마케팅의 새로운 기준 [Premium 시안]</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" rel="stylesheet">
+<style>
+  :root{
+    --p-black:#111111;
+    --p-text:#1A1A1A;
+    --p-sub:#5B5B57;
+    --p-mute:#999;
+    --p-line:#E5E2DC;
+    --p-cream:#F5F5F2;
+    --p-gold:#C8A86B;
+    --p-gold-dk:#A78B4F;
+    --p-bg:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Pretendard Variable','Pretendard','Noto Sans KR',sans-serif;
+    color:var(--p-text);background:var(--p-bg);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+    overflow-x:clip;
+  }
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  .wrap{max-width:1440px;margin:0 auto;padding:0 56px}
+  @media(max-width:900px){.wrap{padding:0 24px}}
+
+  /* ──── Typography ──── */
+  h1,h2,h3,h4{font-family:inherit;color:var(--p-black);letter-spacing:-.03em;font-weight:600}
+  h1{font-size:clamp(2.6rem,7vw,6rem);line-height:1.02;letter-spacing:-.045em}
+  h2{font-size:clamp(2rem,4.5vw,3.6rem);line-height:1.1;letter-spacing:-.035em}
+  h3{font-size:clamp(1.25rem,1.8vw,1.6rem);font-weight:600}
+  .eyebrow{
+    display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--p-gold);margin-bottom:24px;
+  }
+  .eyebrow::before{content:"— ";opacity:.7}
+
+  /* ──── NAV ──── */
+  nav.pnav{
+    position:fixed;top:0;left:0;right:0;z-index:1000;
+    padding:18px 56px;display:flex;align-items:center;justify-content:space-between;
+    background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid transparent;transition:border .3s;
+  }
+  nav.pnav.scrolled{border-bottom-color:var(--p-line)}
+  nav.pnav .logo{
+    font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem;
+    color:var(--p-black);letter-spacing:.04em;
+  }
+  nav.pnav .logo span{color:var(--p-gold)}
+  nav.pnav ul{list-style:none;display:flex;gap:36px}
+  nav.pnav ul a{font-size:.88rem;font-weight:500;color:var(--p-text);transition:color .2s}
+  nav.pnav ul a:hover{color:var(--p-gold)}
+  nav.pnav .nav-cta{
+    background:var(--p-black);color:#fff;padding:10px 22px;border-radius:0;
+    font-size:.84rem;font-weight:600;letter-spacing:.02em;
+    transition:background .2s;
+  }
+  nav.pnav .nav-cta:hover{background:var(--p-gold)}
+  @media(max-width:768px){nav.pnav{padding:14px 24px}nav.pnav ul{display:none}}
+
+  /* ════════════════════════════════════
+     1. HERO
+     ════════════════════════════════════ */
+  .p-hero{
+    position:relative;min-height:100vh;display:flex;align-items:flex-end;
+    color:#fff;overflow:hidden;background:#0a0a0a;
+  }
+  .p-hero-video{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    z-index:1;
+  }
+  .p-hero-overlay{
+    position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:
+      linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.85) 100%);
+  }
+  .p-hero .wrap{position:relative;z-index:3;width:100%;padding-bottom:120px;padding-top:120px}
+  .p-hero h1{color:#fff;margin-bottom:32px;font-weight:600}
+  .p-hero h1 .em{
+    background:linear-gradient(120deg,#F5F5F2 0%,var(--p-gold) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-family:'Playfair Display',serif;font-style:italic;font-weight:400;
+  }
+  .p-hero-sub{
+    font-size:clamp(1rem,1.4vw,1.25rem);color:rgba(255,255,255,.78);
+    line-height:1.7;max-width:600px;margin-bottom:48px;font-weight:400;letter-spacing:-.005em;
+  }
+  .p-hero-cta{display:flex;gap:16px;flex-wrap:wrap}
+  .p-btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:16px 32px;font-size:.94rem;font-weight:600;letter-spacing:.02em;
+    transition:all .35s cubic-bezier(.22,.68,0,1);
+  }
+  .p-btn-primary{background:var(--p-gold);color:var(--p-black)}
+  .p-btn-primary:hover{background:#fff;transform:translateY(-2px);box-shadow:0 16px 32px rgba(0,0,0,.3)}
+  .p-btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4)}
+  .p-btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+  .p-btn svg{transition:transform .25s}
+  .p-btn:hover svg{transform:translateX(4px)}
+  .p-hero-scroll{
+    position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;
+    color:rgba(255,255,255,.6);font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+  }
+  .p-hero-scroll::after{
+    content:"";width:1px;height:40px;background:rgba(255,255,255,.4);
+    animation:scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine{0%,100%{transform:scaleY(.3);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+  /* ════════════════════════════════════
+     2. TRUST METRICS
+     ════════════════════════════════════ */
+  .p-sec{padding:160px 0;position:relative}
+  .p-sec.bg-cream{background:var(--p-cream)}
+  .p-sec.bg-dark{background:var(--p-black);color:#fff}
+  .p-sec.bg-dark h2,.p-sec.bg-dark h3{color:#fff}
+  .p-sec.bg-dark .eyebrow{color:var(--p-gold)}
+
+  .p-metrics-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    border-top:1px solid var(--p-line);border-bottom:1px solid var(--p-line);
+  }
+  .p-metric{
+    padding:64px 32px;border-right:1px solid var(--p-line);
+    text-align:center;
+  }
+  .p-metric:last-child{border-right:none}
+  .p-metric-value{
+    font-family:'Pretendard Variable',sans-serif;
+    font-size:clamp(2.6rem,4.5vw,4rem);font-weight:600;
+    color:var(--p-black);letter-spacing:-.04em;line-height:1;
+    margin-bottom:14px;
+    font-variant-numeric:tabular-nums;
+  }
+  .p-metric-value .suffix{color:var(--p-gold);font-weight:500}
+  .p-metric-label{
+    font-size:.84rem;color:var(--p-sub);
+    letter-spacing:.12em;text-transform:uppercase;font-weight:500;
+  }
+  @media(max-width:900px){
+    .p-metrics-grid{grid-template-columns:repeat(2,1fr)}
+    .p-metric{padding:40px 20px;border-right:1px solid var(--p-line)}
+    .p-metric:nth-child(2){border-right:none}
+    .p-metric:nth-child(1),.p-metric:nth-child(2){border-bottom:1px solid var(--p-line)}
+  }
+
+  /* ════════════════════════════════════
+     3. WHY YNOT
+     ════════════════════════════════════ */
+  .p-why-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:80px;
+    border-top:1px solid var(--p-line);
+  }
+  .p-why-card{
+    padding:56px 40px 64px;border-right:1px solid var(--p-line);
+    transition:background .35s;cursor:default;
+    position:relative;
+  }
+  .p-why-card:last-child{border-right:none}
+  .p-why-card:hover{background:rgba(200,168,107,.04)}
+  .p-why-num{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:1rem;color:var(--p-gold);margin-bottom:32px;
+  }
+  .p-why-card h3{font-size:1.6rem;margin-bottom:18px;letter-spacing:-.025em;font-weight:600}
+  .p-why-card p{color:var(--p-sub);font-size:1rem;line-height:1.75}
+  @media(max-width:900px){
+    .p-why-grid{grid-template-columns:1fr;border-top:none}
+    .p-why-card{border-right:none;border-top:1px solid var(--p-line);padding:40px 0}
+  }
+
+  /* ════════════════════════════════════
+     4. PROJECT CASES — horizontal showcase
+     ════════════════════════════════════ */
+  .p-cases{margin-top:80px;display:grid;gap:0;border-top:1px solid var(--p-line)}
+  .p-case-row{
+    display:grid;grid-template-columns:140px 1.6fr 1fr auto;gap:48px;
+    align-items:center;padding:36px 0;border-bottom:1px solid var(--p-line);
+    transition:padding-left .35s,background .35s;cursor:pointer;
+  }
+  .p-case-row:hover{padding-left:24px;background:rgba(200,168,107,.03)}
+  .p-case-row:hover .p-case-arrow{transform:translateX(8px);color:var(--p-gold)}
+  .p-case-num{
+    font-family:'Playfair Display',serif;font-style:italic;
+    color:var(--p-mute);font-size:1rem;
+  }
+  .p-case-title h3{font-size:1.4rem;margin-bottom:6px;font-weight:600}
+  .p-case-title .loc{color:var(--p-sub);font-size:.88rem}
+  .p-case-meta{
+    display:flex;flex-direction:column;gap:6px;
+    font-size:.82rem;color:var(--p-sub);
+  }
+  .p-case-meta strong{color:var(--p-black);font-weight:600}
+  .p-case-result{
+    font-family:'Pretendard Variable',sans-serif;
+    font-size:1.5rem;font-weight:700;color:var(--p-gold);letter-spacing:-.02em;
+  }
+  .p-case-arrow{color:var(--p-mute);transition:all .35s}
+  @media(max-width:900px){
+    .p-case-row{grid-template-columns:1fr;gap:14px;padding:28px 0}
+    .p-case-row .p-case-arrow{display:none}
+  }
+
+  /* ════════════════════════════════════
+     5. APPROACH — timeline
+     ════════════════════════════════════ */
+  .p-approach{
+    margin-top:80px;position:relative;
+    display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+  }
+  .p-approach::before{
+    content:"";position:absolute;top:32px;left:10%;right:10%;height:1px;
+    background:rgba(255,255,255,.18);
+  }
+  .p-step{
+    text-align:center;padding:0 12px;position:relative;
+  }
+  .p-step-dot{
+    width:64px;height:64px;border-radius:50%;
+    background:var(--p-black);border:1px solid rgba(255,255,255,.18);
+    color:var(--p-gold);font-family:'Playfair Display',serif;font-size:1.1rem;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 28px;position:relative;z-index:1;
+    transition:all .4s;
+  }
+  .p-step:hover .p-step-dot{background:var(--p-gold);color:var(--p-black);border-color:var(--p-gold);transform:scale(1.08)}
+  .p-step-label{font-size:.7rem;letter-spacing:.2em;color:var(--p-gold);text-transform:uppercase;margin-bottom:8px;font-weight:600}
+  .p-step-name{font-size:1.15rem;font-weight:600;color:#fff;letter-spacing:-.02em}
+  @media(max-width:900px){
+    .p-approach{grid-template-columns:1fr;gap:36px}
+    .p-approach::before{display:none}
+  }
+
+  /* ════════════════════════════════════
+     6. VIDEO STORY
+     ════════════════════════════════════ */
+  .p-videostory{
+    position:relative;height:80vh;min-height:560px;overflow:hidden;
+    background:#000;
+  }
+  .p-videostory video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+  .p-videostory::after{
+    content:"";position:absolute;inset:0;z-index:2;
+    background:linear-gradient(180deg,rgba(0,0,0,.3) 0%,rgba(0,0,0,.7) 100%);
+  }
+  .p-videostory .wrap{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:80px;color:#fff}
+  .p-videostory .eyebrow{color:var(--p-gold)}
+  .p-videostory h2{color:#fff;max-width:780px;font-weight:500}
+  .p-videostory h2 em{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;color:var(--p-gold)}
+
+  /* ════════════════════════════════════
+     7. LEADERSHIP (CEO)
+     ════════════════════════════════════ */
+  .p-leader{display:grid;grid-template-columns:5fr 7fr;gap:80px;align-items:center;margin-top:80px}
+  .p-leader-img{
+    aspect-ratio:3/4;background:var(--p-cream);overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.2);
+  }
+  .p-leader-img img{width:100%;height:100%;object-fit:cover;object-position:center 18%}
+  .p-leader-text h2{margin-bottom:32px}
+  .p-leader-text p{font-size:1.05rem;line-height:1.85;color:var(--p-sub);margin-bottom:18px}
+  .p-leader-text .sig{
+    margin-top:40px;padding-top:24px;border-top:1px solid var(--p-line);
+    display:flex;align-items:center;gap:14px;
+  }
+  .p-leader-text .sig small{font-size:.82rem;color:var(--p-sub);letter-spacing:.08em}
+  .p-leader-text .sig strong{font-size:1.15rem;font-weight:700;letter-spacing:.08em;color:var(--p-black)}
+  @media(max-width:900px){.p-leader{grid-template-columns:1fr;gap:36px}}
+
+  /* ════════════════════════════════════
+     8. PARTNERS
+     ════════════════════════════════════ */
+  .p-partners{margin-top:60px;display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-top:1px solid var(--p-line);border-left:1px solid var(--p-line)}
+  .p-partner{
+    aspect-ratio:5/3;display:flex;align-items:center;justify-content:center;padding:32px;
+    border-right:1px solid var(--p-line);border-bottom:1px solid var(--p-line);
+    background:#fff;
+    filter:grayscale(100%);opacity:.65;transition:all .3s;
+  }
+  .p-partner:hover{filter:none;opacity:1;background:var(--p-cream)}
+  .p-partner img{max-width:100%;max-height:60%;object-fit:contain}
+  @media(max-width:900px){.p-partners{grid-template-columns:repeat(3,1fr)}}
+
+  /* ════════════════════════════════════
+     9. CONTACT
+     ════════════════════════════════════ */
+  .p-contact{background:var(--p-black);color:#fff;padding:160px 0}
+  .p-contact .eyebrow{color:var(--p-gold)}
+  .p-contact h2{color:#fff;margin-bottom:24px;font-weight:500;text-wrap:balance}
+  .p-contact h2 em{font-family:'Playfair Display',serif;font-style:italic;color:var(--p-gold);font-weight:400}
+  .p-contact-sub{color:rgba(255,255,255,.7);font-size:1.05rem;line-height:1.7;margin-bottom:60px;max-width:560px}
+  .p-form{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:760px}
+  .p-form .full{grid-column:1/-1}
+  .p-form .field{display:flex;flex-direction:column;gap:8px}
+  .p-form label{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:600}
+  .p-form input,.p-form textarea{
+    width:100%;padding:14px 0;background:transparent;border:none;
+    border-bottom:1px solid rgba(255,255,255,.18);
+    color:#fff;font-family:inherit;font-size:1rem;
+    transition:border-color .25s;
+  }
+  .p-form input:focus,.p-form textarea:focus{outline:none;border-color:var(--p-gold)}
+  .p-form textarea{resize:none;height:80px;line-height:1.6}
+  .p-form-submit{
+    grid-column:1/-1;justify-self:start;
+    margin-top:20px;padding:18px 40px;
+    background:var(--p-gold);color:var(--p-black);
+    font-size:.94rem;font-weight:700;letter-spacing:.04em;
+    transition:all .3s;display:inline-flex;align-items:center;gap:10px;
+  }
+  .p-form-submit:hover{background:#fff;transform:translateY(-2px)}
+  @media(max-width:700px){.p-form{grid-template-columns:1fr}}
+
+  /* ════════════════════════════════════
+     FOOTER (간단)
+     ════════════════════════════════════ */
+  .p-footer{padding:60px 0;background:#0a0a0a;color:rgba(255,255,255,.5);font-size:.82rem;text-align:center;border-top:1px solid rgba(255,255,255,.08)}
+
+  /* ──── Reveal ──── */
+  .rv{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.22,.68,0,1),transform 1s cubic-bezier(.22,.68,0,1)}
+  .rv.in{opacity:1;transform:none}
+
+  /* ──── Floating contact button ──── */
+  .p-fab{
+    position:fixed;bottom:28px;right:28px;z-index:900;
+    width:60px;height:60px;border-radius:50%;
+    background:var(--p-gold);color:var(--p-black);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 16px 32px rgba(200,168,107,.4);
+    transition:all .3s;
+  }
+  .p-fab:hover{transform:scale(1.1) translateY(-3px);background:#fff}
+
+  /* 시안 표시 배지 */
+  .scheme-badge{
+    position:fixed;top:88px;right:24px;z-index:1100;
+    background:var(--p-black);color:var(--p-gold);
+    padding:6px 14px;font-size:.7rem;letter-spacing:.16em;font-weight:700;
+  }
+</style>
+</head>
+<body>
+
+<div class="scheme-badge">PREMIUM REDESIGN PROPOSAL</div>
+
+<!-- NAV -->
+<nav class="pnav" id="pnav">
+  <a href="#" class="logo">YNOT<span>.</span></a>
+  <ul>
+    <li><a href="#why">About</a></li>
+    <li><a href="#cases">Projects</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#leader">Leadership</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">프로젝트 문의 →</a>
+</nav>
+
+<!-- ════════════════ 1. HERO ════════════════ -->
+<section class="p-hero">
+  <video class="p-hero-video" autoplay muted loop playsinline preload="auto"
+         disablepictureinpicture controlslist="nodownload nofullscreen">
+    <source src="https://mansi8kzdseexkz1.public.blob.vercel-storage.com/hero.mp4?v=2" type="video/mp4">
+  </video>
+  <div class="p-hero-overlay"></div>
+  <div class="wrap">
+    <h1>
+      대한민국 부동산 마케팅의<br>
+      <span class="em">새로운 기준.</span>
+    </h1>
+    <p class="p-hero-sub">
+      마케팅부터 분양완료까지 — 사업 성공을 설계하는 파트너.<br>
+      YNOT Planning은 단순한 분양대행이 아닌, 부동산 마케팅 솔루션 기업입니다.
+    </p>
+    <div class="p-hero-cta">
+      <a href="#contact" class="p-btn p-btn-primary">
+        프로젝트 문의
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#cases" class="p-btn p-btn-ghost">포트폴리오 보기</a>
+    </div>
+  </div>
+  <div class="p-hero-scroll">SCROLL</div>
+</section>
+
+<!-- ════════════════ 2. TRUST METRICS ════════════════ -->
+<section class="p-sec">
+  <div class="wrap">
+    <div class="p-metrics-grid rv">
+      <div class="p-metric">
+        <div class="p-metric-value"><span class="num" data-target="120">0</span><span class="suffix">+</span></div>
+        <div class="p-metric-label">Projects</div>
+      </div>
+      <div class="p-metric">
+        <div class="p-metric-value"><span class="num" data-target="4800">0</span><span class="suffix">+</span></div>
+        <div class="p-metric-label">Units Sold</div>
+      </div>
+      <div class="p-metric">
+        <div class="p-metric-value"><span class="num" data-target="98">0</span><span class="suffix">%</span></div>
+        <div class="p-metric-label">Sell-out Rate</div>
+      </div>
+      <div class="p-metric">
+        <div class="p-metric-value"><span class="num" data-target="15">0</span><span class="suffix">년+</span></div>
+        <div class="p-metric-label">Years of Excellence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ 3. WHY YNOT ════════════════ -->
+<section class="p-sec bg-cream" id="why">
+  <div class="wrap">
+    <div class="rv" style="max-width:780px">
+      <span class="eyebrow">Why YNOT</span>
+      <h2>분양대행을 넘어, 사업의 성공을 설계합니다.</h2>
+    </div>
+    <div class="p-why-grid">
+      <div class="p-why-card rv">
+        <div class="p-why-num">01</div>
+        <h3>데이터 기반 분양 전략</h3>
+        <p>15년간 축적된 145건 프로젝트 데이터와 시장 분석으로 발주처에 최적의 분양 전략을 제안합니다.</p>
+      </div>
+      <div class="p-why-card rv" style="transition-delay:.1s">
+        <div class="p-why-num">02</div>
+        <h3>현장 중심 실행력</h3>
+        <p>91,413세대를 성공시킨 실무 노하우. 책에서 못 배우는 현장의 문제를 매일 해결합니다.</p>
+      </div>
+      <div class="p-why-card rv" style="transition-delay:.2s">
+        <div class="p-why-num">03</div>
+        <h3>브랜드 마케팅 역량</h3>
+        <p>일반 분양대행을 넘어 브랜드 가치 제고까지. 발주처의 자산을 다음 단계로 끌어올립니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ 4. PROJECT CASES ════════════════ -->
+<section class="p-sec" id="cases">
+  <div class="wrap">
+    <div class="rv" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px">
+      <div style="max-width:780px">
+        <span class="eyebrow">Selected Projects</span>
+        <h2>검증된 실적, 신뢰의 증거.</h2>
+      </div>
+      <a href="result.html" class="p-btn p-btn-ghost" style="color:var(--p-text);border-color:var(--p-line)">전체 보기 →</a>
+    </div>
+
+    <div class="p-cases">
+      <a class="p-case-row rv">
+        <div class="p-case-num">01</div>
+        <div class="p-case-title"><h3>한양 아이클래스 양주</h3><div class="loc">경기도 양주시</div></div>
+        <div class="p-case-meta"><div><strong>분양대행</strong> · 아파트</div><div>총 1,234세대</div></div>
+        <div class="p-case-result">98%</div>
+        <div class="p-case-arrow">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </a>
+      <a class="p-case-row rv">
+        <div class="p-case-num">02</div>
+        <div class="p-case-title"><h3>구리역 하이니티 리버파크</h3><div class="loc">경기도 구리시</div></div>
+        <div class="p-case-meta"><div><strong>분양대행 · 마케팅</strong></div><div>총 862세대</div></div>
+        <div class="p-case-result">100%</div>
+        <div class="p-case-arrow">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </a>
+      <a class="p-case-row rv">
+        <div class="p-case-num">03</div>
+        <div class="p-case-title"><h3>청담 르엘</h3><div class="loc">서울 강남구 청담동</div></div>
+        <div class="p-case-meta"><div><strong>분양 · 컨설팅</strong> · 럭셔리</div><div>총 176세대</div></div>
+        <div class="p-case-result">100%</div>
+        <div class="p-case-arrow">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </a>
+      <a class="p-case-row rv">
+        <div class="p-case-num">04</div>
+        <div class="p-case-title"><h3>마곡 두산더랜드타워</h3><div class="loc">서울 강서구 마곡동</div></div>
+        <div class="p-case-meta"><div><strong>오피스 · 상가</strong></div><div>1,318~1,323호</div></div>
+        <div class="p-case-result">95%</div>
+        <div class="p-case-arrow">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ 5. APPROACH ════════════════ -->
+<section class="p-sec bg-dark" id="approach">
+  <div class="wrap">
+    <div class="rv" style="max-width:680px">
+      <span class="eyebrow">Our Approach</span>
+      <h2>How We Deliver Success</h2>
+      <p style="color:rgba(255,255,255,.6);font-size:1.05rem;margin-top:18px;line-height:1.7">시장분석부터 분양 완료까지 — 5단계의 정밀한 프로세스로 사업의 모든 변수를 통제합니다.</p>
+    </div>
+    <div class="p-approach">
+      <div class="p-step rv"><div class="p-step-dot">01</div><div class="p-step-label">Research</div><div class="p-step-name">시장분석</div></div>
+      <div class="p-step rv" style="transition-delay:.1s"><div class="p-step-dot">02</div><div class="p-step-label">Strategy</div><div class="p-step-name">전략수립</div></div>
+      <div class="p-step rv" style="transition-delay:.2s"><div class="p-step-dot">03</div><div class="p-step-label">Marketing</div><div class="p-step-name">마케팅</div></div>
+      <div class="p-step rv" style="transition-delay:.3s"><div class="p-step-dot">04</div><div class="p-step-label">Operation</div><div class="p-step-name">분양운영</div></div>
+      <div class="p-step rv" style="transition-delay:.4s"><div class="p-step-dot">05</div><div class="p-step-label">Closure</div><div class="p-step-name">완료</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ 6. VIDEO STORY ════════════════ -->
+<section class="p-videostory">
+  <video autoplay muted loop playsinline preload="auto"
+         disablepictureinpicture controlslist="nodownload nofullscreen">
+    <source src="https://mansi8kzdseexkz1.public.blob.vercel-storage.com/recruit-hero.mp4?v=1" type="video/mp4">
+  </video>
+  <div class="wrap rv">
+    <span class="eyebrow">Brand Story</span>
+    <h2>모든 프로젝트는 <em>도시의 한 페이지</em>가 됩니다.</h2>
+  </div>
+</section>
+
+<!-- ════════════════ 7. LEADERSHIP ════════════════ -->
+<section class="p-sec" id="leader">
+  <div class="wrap">
+    <div class="rv" style="max-width:680px">
+      <span class="eyebrow">Leadership</span>
+      <h2>15년의 경험, 한 명의 비전.</h2>
+    </div>
+    <div class="p-leader">
+      <div class="p-leader-img rv"><img src="img/img_ceo_portrait_new.jpg" alt="박찬주 대표이사"></div>
+      <div class="p-leader-text rv" style="transition-delay:.15s">
+        <h2 style="font-size:clamp(1.5rem,2.4vw,2rem);font-weight:500">분양은 결국 <em style="font-family:'Playfair Display',serif;font-style:italic;color:var(--p-gold);font-weight:400">사람의 일</em>입니다.</h2>
+        <p>2009년 창립 이후, 와이낫플래닝은 시대와 트렌드의 변화에 선제적으로 대응하며 145건의 프로젝트, 91,413세대 분양을 성공시켜왔습니다.</p>
+        <p>외형보다 결과, 약속의 고수와 정확한 판단을 바탕으로 — 발주처가 가장 신뢰하는 부동산 마케팅 솔루션 파트너로 자리매김하겠습니다.</p>
+        <div class="sig">
+          <small>(주)와이낫플래닝 대표이사</small>
+          <strong>박 찬 주</strong>
+          <img src="img/ceo_signature.png" alt="서명" style="height:34px;width:auto;opacity:.85">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ 8. PARTNERS ════════════════ -->
+<section class="p-sec bg-cream">
+  <div class="wrap">
+    <div class="rv" style="text-align:center;max-width:780px;margin:0 auto">
+      <span class="eyebrow">Trusted Partners</span>
+      <h2>국내 최고 시공사·시행사와 함께합니다.</h2>
+    </div>
+    <div class="p-partners rv">
+      <div class="p-partner"><img src="img/logos/hyundai-ec.svg" alt="현대건설"></div>
+      <div class="p-partner"><img src="img/logos/dl-enc.svg" alt="DL E&C"></div>
+      <div class="p-partner"><img src="img/logos/posco.svg" alt="포스코"></div>
+      <div class="p-partner"><img src="img/logos/lotte-ec.svg" alt="롯데건설"></div>
+      <div class="p-partner"><img src="img/logos/gs-ec.svg" alt="GS건설"></div>
+      <div class="p-partner"><img src="img/logos/hdc.svg" alt="HDC"></div>
+      <div class="p-partner"><img src="img/logos/doosan.svg" alt="두산"></div>
+      <div class="p-partner"><img src="img/logos/sk-grp.svg" alt="SK"></div>
+      <div class="p-partner"><img src="img/logos/kia.svg" alt="기아"></div>
+      <div class="p-partner"><img src="img/logos/hanwha-grp.svg" alt="한화"></div>
+      <div class="p-partner"><img src="img/logos/shinsegae.svg" alt="신세계"></div>
+      <div class="p-partner"><img src="img/logos/meritz.svg" alt="메리츠"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ 9. CONTACT ════════════════ -->
+<section class="p-contact" id="contact">
+  <div class="wrap">
+    <div class="rv" style="max-width:760px">
+      <span class="eyebrow">Start Your Project</span>
+      <h2>프로젝트 성공의 <em>시작.</em></h2>
+      <p class="p-contact-sub">검토하고 계신 프로젝트의 개요를 알려주세요. 영업일 기준 1~2일 이내에 담당 컨설턴트가 직접 회신드립니다.</p>
+    </div>
+    <form class="p-form rv">
+      <div class="field"><label>이름</label><input type="text" placeholder="홍길동" required></div>
+      <div class="field"><label>연락처</label><input type="tel" placeholder="010-0000-0000" required></div>
+      <div class="field"><label>회사명</label><input type="text" placeholder="회사 또는 시행사명"></div>
+      <div class="field"><label>프로젝트명</label><input type="text" placeholder="검토 중인 사업명"></div>
+      <div class="field full"><label>문의 내용</label><textarea placeholder="프로젝트 개요, 세대수, 기대하는 서비스 등" required></textarea></div>
+      <button type="submit" class="p-form-submit">상담 신청
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </form>
+  </div>
+</section>
+
+<footer class="p-footer">
+  <div class="wrap">
+    © 2009–2026 (주)와이낫플래닝 · YNOT Planning · 서울 강서구 마곡서로 152 · 02-6022-8793
+  </div>
+</footer>
+
+<!-- Floating Contact Button -->
+<a href="#contact" class="p-fab" aria-label="상담 신청">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+</a>
+
+<script>
+// Reveal on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.1, rootMargin:'0px 0px -80px 0px'});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('pnav').classList.toggle('scrolled', window.scrollY > 40);
+}, {passive:true});
+
+// Count-up
+const counters = document.querySelectorAll('.num[data-target]');
+const cio = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1800;
+    const start = performance.now();
+    const fmt = n => n.toLocaleString('ko-KR');
+    const step = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = fmt(Math.floor(target * eased));
+      if(t < 1) requestAnimationFrame(step);
+      else el.textContent = fmt(target);
+    };
+    requestAnimationFrame(step);
+    cio.unobserve(el);
+  });
+}, {threshold:.6});
+counters.forEach(c => cio.observe(c));
+</script>
+</body>
+</html>

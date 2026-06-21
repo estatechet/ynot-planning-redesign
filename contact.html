@@ -20,7 +20,7 @@
 <title>Contact | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=103">
+<link rel="stylesheet" href="style.css?v=104">
 </head>
 <body>
 
@@ -76,9 +76,13 @@
   .nc-hint{font-size:.78rem;color:var(--nc-sub);margin:14px 0 28px}
   .nc-hint kbd{background:#fff;border:1px solid var(--nc-line);border-radius:4px;padding:2px 8px;font-family:inherit;font-size:.74rem;color:var(--nc-text);margin:0 4px;box-shadow:0 2px 4px rgba(0,0,0,.04)}
   .nc-scene{perspective:2400px;width:100%;max-width:960px;margin:0 auto;aspect-ratio:1.75/1}
-  .nc-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.4,0,.2,1);cursor:pointer}
-  .nc-card.flipped{transform:rotateY(180deg);cursor:default}
-  .nc-face{position:absolute;inset:0;border-radius:6px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;box-shadow:0 30px 60px -15px rgba(15,75,150,.28),0 12px 24px rgba(0,0,0,.1)}
+  .nc-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.4,0,.2,1);cursor:pointer;will-change:transform}
+  .nc-card.flipped{transform:rotateY(180deg) !important;cursor:default}
+  .nc-face{position:absolute;inset:0;border-radius:6px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;box-shadow:0 30px 60px -15px rgba(15,75,150,.28),0 12px 24px rgba(0,0,0,.1);transition:box-shadow .35s}
+  /* Hover: lift + shadow 강화 + hint 노출 (flipped 아닐 때만) */
+  .nc-scene:hover .nc-card:not(.flipped) .nc-face{box-shadow:0 44px 80px -16px rgba(15,75,150,.42),0 18px 32px rgba(0,0,0,.16)}
+  .nc-hover-hint{position:absolute;bottom:14px;left:14px;z-index:4;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--nc-blue);padding:7px 14px;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.04em;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;border:1px solid rgba(15,75,150,.12)}
+  .nc-scene:hover .nc-card:not(.flipped) .nc-hover-hint{opacity:1;transform:translateY(0)}
   .nc-front{padding:36px 44px;display:grid;grid-template-columns:auto 1px 1fr auto;gap:28px;align-items:stretch;text-align:left;color:var(--nc-text)}
   .nc-left{display:flex;flex-direction:column;justify-content:space-between;padding:10px 0;gap:18px}
   .nc-left-top{font-size:.88rem;color:var(--nc-blue);letter-spacing:.04em;line-height:1.5;font-weight:500}
@@ -96,6 +100,7 @@
   .nc-brand-main span{display:block}
   .nc-brand-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:.88rem;color:var(--nc-sub);letter-spacing:.04em;margin-top:4px}
   .flip-btn{position:absolute;bottom:14px;right:14px;display:inline-flex;align-items:center;gap:4px;background:var(--nc-blue);color:#fff;padding:7px 14px;border:none;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.04em;cursor:pointer;box-shadow:0 4px 12px rgba(15,75,150,.3);transition:all .2s;z-index:3;font-family:inherit}
+  .nc-scene:hover .nc-card:not(.flipped) .flip-btn{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.5)}
   .flip-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.4)}
   /* 뒷면 좌상단 명함으로 돌아가기 (항상 보이는 X/← 버튼) */
   .flip-back-btn{position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--nc-sub);padding:7px 13px;border:1px solid var(--nc-line);border-radius:100px;font-size:.7rem;font-weight:700;cursor:pointer;z-index:3;font-family:inherit;transition:all .2s}
@@ -187,6 +192,10 @@
             <div class="nc-brand-sub">Corporate Inquiry</div>
           </div>
           <button class="flip-btn" id="toForm" type="button">상담 문의 →</button>
+          <span class="nc-hover-hint" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+            클릭하여 폼 열기
+          </span>
         </div>
 
         <!-- BACK: 폼 -->
@@ -253,9 +262,30 @@
 <script>
 (function(){
   const card = document.getElementById('ncCard');
-  document.getElementById('toForm').addEventListener('click', e => {e.stopPropagation(); card.classList.add('flipped')});
+  function clearTilt(){ card.style.transition=''; card.style.transform=''; }
+  document.getElementById('toForm').addEventListener('click', e => {e.stopPropagation(); clearTilt(); card.classList.add('flipped')});
   document.getElementById('toCardTop').addEventListener('click', e => {e.stopPropagation(); card.classList.remove('flipped')});
-  card.addEventListener('click', () => { if(!card.classList.contains('flipped')) card.classList.add('flipped'); });
+  card.addEventListener('click', () => { if(!card.classList.contains('flipped')){ clearTilt(); card.classList.add('flipped'); } });
+
+  // 3D tilt on mousemove (flipped 상태가 아닐 때만)
+  const scene = card.parentElement;
+  let rafId;
+  scene.addEventListener('mousemove', (e) => {
+    if(card.classList.contains('flipped')) return;
+    if(rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      const r = scene.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      const y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      card.style.transition = 'transform .15s ease-out';
+      card.style.transform = `rotateY(${x * 6}deg) rotateX(${-y * 4}deg) translateZ(8px)`;
+    });
+  });
+  scene.addEventListener('mouseleave', () => {
+    if(card.classList.contains('flipped')) return;
+    card.style.transition = 'transform .6s cubic-bezier(.4,0,.2,1)';
+    card.style.transform = '';
+  });
 
   // 개인정보 동의 Modal
   const form = document.getElementById('contactForm');
@@ -396,11 +426,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=103"></script>
+<script src="script.js?v=104"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=103"></script>
-<script src="js/supabase-client.js?v=103"></script>
+<script src="js/supabase-config.js?v=104"></script>
+<script src="js/supabase-client.js?v=104"></script>
 
-<script src="js/admin-trigger.js?v=103"></script>
+<script src="js/admin-trigger.js?v=104"></script>
 </body>
 </html>
