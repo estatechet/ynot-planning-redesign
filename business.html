@@ -20,7 +20,7 @@
 <title>Business | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=106">
+<link rel="stylesheet" href="style.css?v=107">
 <style>
 /* ──────────────────────────────────────────
    TAB BAR
@@ -54,7 +54,12 @@
   margin-bottom: -1px;
   transition: all .22s;
   font-family: 'Noto Sans KR', sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
+/* anchor 클릭/마우스 클릭 시 파란 outline 제거, 키보드 Tab 접근성은 유지 */
+.biz-tab:focus { outline: none; }
+.biz-tab:focus:not(:focus-visible) { outline: none; box-shadow: none; }
+.biz-tab:focus-visible { outline: 2px solid var(--c-teal); outline-offset: 2px; border-radius: 4px; }
 .biz-tab-num {
   display: block;
   font-size: .68rem;
@@ -752,10 +757,10 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=106"></script>
+<script src="script.js?v=107"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=106"></script>
-<script src="js/supabase-client.js?v=106"></script>
+<script src="js/supabase-config.js?v=107"></script>
+<script src="js/supabase-client.js?v=107"></script>
 
 <script>
 // Drill-down 진입 (wave 노드 또는 sticky 탭 → 본문)
@@ -823,6 +828,8 @@ function openByHash() {
   const tabMap = { biz01:'p01', biz02:'p02', biz03:'p03', biz04:'p04', biz05:'p05', biz06:'p06' };
   if (tabMap[h]) {
     enterDetail(tabMap[h], null, false);
+    // anchor target focus로 인한 outline 제거
+    setTimeout(() => { if (document.activeElement && document.activeElement.classList.contains('biz-tab')) document.activeElement.blur(); }, 0);
   }
 }
 openByHash();
@@ -839,6 +846,6 @@ window.addEventListener('hashchange', openByHash);
   if (row) io.observe(row);
 })();
 </script>
-<script src="js/admin-trigger.js?v=106"></script>
+<script src="js/admin-trigger.js?v=107"></script>
 </body>
 </html>
