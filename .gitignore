@@ -12,3 +12,7 @@ img/*_old*
 backup/
 .env*
 img/video/
+
+# 로컬 시안/실험 (Vercel 배포 제외)
+ideology-*.html
+index-premium.html
