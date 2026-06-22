@@ -128,13 +128,8 @@
     width:100%;height:100%;object-fit:cover;display:block;
     pointer-events:none; /* 우클릭/PiP 버튼 등 비디오 컨트롤 차단 */
   }
-  /* 부드러운 Ken Burns + GPU 가속 */
+  /* Ken Burns 무한 zoom 제거 (180Hz Windows GPU 부담 해결) */
   .rk-hero-video{
-    will-change:transform;
-    transform:translate3d(0,0,0) scale(1.04);
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
-    animation:rkHeroKen 22s cubic-bezier(.4,0,.2,1) infinite alternate;
     image-rendering:auto;
   }
   @keyframes rkHeroKen{

@@ -87,7 +87,7 @@ ul{list-style:none}
 
 /* 영상 배경이 있는 page-hero (Business, About) */
 .page-hero-video{position:relative;overflow:hidden;background:#04112A;padding:130px 0 56px}
-.page-hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;animation:pageHeroBgIn 1.4s ease-out both,pageHeroKen 24s ease-in-out infinite alternate}
+.page-hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;animation:pageHeroBgIn 1.4s ease-out both}
 .page-hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(4,17,42,.88) 0%,rgba(4,17,42,.72) 35%,rgba(10,46,106,.45) 65%,rgba(10,46,106,.25) 100%);z-index:1}
 .page-hero-video .wrap{position:relative;z-index:2}
 @keyframes pageHeroBgIn{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
@@ -120,7 +120,7 @@ ul{list-style:none}
 .hero-photo-wrap{position:absolute;inset:0;overflow:hidden;z-index:1}
 .hero-photo{width:100%;height:100%;object-fit:cover;object-position:center 50%}
 /* Hero 비디오 배경 — 모든 페이지에서 자동 재생 */
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:1;will-change:transform;animation:heroVideoIn 1.2s ease-out both,heroKenBurns 22s ease-in-out infinite alternate}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:1;animation:heroVideoIn 1.2s ease-out both}
 .hero-photo-fallback{display:none}
 @keyframes heroVideoIn{from{opacity:0;transform:scale(1.08)}to{opacity:1;transform:scale(1)}}
 @keyframes heroKenBurns{0%{transform:scale(1)}100%{transform:scale(1.07)}}
