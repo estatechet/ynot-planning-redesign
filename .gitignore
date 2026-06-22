@@ -11,7 +11,8 @@ img/*_backup*
 img/*_old*
 backup/
 .env*
-img/video/
+# 영상은 자체 호스팅(git+Vercel 정적 서빙)으로 포함 — 2026-06-22 Vercel Blob 한도 초과 대응
+img/video/*.old-*
 
 # 로컬 시안/실험 (Vercel 배포 제외)
 ideology-*.html
