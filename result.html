@@ -20,7 +20,7 @@
 <title>Result | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=107">
+<link rel="stylesheet" href="style.css?v=108">
 </head>
 <body>
 
@@ -177,11 +177,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=107"></script>
+<script src="script.js?v=108"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=107"></script>
-<script src="js/supabase-client.js?v=107"></script>
-<script src="js/client-logos.js?v=107"></script>
+<script src="js/supabase-config.js?v=108"></script>
+<script src="js/supabase-client.js?v=108"></script>
+<script src="js/client-logos.js?v=108"></script>
 
 <script>
 // ─── 분양실적 (동적 fetch + 유형 필터 + 더보기) ───
@@ -216,13 +216,11 @@
       </div>`;
   }
 
-  async function loadSales(reset = false){
-    if (reset) {
-      grid.innerHTML = '<div class="result-empty" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--c-sub);">불러오는 중…</div>';
-      currentPage = 0;
-      allItems = [];
-    }
-    const { data, error } = await window.ynpDB.listSales({ type: currentFilter });
+  async function loadSales(){
+    grid.innerHTML = '<div class="result-empty" style="grid-column:1/-1;text-align:center;padding:60px;color:var(--c-sub);">불러오는 중…</div>';
+    currentPage = 0;
+    allItems = [];
+    const { data, error } = await window.ynpDB.listSales();
     if (error) {
       grid.innerHTML = `<div class="result-empty" style="grid-column:1/-1;text-align:center;padding:60px;color:#c0392b;">불러오기 실패: ${esc(error.message)}</div>`;
       return;
@@ -233,9 +231,10 @@
   }
 
   function renderVisible(){
-    // 검색어 적용
+    // 유형 필터 + 검색어 동시 적용 (클라이언트 사이드)
     const q = searchTerm.trim().toLowerCase();
-    const filteredItems = !q ? allItems : allItems.filter(r => {
+    const byType = currentFilter === '전체' ? allItems : allItems.filter(r => r.type === currentFilter);
+    const filteredItems = !q ? byType : byType.filter(r => {
       const hay = [r.project_name, r.description, r.type].filter(Boolean).join(' ').toLowerCase();
       return hay.includes(q);
     });
@@ -287,10 +286,17 @@
 
   document.querySelectorAll('.result-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+      if (btn.classList.contains('active')) return;
       document.querySelectorAll('.result-filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentFilter = btn.dataset.filter;
-      loadSales(true);
+      currentPage = 1;
+      // 부드러운 전환: fade out → swap → fade in
+      grid.style.opacity = '0';
+      setTimeout(() => {
+        renderVisible();
+        grid.style.opacity = '1';
+      }, 160);
     });
   });
 
@@ -307,7 +313,7 @@
     });
   })();
 
-  loadSales(true);
+  loadSales();
 })();
 
 // ─── 컨설팅실적 (동적 fetch + 검색·정렬·페이지네이션) ───
@@ -459,7 +465,7 @@
   });
 })();
 </script>
-<script src="js/admin-trigger.js?v=107"></script>
+<script src="js/admin-trigger.js?v=108"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
