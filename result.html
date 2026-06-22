@@ -20,7 +20,7 @@
 <title>Result | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=108">
+<link rel="stylesheet" href="style.css?v=109">
 </head>
 <body>
 
@@ -177,11 +177,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=108"></script>
+<script src="script.js?v=109"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=108"></script>
-<script src="js/supabase-client.js?v=108"></script>
-<script src="js/client-logos.js?v=108"></script>
+<script src="js/supabase-config.js?v=109"></script>
+<script src="js/supabase-client.js?v=109"></script>
+<script src="js/client-logos.js?v=109"></script>
 
 <script>
 // ─── 분양실적 (동적 fetch + 유형 필터 + 더보기) ───
@@ -286,14 +286,16 @@
 
   document.querySelectorAll('.result-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+      console.log('[필터클릭]', btn.dataset.filter, 'allItems.length=', allItems.length);
       if (btn.classList.contains('active')) return;
       document.querySelectorAll('.result-filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentFilter = btn.dataset.filter;
       currentPage = 1;
-      // 부드러운 전환: fade out → swap → fade in
       grid.style.opacity = '0';
       setTimeout(() => {
+        const byType = currentFilter === '전체' ? allItems : allItems.filter(r => r.type === currentFilter);
+        console.log('[렌더]', currentFilter, '→', byType.length, '건');
         renderVisible();
         grid.style.opacity = '1';
       }, 160);
@@ -465,7 +467,7 @@
   });
 })();
 </script>
-<script src="js/admin-trigger.js?v=108"></script>
+<script src="js/admin-trigger.js?v=109"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
