@@ -210,7 +210,11 @@
               <div class="nc-back-title">프로젝트 상담 문의</div>
             </div>
           </div>
-          <form class="nc-form" id="contactForm">
+          <form class="nc-form" id="contactForm" autocomplete="on">
+            <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none">
+              <label for="website_url">웹사이트 (입력하지 마세요)</label>
+              <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+            </div>
             <div><label>이름 *</label><input type="text" name="이름" placeholder="홍길동" required></div>
             <div><label>연락처 *</label><input type="tel" name="연락처" placeholder="010-0000-0000" required></div>
             <div><label>이메일</label><input type="email" name="이메일" placeholder="example@email.com"></div>
@@ -297,6 +301,8 @@
   const confirmBtn = document.getElementById('consentConfirm');
   const cancelBtn = document.getElementById('consentCancel');
 
+  // 봇 차단: 폼 로드 시각 기록 (최소 3초 이상 머물러야 사람으로 간주)
+  const formLoadedAt = Date.now();
   let pendingSubmit = false;
 
   form.addEventListener('submit', (e) => {
@@ -317,6 +323,16 @@
 
   confirmBtn.addEventListener('click', async () => {
     if (!agree.checked) return;
+    // 봇 차단: honeypot 채워졌거나 너무 빨리 제출되면 조용히 성공처럼 처리
+    const honeypot = document.getElementById('website_url').value;
+    const elapsed = Date.now() - formLoadedAt;
+    if (honeypot || elapsed < 3000) {
+      modal.classList.remove('open');
+      alert('문의가 접수되었습니다. 빠르게 회신드리겠습니다.');
+      form.reset();
+      card.classList.remove('flipped');
+      return;
+    }
     confirmBtn.disabled = true;
     confirmBtn.textContent = '전송 중...';
     try {
@@ -441,5 +457,6 @@
 <script src="js/supabase-client.js?v=107"></script>
 
 <script src="js/admin-trigger.js?v=107"></script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

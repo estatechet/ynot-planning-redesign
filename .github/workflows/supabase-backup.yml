@@ -1,0 +1,40 @@
+name: Supabase DB Backup
+
+on:
+  schedule:
+    - cron: '0 18 * * 0'  # 매주 일요일 KST 03:00 (UTC 18:00)
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install postgresql-client (v16, Supabase 호환)
+        run: |
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client-16
+
+      - name: Run pg_dump
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          mkdir -p backups
+          DATE=$(date -u +%Y%m%d_%H%M)
+          /usr/lib/postgresql/16/bin/pg_dump "$SUPABASE_DB_URL" \
+            --no-owner --no-acl --clean --if-exists \
+            --schema=public \
+            -f "backups/ynot_${DATE}.sql"
+          gzip "backups/ynot_${DATE}.sql"
+          ls -lah backups/
+
+      - name: Upload backup artifact (90 day retention)
+        uses: actions/upload-artifact@v4
+        with:
+          name: supabase-backup-${{ github.run_id }}
+          path: backups/*.sql.gz
+          retention-days: 90
