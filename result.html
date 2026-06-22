@@ -20,7 +20,7 @@
 <title>Result | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=110">
+<link rel="stylesheet" href="style.css?v=111">
 </head>
 <body>
 
@@ -177,11 +177,11 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=110"></script>
+<script src="script.js?v=111"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=110"></script>
-<script src="js/supabase-client.js?v=110"></script>
-<script src="js/client-logos.js?v=110"></script>
+<script src="js/supabase-config.js?v=111"></script>
+<script src="js/supabase-client.js?v=111"></script>
+<script src="js/client-logos.js?v=111"></script>
 
 <script>
 // ─── 분양실적 (동적 fetch + 유형 필터 + 더보기) ───
@@ -228,6 +228,16 @@
     allItems = data || [];
     currentPage = 1;
     renderVisible();
+    // 자동 셀프 테스트
+    setTimeout(() => {
+      const sample = allItems.slice(0,3).map(r => `${r.id}:type=${JSON.stringify(r.type)}(${typeof r.type})`).join('\n  ');
+      const counts = {};
+      allItems.forEach(r => { counts[r.type] = (counts[r.type]||0)+1; });
+      const aptTest = allItems.filter(r => r.type === '아파트').length;
+      const offTest = allItems.filter(r => r.type === '오피스텔').length;
+      const shopTest = allItems.filter(r => r.type === '상가').length;
+      dbg(`[SELF-TEST]\nallItems=${allItems.length}\n타입별:${JSON.stringify(counts)}\n=== 필터 결과 ===\n아파트:${aptTest}, 오피스텔:${offTest}, 상가:${shopTest}\n샘플:\n  ${sample}`);
+    }, 500);
   }
 
   function renderVisible(){
@@ -480,7 +490,7 @@
   });
 })();
 </script>
-<script src="js/admin-trigger.js?v=110"></script>
+<script src="js/admin-trigger.js?v=111"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
