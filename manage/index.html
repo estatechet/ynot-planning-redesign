@@ -396,8 +396,8 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../js/supabase-config.js?v=112"></script>
-<script src="../js/supabase-client.js?v=112"></script>
+<script src="../js/supabase-config.js?v=113"></script>
+<script src="../js/supabase-client.js?v=113"></script>
 <script>
 // ============================================================
 // 관리자 콘솔
@@ -551,8 +551,10 @@ a{color:inherit;text-decoration:none}
         const ext = (file.name.split('.').pop() || '').toLowerCase();
         file_type = ext === 'pdf' ? 'PDF' : (ext === 'pptx' || ext === 'ppt' ? 'PPT' : (ext === 'docx' ? 'DOCX' : ext.toUpperCase()));
         // 파일명 충돌 방지: 타임스탬프 prefix
-        const safeName = file.name.replace(/[^\w.\-가-힣]/g, '_');
-        const objectPath = Date.now() + '_' + safeName;
+        // Supabase Storage 키는 ASCII만 허용 — 한글/공백/특수문자 모두 _ 로 치환, 확장자만 유지
+        const extLower = (file.name.split('.').pop() || 'bin').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const baseName = file.name.replace(/\.[^.]+$/, '').replace(/[^A-Za-z0-9_\-]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '') || 'file';
+        const objectPath = Date.now() + '_' + baseName.slice(0, 80) + '.' + extLower;
         const { error: upErr } = await window.ynpStorage.upload('press', objectPath, file);
         if (upErr) throw new Error('파일 업로드 실패: ' + upErr.message);
         file_url = window.ynpStorage.getPublicUrl('press', objectPath);
@@ -611,8 +613,10 @@ a{color:inherit;text-decoration:none}
       if (file) {
         const ext = (file.name.split('.').pop() || '').toLowerCase();
         patch.file_type = ext === 'pdf' ? 'PDF' : (ext.includes('ppt') ? 'PPT' : (ext === 'docx' ? 'DOCX' : ext.toUpperCase()));
-        const safeName = file.name.replace(/[^\w.\-가-힣]/g, '_');
-        const objectPath = Date.now() + '_' + safeName;
+        // Supabase Storage 키는 ASCII만 허용 — 한글/공백/특수문자 모두 _ 로 치환, 확장자만 유지
+        const extLower = (file.name.split('.').pop() || 'bin').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const baseName = file.name.replace(/\.[^.]+$/, '').replace(/[^A-Za-z0-9_\-]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '') || 'file';
+        const objectPath = Date.now() + '_' + baseName.slice(0, 80) + '.' + extLower;
         const { error: upErr } = await window.ynpStorage.upload('press', objectPath, file);
         if (upErr) throw new Error('파일 업로드 실패: ' + upErr.message);
         patch.file_url = window.ynpStorage.getPublicUrl('press', objectPath);
