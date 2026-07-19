@@ -20,7 +20,7 @@
 <title>Contact | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=117">
+<link rel="stylesheet" href="style.css?v=118">
 </head>
 <body>
 
@@ -81,7 +81,7 @@
   .nc-face{position:absolute;inset:0;border-radius:6px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;box-shadow:0 30px 60px -15px rgba(15,75,150,.28),0 12px 24px rgba(0,0,0,.1);transition:box-shadow .35s}
   /* Hover: lift + shadow 강화 + hint 노출 (flipped 아닐 때만) */
   .nc-scene:hover .nc-card:not(.flipped) .nc-face{box-shadow:0 44px 80px -16px rgba(15,75,150,.42),0 18px 32px rgba(0,0,0,.16)}
-  .nc-hover-hint{position:absolute;bottom:14px;left:14px;z-index:4;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--nc-blue);padding:7px 14px;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.04em;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;border:1px solid rgba(15,75,150,.12)}
+  .nc-hover-hint{position:absolute;bottom:14px;left:14px;z-index:4;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--nc-blue);padding:7px 14px;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.04em;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;border:1px solid rgba(15,75,150,.12);backface-visibility:hidden;-webkit-backface-visibility:hidden}
   .nc-scene:hover .nc-card:not(.flipped) .nc-hover-hint{opacity:1;transform:translateY(0)}
   .nc-front{padding:36px 44px;display:grid;grid-template-columns:auto 1px 1fr auto;gap:28px;align-items:stretch;text-align:left;color:var(--nc-text)}
   .nc-left{display:flex;flex-direction:column;justify-content:space-between;padding:10px 0;gap:18px}
@@ -99,7 +99,7 @@
   .nc-brand-main{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--nc-blue);letter-spacing:.06em;line-height:1.1}
   .nc-brand-main span{display:block}
   .nc-brand-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:.88rem;color:var(--nc-sub);letter-spacing:.04em;margin-top:4px}
-  .flip-btn{position:absolute;bottom:14px;right:14px;display:inline-flex;align-items:center;gap:4px;background:var(--nc-blue);color:#fff;padding:7px 14px;border:none;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.04em;cursor:pointer;box-shadow:0 4px 12px rgba(15,75,150,.3);transition:all .2s;z-index:3;font-family:inherit}
+  .flip-btn{position:absolute;bottom:14px;right:14px;display:inline-flex;align-items:center;gap:4px;background:var(--nc-blue);color:#fff;padding:7px 14px;border:none;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.04em;cursor:pointer;box-shadow:0 4px 12px rgba(15,75,150,.3);transition:all .2s;z-index:3;font-family:inherit;backface-visibility:hidden;-webkit-backface-visibility:hidden}
   .nc-scene:hover .nc-card:not(.flipped) .flip-btn{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.5)}
   .flip-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.4)}
   /* 뒷면 우상단: 미니멀 뒤집기 아이콘 버튼 */
@@ -451,12 +451,12 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=117"></script>
+<script src="script.js?v=118"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=117"></script>
-<script src="js/supabase-client.js?v=117"></script>
+<script src="js/supabase-config.js?v=118"></script>
+<script src="js/supabase-client.js?v=118"></script>
 
-<script src="js/admin-trigger.js?v=117"></script>
+<script src="js/admin-trigger.js?v=118"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
