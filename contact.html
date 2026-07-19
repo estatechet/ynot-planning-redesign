@@ -20,7 +20,7 @@
 <title>Contact | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=118">
+<link rel="stylesheet" href="style.css?v=119">
 </head>
 <body>
 
@@ -102,6 +102,10 @@
   .flip-btn{position:absolute;bottom:14px;right:14px;display:inline-flex;align-items:center;gap:4px;background:var(--nc-blue);color:#fff;padding:7px 14px;border:none;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.04em;cursor:pointer;box-shadow:0 4px 12px rgba(15,75,150,.3);transition:all .2s;z-index:3;font-family:inherit;backface-visibility:hidden;-webkit-backface-visibility:hidden}
   .nc-scene:hover .nc-card:not(.flipped) .flip-btn{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.5)}
   .flip-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,75,150,.4)}
+  /* Safari 대응: z-index 자식이 backface 컬링을 벗어나 거울상으로 비치는 문제 방지.
+     뒤집힌 상태에선 앞면 버튼/힌트를 렌더에서 완전히 제거 (플립 중간지점 .45s 에 전환하여 팝 없음) */
+  .nc-card.flipped .flip-btn,
+  .nc-card.flipped .nc-hover-hint{visibility:hidden;transition:visibility 0s .45s}
   /* 뒷면 우상단: 미니멀 뒤집기 아이콘 버튼 */
   .flip-back-btn{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--nc-sub);padding:0;border:1px solid var(--nc-line);cursor:pointer;z-index:3;font-family:inherit;transition:transform .5s cubic-bezier(.4,0,.2,1),border-color .25s,color .25s,box-shadow .25s}
   .flip-back-btn:hover{border-color:var(--nc-blue);color:var(--nc-blue);box-shadow:0 4px 12px rgba(15,75,150,.18);transform:rotate(-180deg)}
@@ -451,12 +455,12 @@
   </div>
 </footer>
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=118"></script>
+<script src="script.js?v=119"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-config.js?v=118"></script>
-<script src="js/supabase-client.js?v=118"></script>
+<script src="js/supabase-config.js?v=119"></script>
+<script src="js/supabase-client.js?v=119"></script>
 
-<script src="js/admin-trigger.js?v=118"></script>
+<script src="js/admin-trigger.js?v=119"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
