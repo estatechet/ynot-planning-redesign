@@ -20,8 +20,8 @@
 <title>Recruit | 와이낫플래닝</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=122">
-<link rel="stylesheet" href="css-b2.css?v=122">
+<link rel="stylesheet" href="style.css?v=123">
+<link rel="stylesheet" href="css-b2.css?v=123">
 <style>
   /* ═══════════════════════════════════════════════════════════
      Recruit Redesign — PropTech / Startup style
@@ -132,6 +132,22 @@
   /* Ken Burns 무한 zoom 제거 (180Hz Windows GPU 부담 해결) */
   .rk-hero-video{
     image-rendering:auto;
+  }
+  /* 영상 로딩 공백 감추기 (2026-09-05)
+     - 첫 프레임과 동일한 포스터를 컨테이너 배경으로 즉시 그린다
+     - 영상은 재생 준비가 끝난 뒤 페이드인 -> 튀는 전환이 보이지 않는다 */
+  .rk-hero-visual{
+    /* 첫 레이어가 위에 그려진다 -> 포스터가 위, 그라데이션은 포스터 로딩 전 바탕 */
+    background-image:url(video/recruit-poster-v2.jpg),
+                     linear-gradient(135deg,var(--rk-brand-lt) 0%,#f0f6ff 100%);
+    background-size:cover,cover;
+    background-position:center,center;
+    background-repeat:no-repeat,no-repeat;
+  }
+  .rk-hero-video{opacity:0;transition:opacity .7s ease}
+  .rk-hero-video.is-ready{opacity:1}
+  @media (prefers-reduced-motion: reduce){
+    .rk-hero-video{transition:none}
   }
   @keyframes rkHeroKen{
     0%  {transform:translate3d(0,0,0) scale(1.04)}
@@ -351,8 +367,8 @@
       <div class="rk-hero-visual">
         <video class="rk-hero-video" autoplay muted loop playsinline preload="auto"
                disablepictureinpicture disableremoteplayback controlslist="nodownload noplaybackrate nofullscreen"
-               poster="img/recruit-poster.jpg" aria-label="부동산 개발 현장 영상">
-          <source src="https://pub-7e8be750a8f645d9a4e263a3854f188f.r2.dev/recruit-new.mp4" type="video/mp4">
+               poster="video/recruit-poster-v2.jpg" aria-label="부동산 개발 현장 영상">
+          <source src="video/recruit-hero-v2.mp4" type="video/mp4">
         </video>
       </div>
     </div>
@@ -584,9 +600,9 @@
 </footer>
 
 <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
-<script src="script.js?v=122"></script>
-<script src="js-b2.js?v=122"></script>
-<script src="js/admin-trigger.js?v=122"></script>
+<script src="script.js?v=123"></script>
+<script src="js-b2.js?v=123"></script>
+<script src="js/admin-trigger.js?v=123"></script>
 <script>
 /* ─────── Reveal on scroll ─────── */
 (function(){
@@ -664,5 +680,23 @@
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>
+/* Hero 영상 페이드인 (2026-09-05)
+   포스터가 먼저 깔려 있으므로, 영상은 실제 재생 가능해진 뒤에만 드러낸다. */
+(function(){
+  var v = document.querySelector('.rk-hero-video');
+  if(!v) return;
+  var shown = false;
+  var show = function(){ if(shown) return; shown = true; v.classList.add('is-ready'); };
+  if(v.readyState >= 3){ show(); }
+  else {
+    v.addEventListener('playing', show, {once:true});
+    v.addEventListener('canplay', show, {once:true});
+    v.addEventListener('loadeddata', show, {once:true});
+  }
+  // 자동재생이 차단되거나 이벤트가 오지 않는 환경에서도 영상이 영영 안 보이는 일은 없어야 한다
+  setTimeout(show, 4000);
+})();
+</script>
 </body>
 </html>
