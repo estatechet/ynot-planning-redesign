@@ -17,3 +17,6 @@ img/video/*.old-*
 # 로컬 시안/실험 (Vercel 배포 제외)
 ideology-*.html
 index-premium.html
+
+# 시안 (드파인 연희 참고 리디자인 검토용)
+sian-*.html
