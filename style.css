@@ -830,8 +830,9 @@ body.biz-detail-mode .biz-panels{
   background:#fff;
 }
 .ceo-portrait-wrap{
-  position:sticky;
-  top:100px;
+  /* sticky 였으나 스크롤 시 사진이 54px 따라 내려와 산만하다는 피드백으로 해제 (2026-09-05).
+     되돌리려면 position:sticky; top:100px; 로 복원 */
+  position:static;
   align-self:start;
   aspect-ratio:3/4;
   background:#fff;
@@ -839,7 +840,7 @@ body.biz-detail-mode .biz-panels{
   overflow:hidden;
   box-shadow:0 1px 2px rgba(0,0,0,.04),0 20px 50px -20px rgba(20,40,80,.15);
 }
-/* 부모 .ceo-editorial 또는 .tab-pane에 overflow가 있으면 sticky 안 됨 — 보정 */
+/* 탭 패널 내부 요소가 잘리지 않도록 보정 (원래 ceo sticky 용이었고 지금은 일반 보정) */
 .tab-pane.active,.tab-group{overflow:visible !important}
 .ceo-portrait-img{
   width:100%;
