@@ -246,24 +246,61 @@ document.querySelectorAll('.win-warm').forEach(w => {
 })();
 
 // ═══════════════════════════════════════════════════════
-// 디벨롭 1단계: 숫자 카운터 애니메이션 (.stat-number)
+// 숫자 카운터 — 디지트 롤링(오도미터) 모션 (.stat-number)
+//  각 자릿수가 세로로 굴러 올라와 왼쪽부터 순서대로 착지
 // ═══════════════════════════════════════════════════════
 (function(){
   const counters = document.querySelectorAll('.stat-number[data-target]');
   if (!counters.length) return;
+
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SPINS = 3; // 착지 전 0~9 회전 바퀴수
+
+  // 최종 숫자를 자릿수별 롤링 스트립으로 조립
+  const build = (el, value) => {
+    el.textContent = '';
+    const strips = [];
+    value.toLocaleString().split('').forEach((ch) => {
+      if (ch < '0' || ch > '9') {           // 콤마 등은 고정
+        const c = document.createElement('span');
+        c.textContent = ch;
+        el.appendChild(c);
+        return;
+      }
+      const wrap = document.createElement('span');
+      wrap.className = 'roll';
+      const strip = document.createElement('span');
+      strip.className = 'roll-strip';
+      for (let s = 0; s < SPINS; s++) {
+        for (let d = 0; d <= 9; d++) {
+          const i = document.createElement('i');
+          i.textContent = d;
+          strip.appendChild(i);
+        }
+      }
+      const fin = document.createElement('i');
+      fin.textContent = ch;
+      strip.appendChild(fin);
+      strip.dataset.stop = SPINS * 10;
+      wrap.appendChild(strip);
+      el.appendChild(wrap);
+      strips.push(strip);
+    });
+    return strips;
+  };
+
   const animate = (el) => {
     const target = parseInt(el.dataset.target, 10);
-    const duration = 1800;
-    const start = performance.now();
-    const step = (now) => {
-      const t = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - t, 4); // easeOutQuart
-      el.textContent = Math.floor(target * eased).toLocaleString();
-      if (t < 1) requestAnimationFrame(step);
-      else el.textContent = target.toLocaleString();
-    };
-    requestAnimationFrame(step);
+    if (reduce) { el.textContent = target.toLocaleString(); return; }
+    const strips = build(el, target);
+    strips.forEach(st => { st.style.transition = 'none'; st.style.transform = 'translateY(0)'; });
+    void el.offsetHeight; // reflow
+    strips.forEach((st, k) => {
+      st.style.transition = 'transform ' + (1.25 + k * 0.16) + 's cubic-bezier(.16,1,.3,1)';
+      st.style.transform = 'translateY(-' + st.dataset.stop + 'em)';
+    });
   };
+
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
