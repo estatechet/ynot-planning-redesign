@@ -540,6 +540,7 @@ ul{list-style:none}
 .stat-number .roll{display:inline-block;height:1em;line-height:1;overflow:hidden;vertical-align:baseline}
 .stat-number .roll-strip{display:block;transition:transform 1.4s cubic-bezier(.16,1,.3,1)}
 .stat-number .roll-strip i{display:block;height:1em;line-height:1;font-style:normal}
+.stat-number .roll-sep{display:inline-block;height:1em;line-height:1;overflow:hidden;vertical-align:baseline}
 @media(prefers-reduced-motion:reduce){.stat-number .roll-strip{transition:none}}
 @media(max-width:768px){.stats-section{padding:64px 0}.stats-grid{grid-template-columns:repeat(2,1fr);gap:16px}.stats-subtitle{margin-bottom:40px}.stat-item{padding:32px 20px 28px}}
 @media(max-width:480px){.stat-number{font-size:1.7rem}.stat-suffix{font-size:.72rem;padding-bottom:4px}}

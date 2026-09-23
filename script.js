@@ -81,7 +81,8 @@ const co = new IntersectionObserver(entries => {
     co.unobserve(el);
   });
 }, {threshold:0.5});
-document.querySelectorAll('[data-target]').forEach(el => co.observe(el));
+// .stat-number 는 아래 디지트 롤링 카운터가 전담 (구 카운터가 덮어써서 콤마·모션이 사라지던 문제)
+document.querySelectorAll('[data-target]:not(.stat-number)').forEach(el => co.observe(el));
 
 // Inner tabs
 function switchTab(grp, tabId) {
@@ -260,9 +261,10 @@ document.querySelectorAll('.win-warm').forEach(w => {
   const build = (el, value) => {
     el.textContent = '';
     const strips = [];
-    value.toLocaleString().split('').forEach((ch) => {
-      if (ch < '0' || ch > '9') {           // 콤마 등은 고정
+    value.toLocaleString('ko-KR').split('').forEach((ch) => {
+      if (ch < '0' || ch > '9') {           // 콤마 등은 고정 (숫자칸과 동일 박스로 정렬)
         const c = document.createElement('span');
+        c.className = 'roll-sep';
         c.textContent = ch;
         el.appendChild(c);
         return;
@@ -291,7 +293,7 @@ document.querySelectorAll('.win-warm').forEach(w => {
 
   const animate = (el) => {
     const target = parseInt(el.dataset.target, 10);
-    if (reduce) { el.textContent = target.toLocaleString(); return; }
+    if (reduce) { el.textContent = target.toLocaleString('ko-KR'); return; }
     const strips = build(el, target);
     strips.forEach(st => { st.style.transition = 'none'; st.style.transform = 'translateY(0)'; });
     void el.offsetHeight; // reflow
